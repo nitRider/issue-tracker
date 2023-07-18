@@ -1,0 +1,2 @@
+aws s3 sync . s3://dna-autodidact-production-bucket/repos/angular101-angular-scaffolding_angular_issue_tracker-1689239660550/master/ --delete --exclude ./venv/\* --exclude ./env/\*
+echo Success
