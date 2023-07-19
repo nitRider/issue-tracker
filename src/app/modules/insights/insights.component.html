@@ -1,0 +1,193 @@
+<div style="padding: 20px">
+  <div
+    style="
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 14px;
+      font-weight: 400;
+    "
+  >
+    <div style="color: #fe7912; cursor: pointer" (click)="back()">
+      Project Board
+    </div>
+    <div>/</div>
+    <div>View Insights</div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between">
+    <div style="width: 55%">
+      <mat-card style="background-color: #f7f8fa">
+        <div
+          style="
+            color: #fe7912;
+            font-size: 34px;
+            font-weight: 400;
+            margin-bottom: 1rem;
+          "
+        >
+          HU 22.0 Angular Track
+        </div>
+        <div
+          style="
+            color: #1d262d;
+            font-size: 20px;
+            font-weight: 200;
+            margin-bottom: 0.5rem;
+          "
+        >
+          Total Number of Issues : 08
+        </div>
+        <hr />
+        <table style="width: 100%; text-align: center">
+          <tr style="font-size: 16px; font-weight: 400">
+            <td>TO DO</td>
+            <td>DEVELOPMENT</td>
+            <td>TESTING</td>
+            <td>COMPLETED</td>
+          </tr>
+          <tr>
+            <td style="font-size: 57px; color: #ffc107; font: weigth 600px">
+              2
+            </td>
+            <td style="font-size: 57px; color: #fe7912; font: weigth 600px">
+              1
+            </td>
+            <td style="font-size: 57px; color: #2650a2; font: weigth 600px">
+              3
+            </td>
+            <td style="font-size: 57px; color: #28a745; font: weigth 600px">
+              2
+            </td>
+          </tr>
+        </table>
+      </mat-card>
+
+      <div style="margin-top: 2rem">
+        <div style="font-size: 20px; font-weight: 400">Status Bar</div>
+
+        <div
+          style="
+            height: 8rem;
+            border-radius: 10px;
+            display: flex;
+            width: 100%;
+            margin-top: 1.5rem;
+          "
+        >
+          <div
+            style="
+              background-color: #ffc107;
+
+              width: 13%;
+              border-top-left-radius: 10px;
+              border-bottom-left-radius: 10px;
+            "
+          ></div>
+          <div
+            style="background-color: #fe7912; height: 100%; width: 23%"
+          ></div>
+          <div
+            style="background-color: #2650a2; height: 100%; width: 33%"
+          ></div>
+          <div
+            style="
+              background-color: #28a745;
+              width: 33%;
+              border-top-right-radius: 10px;
+              border-bottom-right-radius: 10px;
+            "
+          ></div>
+        </div>
+
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            width: 70%;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              font-size: small;
+              align-items: center;
+              gap: 5px;
+            "
+          >
+            <div
+              style="width: 16px; height: 17.5px; background-color: #ffc107"
+            ></div>
+            <div>TO DO</div>
+          </div>
+          <div
+            style="
+              display: flex;
+              font-size: small;
+              align-items: center;
+              gap: 5px;
+            "
+          >
+            <div
+              style="width: 16px; height: 17.5px; background-color: #fe7912"
+            ></div>
+            <div>DEVELOPMENT</div>
+          </div>
+          <div
+            style="
+              display: flex;
+              font-size: small;
+              align-items: center;
+              gap: 5px;
+            "
+          >
+            <div
+              style="width: 16px; height: 17.5px; background-color: #2650a2"
+            ></div>
+            <div>TESTING</div>
+          </div>
+          <div
+            style="
+              display: flex;
+              font-size: small;
+              align-items: center;
+              gap: 5px;
+            "
+          >
+            <div
+              style="width: 16px; height: 17.5px; background-color: #28a745"
+            ></div>
+            <div>COMPLETED</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 35%">
+      <mat-card style="background-color: #f7f8fa">
+        <div style="font-size: 20px; font-weight: 400">Team Members</div>
+        <div
+          style="
+            font-size: 12px;
+            font-weight: 400;
+            color: #85929c;
+            margin: 1rem 0rem;
+          "
+        >
+          9 Members
+        </div>
+        <app-member-card></app-member-card><br />
+        <hr />
+        <app-member-card></app-member-card>
+        <app-member-card></app-member-card>
+        <app-member-card></app-member-card>
+        <app-member-card></app-member-card>
+        <app-member-card></app-member-card>
+        <app-member-card></app-member-card>
+        <app-member-card></app-member-card>
+      </mat-card>
+    </div>
+  </div>
+</div>

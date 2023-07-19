@@ -1,1 +1,8 @@
-<app-person></app-person>
+<div style="display: flex; width: 100%">
+  <div style="width: 19.5%"><app-sidebar></app-sidebar></div>
+  <div style="width: 100%">
+    <router-outlet style="display: flex; flex-direction: column">
+      <app-header></app-header>
+    </router-outlet>
+  </div>
+</div>
