@@ -3,43 +3,28 @@
   <div class="form-body">
     <div class="field-container-width">
       <div>Project Name*</div>
-      <!-- <input
-        style="
-          width: 100%;
-          height: 45.5px;
-          border: none;
-          border-bottom: 1px solid black;
-          padding-left: 1rem;
-          background-color: #f7f8fa;
-          border-radius: 4px, 4px, 0px, 0px;
-        "
-        type="text"
-        required
-        placeholder="Project Name"
-        maxlength="150"
-        formControlName="projectName"
-        id="txt-project-name"
-      /> -->
       <mat-form-field class="input-form-width">
         <mat-label class="input-label-gap">Project Name</mat-label>
         <input
           matInput
           placeholder="Project Name"
-          maxlength="150"
           formControlName="projectName"
           id="txt-project-name"
         />
+        <mat-error
+          *ngIf="
+            projectForm.get('projectName')?.invalid &&
+            projectForm.get('projectName')?.touched
+          "
+          id="err-txt-project-name"
+        >
+          {{
+            projectForm.get('projectName')?.hasError('maxlength')
+              ? 'length should not exceeed to 150'
+              : 'Please enter valid project name.'
+          }}
+        </mat-error>
       </mat-form-field>
-      <div
-        *ngIf="
-          projectForm.get('projectName')?.errors &&
-          projectForm.get('projectName')?.touched
-        "
-        id="err-txt-project-name"
-        class="error-msg"
-      >
-        Please enter a valid project name.
-      </div>
     </div>
     <div class="field-container-width">
       <div>Owner*</div>
@@ -54,6 +39,15 @@
             {{ owner.name }}
           </mat-option>
         </mat-select>
+        <mat-error
+          *ngIf="
+            projectForm.get('projectOwner')?.invalid &&
+            projectForm.get('projectOwner')?.touched
+          "
+          id="err-txt-project-name"
+        >
+          Please select an option.
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -74,6 +68,10 @@
           [for]="picker1"
         ></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
+        <mat-error
+          *ngIf="projectForm.get('projectStartDate')?.hasError('required')"
+          >Date is required</mat-error
+        >
       </mat-form-field>
     </div>
     <div class="field-container-width">
@@ -88,6 +86,10 @@
         />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-error
+          *ngIf="projectForm.get('projectEndDate')?.hasError('required')"
+          >Date is required</mat-error
+        >
       </mat-form-field>
     </div>
   </div>
@@ -98,7 +100,7 @@
     <button
       [ngClass]="projectForm.invalid ? 'disable-btn' : 'create-btn'"
       type="submit"
-      [disabled]="projectForm.invalid"
+      [disabled]="isSubmitting"
       id="btn-create-issue"
     >
       CREATE
