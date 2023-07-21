@@ -7,3 +7,12 @@ body {
   margin: 0;
   font-family: 'Roboto';
 }
+::ng-deep {
+  .mat-form-field-infix {
+    background: #f7f8fa !important;
+    border-radius: 4px !important;
+  }
+}
+.mat-form-field-flex {
+  background: #f7f8fa !important;
+}

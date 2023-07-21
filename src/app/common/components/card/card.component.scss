@@ -7,3 +7,67 @@
 .high-p {
   color: #dc3545;
 }
+.card-container {
+  width: 250px;
+  height: 160px;
+  background-color: #f7f8fa;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+}
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  font-size: small;
+  margin-bottom: 1rem;
+}
+.c-ID {
+  font-size: 12px;
+}
+
+.c-Date {
+  font-size: 12px;
+  color: #85929c;
+}
+.c-title {
+  font-size: 14px;
+}
+.c-description {
+  font-size: 12px;
+  color: #85929c;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 1rem;
+  margin-top: 0.3rem;
+}
+.c-profile-container {
+  display: flex;
+  justify-content: space-between;
+}
+.c-profile-img {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+}
+.c-profile-name {
+  margin-top: 8px;
+  margin-left: 5px;
+  font-size: 14px;
+}
+.c-priority-name {
+  font-size: 10px;
+  text-align: right;
+  color: #85929c;
+  margin-bottom: 4px;
+}
+.c-priority-btn {
+  width: 100%;
+  border: none;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 4px;
+  padding: 0px 10px;
+  height: 20px;
+}

@@ -1,0 +1,32 @@
+.mc-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+.mc-profile-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.mc-profile-img {
+  border-radius: 50%;
+  width: 48px;
+  height: 48;
+}
+.mc-profile-name {
+  font-size: 14px;
+  font-weight: 400;
+  color: #1d262d;
+  margin-bottom: 0.3rem;
+}
+.mc-profile-designation {
+  font-size: 12px;
+  font-weight: 400;
+  color: #85929c;
+}
+.mc-profile-owner {
+  font-size: 12px;
+  font-weight: 400;
+  color: #85929c;
+}

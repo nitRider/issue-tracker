@@ -2,14 +2,16 @@
   <div
     style="display: flex; justify-content: space-between; margin-bottom: 1rem"
   >
-    <div style="font-size: x-large">Project Details</div>
+    <div style="font-size: 34px; font-weight: 400">Project Details</div>
     <button
       style="
         background-color: #1d262d;
         color: white;
         padding: 10px 15px;
+        height: 44px;
         border: none;
-        border-radius: 2px;
+        border-radius: 4px;
+        width: 190px;
         cursor: pointer;
       "
       (click)="viewInsights()"
@@ -20,7 +22,7 @@
 
   <div style="display: flex; justify-content: space-between">
     <div style="width: 48%">
-      <div>Project Name</div>
+      <div style="font-size: 16px">Project Name</div>
       <mat-form-field class="example-full-width">
         <mat-select [(value)]="foods[0].value">
           <mat-option *ngFor="let food of foods" [value]="food.value">
@@ -30,7 +32,7 @@
       </mat-form-field>
     </div>
     <div style="width: 48%">
-      <div>Project Owner</div>
+      <div style="font-size: 16px">Project Owner</div>
       <mat-form-field class="example-full-width">
         <input matInput value="Sushi" />
       </mat-form-field>
@@ -38,7 +40,7 @@
   </div>
 
   <div style="display: flex; color: #85929c">
-    <div>Start Date : 31-02-2023</div>
+    <div style="font-size: 16px">Start Date : 31-02-2023</div>
     <div
       style="
         border-right: 1px solid #85929c;
@@ -46,7 +48,7 @@
         margin-left: 1rem;
       "
     ></div>
-    <div>End Date : 31-02-2023</div>
+    <div style="font-size: 16px">End Date : 31-02-2023</div>
   </div>
 
   <div
@@ -67,10 +69,10 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div style="margin-top: -1rem; font-size: small">Filter Assignee</div>
+      <div style="margin-top: -1rem; font-size: 12px">Filter Assignee</div>
     </div>
     <div style="width: 48%">
-      <mat-form-field>
+      <mat-form-field class="example-full-width">
         <mat-select [formControl]="toppings" multiple>
           <mat-select-trigger>
             {{toppings.value?.[0] || ''}}
@@ -87,7 +89,7 @@
           }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <div style="margin-top: -1rem; font-size: small">Filter Priority</div>
+      <div style="margin-top: -1rem; font-size: 12px">Filter Priority</div>
     </div>
   </div>
 </div>
@@ -100,7 +102,7 @@
     <td>COMPLETED</td>
   </tr>
   <tr style="margin: 10px 15px">
-    <td><app-card></app-card></td>
+    <td (click)="issueDetails()"><app-card></app-card></td>
     <td><app-card></app-card></td>
     <td><app-card></app-card></td>
     <td><app-card></app-card></td>

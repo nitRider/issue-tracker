@@ -1,0 +1,317 @@
+<div style="padding: 20px">
+  <div
+    style="
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 14px;
+      font-weight: 400;
+    "
+  >
+    <div style="color: #fe7912; cursor: pointer" (click)="back()">
+      Project Board
+    </div>
+    <div>/</div>
+    <div>Issue Details</div>
+  </div>
+
+  <div
+    style="
+      border: 1px solid #f7f8fa;
+      height: 80px;
+      background-color: #f7f8fa;
+      border-radius: 8px;
+      margin-top: 2.5rem;
+      padding: 1rem;
+      margin-bottom: 2rem;
+    "
+  >
+    <div
+      style="
+        color: #fe7912;
+        font-size: 34px;
+        font-weight: 400;
+        margin-bottom: 1rem;
+      "
+    >
+      HU 22.0 Angular Track
+    </div>
+    <div style="font-size: 20px; color: #1d262d">
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+    </div>
+  </div>
+  <div style="display: flex; justify-content: space-between">
+    <div style="width: 63%; font-size: 16px; line-height: 24px">
+      <div style="color: #85929c; margin-bottom: 1rem">Discription :</div>
+      <div style="font-size: 16px; color: #1d262d; margin-bottom: 1rem">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book.
+      </div>
+      <hr />
+      <!-- detail 1 -->
+      <div>
+        <div
+          style="
+            font-size: 20px;
+            line-height: 32px;
+            font-weight: 400;
+            margin: 1rem 0rem;
+          "
+        >
+          Details
+        </div>
+        <div style="display: flex; gap: 10rem">
+          <div
+            style="width: 20%; display: flex; justify-content: space-between"
+          >
+            <div style="font-size: 16px; line-height: 24px; color: #85929c">
+              Type :
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <img
+                src="../../../assets/images/error.svg"
+                style="width: 20px; height: 20px"
+              />
+              <div style="font-size: 16px; line-height: 24px">Bug</div>
+            </div>
+          </div>
+          <div
+            style="width: 20%; display: flex; justify-content: space-between"
+          >
+            <div style="font-size: 16px; line-height: 24px; color: #85929c">
+              Sprint :
+            </div>
+            <div style="font-size: 16px; line-height: 24px">Bug</div>
+          </div>
+        </div>
+        <!-- detail 2 -->
+        <div style="display: flex; gap: 10rem; margin-top: 1rem">
+          <div
+            style="width: 20%; display: flex; justify-content: space-between"
+          >
+            <div style="font-size: 16px; line-height: 24px; color: #85929c">
+              Tags :
+            </div>
+            <div
+              style="
+                padding: 0px 5px;
+                background-color: #1d262d;
+                font-size: 10px;
+                color: white;
+                display: flex;
+                border-radius: 1px;
+              "
+            >
+              ANGULAR
+            </div>
+          </div>
+          <div
+            style="width: 20%; display: flex; justify-content: space-between"
+          >
+            <div style="font-size: 16px; line-height: 24px; color: #85929c">
+              Priority :
+            </div>
+            <div
+              style="
+                padding: 0px 5px;
+                background-color: #dc3545;
+                font-size: 10px;
+                color: white;
+                display: flex;
+                border-radius: 1px;
+              "
+            >
+              HIGH
+            </div>
+          </div>
+        </div>
+        <!-- detail 3 -->
+        <div
+          style="
+            width: 20%;
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            align-items: center;
+          "
+        >
+          <div style="font-size: 16px; line-height: 24px; color: #85929c">
+            Story Points :
+          </div>
+          <div style="font-size: 16px">3</div>
+        </div>
+        <!-- horizontal line -->
+        <div style="border-bottom: 1px solid #cfcfcf; margin-top: 1rem"></div>
+        <!-- comment -->
+        <div style="margin-top: 2rem">
+          <div style="display: flex; gap: 1rem">
+            <div style="font-size: 20px; font-weight: 400">Comments</div>
+            <div style="border: 1px solid #cfcfcf"></div>
+            <div
+              style="
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+                cursor: pointer;
+              "
+              (click)="showComment()"
+            >
+              <img
+                src="{{
+                  'assets/images/' +
+                    (!isCommentFieldActive
+                      ? 'comment_active'
+                      : 'comment_not_active') +
+                    '.svg'
+                }}"
+                style="width: 12px; height: 12px"
+              />
+              <div
+                class="i-comment-name"
+                [ngStyle]="
+                  !isCommentFieldActive
+                    ? { color: '#fe7912' }
+                    : { color: '#85929c' }
+                "
+              >
+                Add Comment
+              </div>
+            </div>
+          </div>
+          <!-- comment inputfield -->
+          <div *ngIf="isCommentFieldActive">
+            <textarea
+              placeholder="Write comment"
+              rows="5"
+              style="
+                width: 100%;
+                border: none;
+                border-bottom: 1px solid black;
+                font-family: Roboto;
+              "
+            ></textarea>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem">
+              <button
+                style="
+                  background-color: #1d262d;
+                  border: none;
+                  width: 160px;
+                  color: white;
+                  height: 44px;
+                  border-radius: 4px;
+                  cursor: pointer;
+                "
+              >
+                POST
+              </button>
+              <button
+                style="
+                  border: 1px solid #1d262d;
+                  background-color: white;
+                  width: 160px;
+                  height: 44px;
+                  border-radius: 4px;
+                  cursor: pointer;
+                "
+                (click)="onCancel()"
+              >
+                CANCEL
+              </button>
+            </div>
+          </div>
+          <!-- comment list -->
+          <div style="margin-top: 1rem">
+            <div style="font: size 14px; font-weight: 400">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.
+            </div>
+            <div
+              style="font-size: 14px; color: #85929c; display: flex; gap: 2rem"
+            >
+              <div>Posted on: 31-01-2022</div>
+              <div>Added by: Pushpa Raj</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="width: 29%">
+      <button
+        style="
+          border: none;
+          width: 100%;
+          height: 44px;
+          background-color: #1d262d;
+          color: white;
+          border-radius: 4px;
+          cursor: pointer;
+        "
+        (click)="EditIssue()"
+      >
+        EDIT ISSUE
+      </button>
+      <div
+        style="
+          border: 1px solid #f7f8fa;
+          height: 300px;
+          background-color: #f7f8fa;
+          border-radius: 8px;
+          margin-top: 2.5rem;
+          padding: 1rem;
+        "
+      >
+        <div>
+          <div style="font-size: 16px; font-weight: 400">Status</div>
+          <div>
+            <mat-form-field class="example-full-width">
+              <mat-label>Choose an option</mat-label>
+              <mat-select [disabled]="disableSelect.value">
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2" disabled
+                  >Option 2 (disabled)</mat-option
+                >
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div style="font-size: 16px; font-weight: 400">Assignee</div>
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Choose an option</mat-label>
+            <mat-select [disabled]="disableSelect.value">
+              <mat-option value="option1">Option 1</mat-option>
+              <mat-option value="option2" disabled
+                >Option 2 (disabled)</mat-option
+              >
+              <mat-option value="option3">Option 3</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <div
+            style="font-size: 16px; color: #85929c; display: flex; gap: 1rem"
+          >
+            <div>Created On :</div>
+            <div>31-02-2023</div>
+          </div>
+          <div
+            style="
+              font-size: 16px;
+              color: #85929c;
+              display: flex;
+              gap: 1rem;
+              margin-top: 1rem;
+            "
+          >
+            <div>Created On :</div>
+            <div>31-02-2023</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

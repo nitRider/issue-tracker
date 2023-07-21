@@ -1,0 +1,107 @@
+<form class="form-container" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+  <div class="form-title">Create Project</div>
+  <div class="form-body">
+    <div class="field-container-width">
+      <div>Project Name*</div>
+      <!-- <input
+        style="
+          width: 100%;
+          height: 45.5px;
+          border: none;
+          border-bottom: 1px solid black;
+          padding-left: 1rem;
+          background-color: #f7f8fa;
+          border-radius: 4px, 4px, 0px, 0px;
+        "
+        type="text"
+        required
+        placeholder="Project Name"
+        maxlength="150"
+        formControlName="projectName"
+        id="txt-project-name"
+      /> -->
+      <mat-form-field class="input-form-width">
+        <mat-label class="input-label-gap">Project Name</mat-label>
+        <input
+          matInput
+          placeholder="Project Name"
+          maxlength="150"
+          formControlName="projectName"
+          id="txt-project-name"
+        />
+      </mat-form-field>
+      <div
+        *ngIf="
+          projectForm.get('projectName')?.errors &&
+          projectForm.get('projectName')?.touched
+        "
+        id="err-txt-project-name"
+        class="error-msg"
+      >
+        Please enter a valid project name.
+      </div>
+    </div>
+    <div class="field-container-width">
+      <div>Owner*</div>
+      <mat-form-field class="input-form-width">
+        <mat-label class="input-label-gap">Select</mat-label>
+        <mat-select formControlName="projectOwner" id="ddl-project-owner">
+          <mat-option
+            *ngFor="let owner of ownerList"
+            [value]="owner.id"
+            id="opt-ddl-project-owner"
+          >
+            {{ owner.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between">
+    <div class="field-container-width">
+      <div>Project Start Date</div>
+      <mat-form-field class="input-form-width">
+        <mat-label class="input-label-gap">MM/DD/YYY</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          formControlName="projectStartDate"
+          id="dtp-start-date"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="field-container-width">
+      <div>Project End Date</div>
+      <mat-form-field class="input-form-width">
+        <mat-label class="input-label-gap">MM/DD/YYY</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="projectEndDate"
+          id="dtp-end-date"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="btn-container">
+    <button class="reset-btn" (click)="reset()" id="btn-reset-form">
+      RESET
+    </button>
+    <button
+      [ngClass]="projectForm.invalid ? 'disable-btn' : 'create-btn'"
+      type="submit"
+      [disabled]="projectForm.invalid"
+      id="btn-create-issue"
+    >
+      CREATE
+    </button>
+  </div>
+</form>

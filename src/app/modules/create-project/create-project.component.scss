@@ -10,14 +10,14 @@
   display: flex;
   justify-content: space-between;
 }
-.summary-field-title {
-  font-size: 16px;
-}
 .field-container-width {
   width: 45%;
 }
 .input-form-width {
   width: 100%;
+}
+.input-label-gap {
+  padding-left: 1rem;
 }
 .btn-container {
   display: flex;

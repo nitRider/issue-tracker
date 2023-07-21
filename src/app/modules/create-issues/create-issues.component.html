@@ -1,1 +1,220 @@
-<p>create-issues works!</p>
+<form class="form-container" [formGroup]="issueForm" (ngSubmit)="onSubmit()">
+  <div class="form-title">Create User Stories/ Tasks/ Bugs</div>
+  <div class="summary-field-title">Summary</div>
+  <div>
+    <mat-form-field class="input-form-width">
+      <input
+        matInput
+        placeholder="Add Summary"
+        maxlength="150"
+        formControlName="summary"
+        id="txt-summary"
+      />
+      <mat-error
+        id="err-txt-summary"
+        *ngIf="
+          issueForm.get('summary')?.invalid && issueForm.get('summary')?.touched
+        "
+      >
+        Please enter a valid summary.
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="form-body">
+    <div class="field-container-width">
+      <div>Type</div>
+      <mat-form-field class="input-form-width">
+        <mat-label>Select</mat-label>
+        <mat-select id="ddl-issue-type" formControlName="type">
+          <mat-option
+            id="opt-ddl-issue-type"
+            *ngFor="let type of issueTypes"
+            [value]="type.id"
+          >
+            {{ type.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            issueForm.get('type')?.invalid && issueForm.get('type')?.touched
+          "
+        >
+          Please select an option.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="field-container-width">
+      <div>Project</div>
+      <mat-form-field class="input-form-width">
+        <mat-label>Select</mat-label>
+        <mat-select id="ddl-project" formControlName="projectID">
+          <mat-option
+            *ngFor="let project of projectList"
+            [value]="project.projectID"
+            id="opt-ddl-project"
+          >
+            {{ project.projectName }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            issueForm.get('projectID')?.invalid &&
+            issueForm.get('projectID')?.touched
+          "
+        >
+          Please select an option.
+        </mat-error>
+      </mat-form-field>
+      <span hidden id="err-txt-project">Select project</span>
+    </div>
+  </div>
+  <div>
+    <div>Discription</div>
+    <mat-form-field class="input-form-width">
+      <mat-label>Write description</mat-label>
+      <textarea
+        matInput
+        maxlength="500"
+        id="txa-description"
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+    <span hidden id="err-txt-description">Enter Description</span>
+  </div>
+  <div class="form-body">
+    <div class="field-container-width">
+      <div>Priority</div>
+      <mat-form-field class="input-form-width">
+        <mat-label>Select</mat-label>
+        <mat-select id="ddl-priority" formControlName="priority">
+          <mat-option
+            *ngFor="let priority of issuePriority"
+            [value]="priority.id"
+            id="opt-ddl- priority "
+          >
+            {{ priority.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            issueForm.get('priority')?.invalid &&
+            issueForm.get('priority')?.touched
+          "
+        >
+          Please select an option.
+        </mat-error>
+      </mat-form-field>
+      <span id="err-txt-priority" hidden>Select valid priority </span>
+    </div>
+    <div class="field-container-width">
+      <div>Assignee</div>
+      <mat-form-field class="input-form-width">
+        <mat-label>Select</mat-label>
+        <mat-select formControlName="assignee" id="ddl-assignee">
+          <mat-option
+            *ngFor="let user of userList"
+            [value]="user.id.toString()"
+            id="opt-ddl-assignee"
+          >
+            {{ user.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            issueForm.get('assignee')?.invalid &&
+            issueForm.get('assignee')?.touched
+          "
+        >
+          Please select an option.
+        </mat-error>
+      </mat-form-field>
+      <span hidden id="err-txt-assignee">Select Assignee</span>
+    </div>
+  </div>
+  <div class="form-body">
+    <div class="field-container-width">
+      <div>Tags</div>
+      <mat-form-field class="input-form-width">
+        <mat-label>Select</mat-label>
+        <mat-select id="ddl-tags" multiple formControlName="tags">
+          <mat-option
+            *ngFor="let tag of issueTags"
+            [value]="tag.name"
+            id="opt-ddl- tags"
+          >
+            {{ tag.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            issueForm.get('tags')?.invalid && issueForm.get('tags')?.touched
+          "
+        >
+          Please select an option.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="field-container-width">
+      <div>Sprint</div>
+
+      <mat-form-field class="input-form-width">
+        <mat-label>Select</mat-label>
+        <mat-select id="ddl-sprint" formControlName="sprint">
+          <mat-option
+            *ngFor="let sprint of sprints"
+            [value]="sprint"
+            id="opt-ddl- sprint"
+          >
+            {{ sprint }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            issueForm.get('sprint')?.invalid && issueForm.get('sprint')?.touched
+          "
+        >
+          Please select an option.
+        </mat-error>
+      </mat-form-field>
+      <span hidden id="err-txt-sprint">Select Sprint</span>
+    </div>
+  </div>
+  <div class="form-body">
+    <div class="field-container-width">
+      <div>Story Points</div>
+      <div>
+        <mat-form-field class="input-form-width">
+          <mat-label>0,1,2..</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Add Story Points"
+            maxlength="10"
+            formControlName="storyPoint"
+            id="txt-story-point"
+          />
+          <mat-error
+            id="err-txt-story-point"
+            *ngIf="
+              issueForm.get('storyPoint')?.invalid &&
+              issueForm.get('storyPoint')?.touched
+            "
+          >
+            Please enter a valid storyPoint.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="btn-container">
+    <button class="reset-btn" (click)="reset()">RESET</button>
+    <button
+      class="create-btn"
+      type="submit"
+      [ngClass]="issueForm.invalid ? 'disable-btn' : 'create-btn'"
+      [disabled]="issueForm.invalid"
+    >
+      CREATE
+    </button>
+  </div>
+</form>

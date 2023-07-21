@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/services/api.service';
 
 interface Food {
   value: string;
@@ -27,10 +28,17 @@ export class ProjectBoardComponent implements OnInit {
     'Sausage',
     'Tomato'
   ];
-  constructor(private router: Router) {}
+  constructor(private router: Router, private service: ApiService) {}
   viewInsights() {
     this.router.navigate(['/view-insights']);
   }
+  issueDetails() {
+    this.router.navigate(['/issue-details']);
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.service.getUserByUserId(1).subscribe((res) => {
+      console.log(res);
+    });
+  }
 }
