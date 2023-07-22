@@ -212,7 +212,7 @@
       class="create-btn"
       type="submit"
       [ngClass]="issueForm.invalid ? 'disable-btn' : 'create-btn'"
-      [disabled]="issueForm.invalid"
+      [disabled]="isSubmitting"
     >
       CREATE
     </button>

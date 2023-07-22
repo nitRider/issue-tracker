@@ -22,12 +22,10 @@ import { CreateProjectComponent } from './modules/create-project/create-project.
 import { InsightsComponent } from './modules/insights/insights.component';
 import { IssueDetailsComponent } from './modules/issue-details/issue-details.component';
 import { ProjectBoardComponent } from './modules/project-board/project-board.component';
-import { PersonComponent } from './person/person.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PersonComponent,
     SidebarComponent,
     HeaderComponent,
     ProjectBoardComponent,

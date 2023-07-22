@@ -69,7 +69,10 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
         <mat-error
-          *ngIf="projectForm.get('projectStartDate')?.hasError('required')"
+          *ngIf="
+            projectForm.get('projectStartDate')?.hasError &&
+            projectForm.get('projectStartDate')?.touched
+          "
           >Date is required</mat-error
         >
       </mat-form-field>
@@ -87,7 +90,10 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error
-          *ngIf="projectForm.get('projectEndDate')?.hasError('required')"
+          *ngIf="
+            projectForm.get('projectEndDate')?.hasError &&
+            projectForm.get('projectEndDate')?.touched
+          "
           >Date is required</mat-error
         >
       </mat-form-field>

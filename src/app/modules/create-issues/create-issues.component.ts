@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FloatLabelType } from '@angular/material/form-field';
 import { Router } from '@angular/router';
 import { project, userRequest } from 'src/app/models/project.model';
 import { ApiService } from 'src/app/services/api.service';
@@ -28,6 +27,8 @@ interface Status {
   styleUrls: ['./create-issues.component.scss']
 })
 export class CreateIssuesComponent implements OnInit {
+  isSubmitting = false;
+
   issueTypes: Type[] = [
     { name: 'BUG', id: 1 },
     { name: 'TASK', id: 2 },
@@ -87,9 +88,6 @@ export class CreateIssuesComponent implements OnInit {
     sprint: new FormControl('', [Validators.required]),
     storyPoint: new FormControl('', [Validators.required])
   });
-
-  hideRequiredControl = new FormControl(false);
-  floatLabelControl = new FormControl('auto' as FloatLabelType);
   constructor(private service: ApiService, private router: Router) {}
 
   ngOnInit(): void {
@@ -108,16 +106,15 @@ export class CreateIssuesComponent implements OnInit {
     });
   }
   onSubmit() {
-    this.service.createIssue(this.issueForm.value).subscribe((res) => {
-      console.log(res);
-      this.issueForm.reset();
-      this.router.navigate(['/']);
-    });
+    if (this.issueForm.valid && !this.isSubmitting) {
+      this.service.createIssue(this.issueForm.value).subscribe((res) => {
+        console.log(res);
+        this.issueForm.reset();
+        this.router.navigate(['/']);
+      });
+    }
   }
   reset() {
     this.issueForm.reset();
-  }
-  getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
   }
 }
