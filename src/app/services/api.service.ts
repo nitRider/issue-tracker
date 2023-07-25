@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
   issueRequest,
   loginRequest,
+  project,
   projectRequest,
   signUpRequest,
   updateIssueRequest
@@ -33,8 +35,8 @@ export class ApiService {
    * @returns
    */
 
-  getAllProject() {
-    return this.http.get(this.baseUrl + 'project');
+  getAllProject(): Observable<project[]> {
+    return this.http.get<project[]>(this.baseUrl + 'project');
   }
 
   createProject(projectBody: projectRequest) {
@@ -53,7 +55,7 @@ export class ApiService {
       params: { userID: id }
     });
   }
-  getUsersByTeamName(teamName: string) {
+  getUsersByTeamName(teamName: any) {
     return this.http.get(this.baseUrl + 'user', {
       params: { teamName: teamName }
     });
