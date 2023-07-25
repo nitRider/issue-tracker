@@ -1,3 +1,135 @@
+.url-container {
+  padding: 20px;
+}
+.url-container-body {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 14px;
+  font-weight: 400;
+}
+.i-board-url {
+  color: #fe7912;
+  cursor: pointer;
+}
+.i-body-container {
+  display: flex;
+  justify-content: space-between;
+}
+.i-chart-width {
+  width: 55%;
+}
+.i-chart-card-container {
+  background-color: #f7f8fa;
+}
+.i-chart-card-title {
+  color: #fe7912;
+  font-size: 34px;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+.i-chart-card-issue {
+  color: #1d262d;
+  font-size: 20px;
+  font-weight: 200;
+  margin-bottom: 0.5rem;
+}
+.i-table {
+  width: 100%;
+  text-align: center;
+}
+.i-th {
+  font-size: 16px;
+  font-weight: 400;
+}
+.i-chart-container {
+  margin-top: 2rem;
+}
+.i-statusbar {
+  font-size: 20px;
+  font-family: roboto;
+  font-weight: 400;
+}
+.i-chart-body {
+  height: 8rem;
+  border-radius: 10px;
+  display: flex;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+.i-chart-info-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  width: 70%;
+}
+.i-info {
+  display: flex;
+  font-size: small;
+  align-items: center;
+  gap: 5px;
+}
+.i-info-dimension {
+  width: 16px;
+  height: 17.5px;
+}
+.i-m-container {
+  width: 35%;
+}
+.i-m-card {
+  background-color: #f7f8fa;
+}
+.i-m-card-title {
+  font-size: 20px;
+  font-weight: 400;
+}
+.i-m-card-total-member {
+  font-size: 12px;
+  font-weight: 400;
+  color: #85929c;
+  margin: 1rem 0rem;
+}
+.i-todo {
+  font-size: 57px;
+  color: #ffc107;
+  font: weigth 600px;
+}
+.i-development {
+  font-size: 57px;
+  color: #fe7912;
+  font: weigth 600px;
+}
+.i-testing {
+  font-size: 57px;
+  color: #2650a2;
+  font: weigth 600px;
+}
+.i-completed {
+  font-size: 57px;
+  color: #28a745;
+  font-weight: 600px;
+}
+.i-border-left {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.i-border-right {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+#i-todo-bg {
+  background-color: #ffc107;
+}
+#i-development-bg {
+  background-color: #fe7912;
+}
+#i-testing-bg {
+  background-color: #2650a2;
+}
+#i-completed-bg {
+  background-color: #28a745;
+}
 td {
   padding: 1rem;
 }

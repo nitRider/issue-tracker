@@ -16,6 +16,12 @@ export class InsightsComponent implements OnInit {
     this.subscription = this.sharedService.insightData$.subscribe((data) => {
       this.data = data;
       console.log(this.data);
+      var temp = data?.member.filter((ele: any) => {
+        return (
+          JSON.stringify(ele) !== JSON.stringify(data?.owner?.projectOwner)
+        );
+      });
+      this.data.member = temp !== undefined ? temp : [];
     });
   }
 

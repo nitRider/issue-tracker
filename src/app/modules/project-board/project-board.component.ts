@@ -113,7 +113,32 @@ export class ProjectBoardComponent implements OnInit {
   }
 
   sendDataToViewInsights(data: any) {
-    data = { member: this.assignees, owner: this.project, status: data };
+    var temp = data;
+    var todo: any[] = [];
+    var development: any[] = [];
+    var testing: any[] = [];
+    var completed: any[] = [];
+    var status1: any;
+    temp = temp.filter((item: any) => {
+      if (item?.status === 1) {
+        todo.push(1);
+      } else if (item?.status === 2) {
+        development.push(1);
+      } else if (item?.status === 3) {
+        testing.push(1);
+      } else if (item?.status === 4) {
+        completed.push(1);
+      }
+    });
+    status1 = {
+      todo: todo,
+      development: development,
+      testing: testing,
+      completed: completed,
+      total: data?.length
+    };
+
+    data = { member: this.assignees, owner: this.project, status: status1 };
     this.sharedService.setInsightData(data);
     this.router.navigate(['/view-insights']);
   }
