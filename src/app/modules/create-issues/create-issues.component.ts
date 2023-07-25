@@ -1,25 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import {
+  ISSUESPRIORITY,
+  ISSUESSTATUS,
+  ISSUETAGS,
+  ISSUETYPES,
+  SPRINTS
+} from 'src/app/common/utils/common.constant';
 import { project, userRequest } from 'src/app/models/project.model';
 import { ApiService } from 'src/app/services/api.service';
-
-interface Type {
-  name: string;
-  id: number;
-}
-interface Priority {
-  name: string;
-  id: number;
-}
-interface Tags {
-  name: string;
-  id: number;
-}
-interface Status {
-  name: string;
-  id: number;
-}
 
 @Component({
   selector: 'app-create-issues',
@@ -29,39 +19,15 @@ interface Status {
 export class CreateIssuesComponent implements OnInit {
   isSubmitting = false;
 
-  issueTypes: Type[] = [
-    { name: 'BUG', id: 1 },
-    { name: 'TASK', id: 2 },
-    { name: 'STORY', id: 3 }
-  ];
+  issueTypes = ISSUETYPES;
 
-  issuePriority: Priority[] = [
-    { name: 'LOW', id: 1 },
-    { name: 'MEDIUM', id: 2 },
-    { name: 'HIGH', id: 3 }
-  ];
+  issuePriority = ISSUESPRIORITY;
 
-  issueTags: Tags[] = [
-    { name: 'HU-22', id: 1 },
-    { name: 'Angular track', id: 2 },
-    { name: 'Java track', id: 3 },
-    { name: 'Python track', id: 4 }
-  ];
+  issueTags = ISSUETAGS;
 
-  issueStatus: Status[] = [
-    { name: 'To-Do', id: 1 },
-    { name: 'Development', id: 2 },
-    { name: 'Testing', id: 3 },
-    { name: 'Completed', id: 4 }
-  ];
+  issueStatus = ISSUESSTATUS;
 
-  sprints: string[] = [
-    'Sprint 21',
-    'Sprint 22',
-    'Sprint 23',
-    'Sprint 24',
-    'Sprint 25'
-  ];
+  sprints = SPRINTS;
 
   userList: userRequest[] = [];
 

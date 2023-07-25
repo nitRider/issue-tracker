@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,6 +8,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,6 +24,7 @@ import { CreateProjectComponent } from './modules/create-project/create-project.
 import { InsightsComponent } from './modules/insights/insights.component';
 import { IssueDetailsComponent } from './modules/issue-details/issue-details.component';
 import { ProjectBoardComponent } from './modules/project-board/project-board.component';
+import { LoaderComponent } from './common/components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { ProjectBoardComponent } from './modules/project-board/project-board.com
     InsightsComponent,
     MemberCardComponent,
     CreateProjectComponent,
-    IssueDetailsComponent
+    IssueDetailsComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -50,9 +54,10 @@ import { ProjectBoardComponent } from './modules/project-board/project-board.com
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressSpinnerModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -1,0 +1,12 @@
+map-spinner {
+  position: absolute;
+  top: 50%;
+  z-index: 999;
+}
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: 100vh;
+}

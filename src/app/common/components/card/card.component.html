@@ -1,23 +1,41 @@
-<div class="card-container">
+<div
+  class="card-container"
+  *ngIf="data !== undefined"
+  (click)="sendDataToCardDetail(data)"
+>
   <mat-card>
     <div class="card-body">
-      <div class="c-ID">ID : HU2200001</div>
-      <div class="c-Date">31-02-2023</div>
+      <div class="c-ID">ID : {{ data?.projectID }}</div>
+      <div class="c-Date">{{ formatDate(data?.createdOn) }}</div>
     </div>
-    <div class="c-title">Lorem Ipsum</div>
+    <div class="c-title">{{ data?.summary }}</div>
     <div class="c-description">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quidem
-      repudiandae porro explicabo hic ipsa magni eius consequuntur! Maiores ad
-      iste doloremque blanditiis.
+      {{ data?.description }}
     </div>
     <div class="c-profile-container">
       <div style="display: flex">
         <img src="../../../../assets/images/model3.jpg" class="c-profile-img" />
-        <div class="c-profile-name">Ravi Jain</div>
+        <div class="c-profile-name">{{ data?.assignee?.name }}</div>
       </div>
       <div>
         <div class="c-priority-name">Priority</div>
-        <button class="c-priority-btn">HIGH</button>
+        <button
+          [ngClass]="
+            data?.priority === 1
+              ? 'c-priority-btn low-p'
+              : data?.priority === 2
+              ? 'c-priority-btn medium-p'
+              : 'c-priority-btn high-p'
+          "
+        >
+          {{
+            data?.priority === 1
+              ? 'LOW'
+              : data?.priority === 2
+              ? 'MEDIUM'
+              : 'HIGH'
+          }}
+        </button>
       </div>
     </div>
   </mat-card>

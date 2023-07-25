@@ -2,9 +2,23 @@
   <div class="mc-profile-container">
     <img src="../../../assets/images/model3.jpg" class="mc-profile-img" />
     <div>
-      <div class="mc-profile-name">Pushpa Raj</div>
-      <div class="mc-profile-designation">Engineering Management Master</div>
+      <div class="mc-profile-name">
+        {{
+          projectOwner === undefined
+            ? data?.name
+            : projectOwner?.projectOwner?.name
+        }}
+      </div>
+      <div class="mc-profile-designation">
+        {{
+          projectOwner === undefined
+            ? data?.desination
+            : projectOwner?.projectOwner?.desination
+        }}
+      </div>
     </div>
   </div>
-  <div class="mc-profile-owner">Owner</div>
+  <div class="mc-profile-owner">
+    {{ projectOwner === undefined ? 'Member' : 'Owner' }}
+  </div>
 </div>

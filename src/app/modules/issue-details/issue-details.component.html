@@ -38,17 +38,14 @@
       HU 22.0 Angular Track
     </div>
     <div style="font-size: 20px; color: #1d262d">
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+      {{ data?.summary }}
     </div>
   </div>
   <div style="display: flex; justify-content: space-between">
     <div style="width: 63%; font-size: 16px; line-height: 24px">
       <div style="color: #85929c; margin-bottom: 1rem">Discription :</div>
       <div style="font-size: 16px; color: #1d262d; margin-bottom: 1rem">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book.
+        {{ data?.description }}
       </div>
       <hr />
       <!-- detail 1 -->
@@ -84,7 +81,9 @@
             <div style="font-size: 16px; line-height: 24px; color: #85929c">
               Sprint :
             </div>
-            <div style="font-size: 16px; line-height: 24px">Bug</div>
+            <div style="font-size: 16px; line-height: 24px">
+              {{ data?.sprint }}
+            </div>
           </div>
         </div>
         <!-- detail 2 -->
@@ -92,39 +91,51 @@
           <div
             style="width: 20%; display: flex; justify-content: space-between"
           >
-            <div style="font-size: 16px; line-height: 24px; color: #85929c">
-              Tags :
-            </div>
             <div
               style="
-                padding: 0px 5px;
-                background-color: #1d262d;
-                font-size: 10px;
-                color: white;
-                display: flex;
-                border-radius: 1px;
+                font-size: 16px;
+                line-height: 24px;
+                color: #85929c;
+                width: 30%;
               "
             >
-              ANGULAR
+              Tags :
+            </div>
+            <div style="width: 60%; display: flex">
+              <div style="white-space: nowrap" *ngFor="let tag of data?.tags">
+                <div class="tags-container">
+                  {{ tag }}
+                </div>
+              </div>
             </div>
           </div>
           <div
-            style="width: 20%; display: flex; justify-content: space-between"
+            style="
+              width: 20%;
+              display: flex;
+              justify-content: space-between;
+              height: 23px;
+            "
           >
             <div style="font-size: 16px; line-height: 24px; color: #85929c">
               Priority :
             </div>
             <div
-              style="
-                padding: 0px 5px;
-                background-color: #dc3545;
-                font-size: 10px;
-                color: white;
-                display: flex;
-                border-radius: 1px;
+              [ngClass]="
+                data?.priority === 1
+                  ? 'priority low-p'
+                  : data?.priority === 2
+                  ? 'priority medium-p'
+                  : 'priority high-p'
               "
             >
-              HIGH
+              {{
+                data?.priority === 1
+                  ? 'LOW'
+                  : data?.priority === 2
+                  ? 'MEDIUM'
+                  : 'HIGH'
+              }}
             </div>
           </div>
         </div>
@@ -141,7 +152,7 @@
           <div style="font-size: 16px; line-height: 24px; color: #85929c">
             Story Points :
           </div>
-          <div style="font-size: 16px">3</div>
+          <div style="font-size: 16px">{{ data?.storyPoint }}</div>
         </div>
         <!-- horizontal line -->
         <div style="border-bottom: 1px solid #cfcfcf; margin-top: 1rem"></div>
@@ -268,7 +279,10 @@
           <div>
             <mat-form-field class="example-full-width">
               <mat-label>Choose an option</mat-label>
-              <mat-select [disabled]="disableSelect.value">
+              <mat-select
+                [(value)]="issueStatus[data.status - 1].name"
+                [disabled]="disableSelect.value"
+              >
                 <mat-option value="option1">Option 1</mat-option>
                 <mat-option value="option2" disabled
                   >Option 2 (disabled)</mat-option
@@ -281,7 +295,7 @@
         <div style="font-size: 16px; font-weight: 400">Assignee</div>
         <div>
           <mat-form-field class="example-full-width">
-            <mat-label>Choose an option</mat-label>
+            <mat-label>{{ issueStatus[data?.status - 1]?.name }}</mat-label>
             <mat-select [disabled]="disableSelect.value">
               <mat-option value="option1">Option 1</mat-option>
               <mat-option value="option2" disabled
@@ -296,7 +310,7 @@
             style="font-size: 16px; color: #85929c; display: flex; gap: 1rem"
           >
             <div>Created On :</div>
-            <div>31-02-2023</div>
+            <div>{{ formatDate(data?.createdOn) }}</div>
           </div>
           <div
             style="

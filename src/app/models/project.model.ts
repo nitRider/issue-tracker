@@ -16,6 +16,22 @@ export interface issueRequest {
   sprint: string;
   storyPoint: number;
 }
+export interface allIssueRequest {
+  summary: string;
+  type: number;
+  projectID?: string;
+  description: string;
+  priority: number;
+  status: number;
+  assignee: projectOwnerObj;
+  tags: Array<string>;
+  sprint: string;
+  storyPoint: number;
+  createdBy: projectOwnerObj;
+  createdOn?: Date;
+  updatedBy?: null;
+  updatedOn?: null;
+}
 
 export interface updateIssueRequest {
   summary?: string;
@@ -54,7 +70,14 @@ export interface project {
   projectName: string;
   projectStartDate: Date;
   projectEndDate: Date;
-  projectOwner: projectObj;
+  projectOwner?: projectOwnerObj;
+}
+interface projectOwnerObj {
+  id: number;
+  name: string;
+  email: string;
+  teamName: string;
+  desination: string;
 }
 export interface projectObj {
   id: number;
@@ -62,4 +85,20 @@ export interface projectObj {
   email: string;
   teamName: string;
   desination: string;
+}
+export interface Type {
+  name: string;
+  id: number;
+}
+export interface Priority {
+  name: string;
+  id: number;
+}
+export interface Tags {
+  name: string;
+  id: number;
+}
+export interface Status {
+  name: string;
+  id: number;
 }

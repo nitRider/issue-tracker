@@ -1,116 +1,125 @@
-<div style="padding: 20px">
-  <div
-    style="display: flex; justify-content: space-between; margin-bottom: 1rem"
-  >
-    <div style="font-size: 34px; font-weight: 400">Project Details</div>
+<app-loader *ngIf="isLoading"></app-loader>
+
+<div class="container" *ngIf="!isLoading">
+  <div class="container-body">
+    <div class="p-detail">Project Details</div>
     <button
-      style="
-        background-color: #1d262d;
-        color: white;
-        padding: 10px 15px;
-        height: 44px;
-        border: none;
-        border-radius: 4px;
-        width: 190px;
-        cursor: pointer;
-      "
-      (click)="viewInsights()"
+      class="view-btn"
+      (click)="sendDataToViewInsights(issueListOfGivenProject)"
+      id="lnk-view-insight"
     >
       VIEW INSIGHTS
     </button>
   </div>
 
-  <div style="display: flex; justify-content: space-between">
-    <div style="width: 48%">
-      <div style="font-size: 16px">Project Name</div>
-      <mat-form-field class="example-full-width">
-        <mat-select [(value)]="foods[0].value">
-          <mat-option *ngFor="let food of foods" [value]="food.value">
-            {{ food.viewValue }}
+  <div class="p-body-container">
+    <div class="p-width">
+      <div class="p-title">Project Name</div>
+      <mat-form-field class="p-input-width">
+        <mat-label>Select Project</mat-label>
+        <mat-select
+          [(value)]="projectLists[0].projectName"
+          id="ddl-project-name"
+          placeholder="{{ project.projectName }}"
+        >
+          <mat-option
+            *ngFor="let pro of projectLists"
+            [value]="pro.projectID"
+            (onSelectionChange)="getProject(pro)"
+            id="opt-ddl-project-name"
+          >
+            {{ pro.projectName }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <div style="width: 48%">
-      <div style="font-size: 16px">Project Owner</div>
-      <mat-form-field class="example-full-width">
-        <input matInput value="Sushi" />
+    <div class="p-width">
+      <div class="p-title">Project Owner</div>
+      <mat-form-field class="p-input-width">
+        <input
+          matInput
+          value="{{ project?.projectOwner?.name || '' }}"
+          disabled="true"
+          id="project-owner"
+        />
       </mat-form-field>
     </div>
   </div>
 
-  <div style="display: flex; color: #85929c">
-    <div style="font-size: 16px">Start Date : 31-02-2023</div>
-    <div
-      style="
-        border-right: 1px solid #85929c;
-        margin-right: 1rem;
-        margin-left: 1rem;
-      "
-    ></div>
-    <div style="font-size: 16px">End Date : 31-02-2023</div>
+  <div class="date-container">
+    <div class="p-title" id="start-date">
+      Start Date : {{ formatDate(project.projectStartDate) }}
+    </div>
+    <div class="vertical-line"></div>
+    <div class="p-title" id="end-date">
+      End Date : {{ formatDate(project.projectEndDate) }}
+    </div>
   </div>
 
-  <div
-    style="
-      display: flex;
-      width: 48%;
-      justify-content: space-between;
-      margin-top: 2rem;
-      color: #1d262d;
-      margin-bottom: 2rem;
-    "
-  >
-    <div style="width: 48%">
-      <mat-form-field class="example-full-width">
-        <mat-select [(value)]="foods[0].value">
-          <mat-option *ngFor="let food of foods" [value]="food.value">
-            {{ food.viewValue }}
+  <div class="filter-container">
+    <div class="p-width">
+      <mat-form-field class="p-input-width">
+        <mat-select (selectionChange)="onAssigneeSelectionChange($event)">
+          <mat-option
+            *ngFor="let assignee of assignees"
+            [value]="assignee.name"
+          >
+            {{ assignee.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div style="margin-top: -1rem; font-size: 12px">Filter Assignee</div>
+      <div class="filter">Filter Assignee</div>
     </div>
-    <div style="width: 48%">
-      <mat-form-field class="example-full-width">
-        <mat-select [formControl]="toppings" multiple>
-          <mat-select-trigger>
-            {{toppings.value?.[0] || ''}}
-            <span
-              *ngIf="(toppings.value?.length || 0) > 1"
-              class="example-additional-selection"
-            >
-              (+{{ (toppings.value?.length || 0) - 1 }}
-              {{ toppings.value?.length === 2 ? 'other' : 'others' }})
-            </span>
-          </mat-select-trigger>
-          <mat-option *ngFor="let topping of toppingList" [value]="topping">{{
-            topping
-          }}</mat-option>
+    <div class="p-width">
+      <mat-form-field class="p-input-width">
+        <mat-select
+          multiple
+          id="ddl-filter-priority"
+          (selectionChange)="onPrioritySelectionChange($event)"
+        >
+          <mat-option
+            *ngFor="let priority of issuePriority"
+            [value]="priority.id"
+            >{{ priority.name }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
-      <div style="margin-top: -1rem; font-size: 12px">Filter Priority</div>
+      <div class="filter">Filter Priority</div>
     </div>
   </div>
 </div>
 
-<table style="width: 100%; background-color: #f7f8fa; margin: 0">
-  <tr style="color: #757575; margin: 10px 15px">
-    <td>TO-DO</td>
-    <td>DEVELOPMENT</td>
-    <td>TESTING</td>
-    <td>COMPLETED</td>
-  </tr>
-  <tr style="margin: 10px 15px">
-    <td (click)="issueDetails()"><app-card></app-card></td>
-    <td><app-card></app-card></td>
-    <td><app-card></app-card></td>
-    <td><app-card></app-card></td>
-  </tr>
-  <tr style="margin: 10px 15px">
-    <td><app-card></app-card></td>
-    <td></td>
-    <td><app-card></app-card></td>
-    <td></td>
-  </tr>
-</table>
+<div class="jira-board">
+  <div class="column">
+    <h3>TO-DO</h3>
+    <ul *ngFor="let issue of filterData">
+      <li *ngIf="issue.status === 1" (click)="issueDetails()">
+        <app-card [data]="issue"></app-card>
+      </li>
+    </ul>
+  </div>
+  <div class="column">
+    <h3>DEVELOPMENT</h3>
+    <ul *ngFor="let issue of filterData">
+      <li *ngIf="issue.status === 2" (click)="issueDetails()">
+        <app-card [data]="issue"></app-card>
+      </li>
+    </ul>
+  </div>
+  <div class="column">
+    <h3>TESTING</h3>
+    <ul *ngFor="let issue of filterData">
+      <li *ngIf="issue.status === 3" (click)="issueDetails()">
+        <app-card [data]="issue"></app-card>
+      </li>
+    </ul>
+  </div>
+  <div class="column">
+    <h3>COMPLETED</h3>
+    <ul *ngFor="let issue of filterData">
+      <li *ngIf="issue.status === 4">
+        <app-card [data]="issue"></app-card>
+      </li>
+    </ul>
+  </div>
+</div>

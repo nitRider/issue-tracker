@@ -13,7 +13,12 @@
       height="20px"
     />
     <div class="s-input-container">
-      <input type="text" placeholder="Search" class="s-input" />
+      <input
+        type="text"
+        placeholder="Search"
+        class="s-input"
+        (change)="search($event)"
+      />
     </div>
   </div>
   <div

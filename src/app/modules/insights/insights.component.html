@@ -176,17 +176,13 @@
             margin: 1rem 0rem;
           "
         >
-          9 Members
+          {{ data?.member?.length }} Members
         </div>
-        <app-member-card></app-member-card><br />
+        <app-member-card [projectOwner]="data?.owner"></app-member-card><br />
         <hr />
-        <app-member-card></app-member-card>
-        <app-member-card></app-member-card>
-        <app-member-card></app-member-card>
-        <app-member-card></app-member-card>
-        <app-member-card></app-member-card>
-        <app-member-card></app-member-card>
-        <app-member-card></app-member-card>
+        <div *ngFor="let user of data?.member">
+          <app-member-card [data]="user"></app-member-card>
+        </div>
       </mat-card>
     </div>
   </div>

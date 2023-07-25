@@ -4,3 +4,27 @@
 .i-comment-name {
   font-size: 14px;
 }
+.priority {
+  padding: 0px 5px;
+  font-size: 10px;
+  color: white;
+  display: flex;
+  border-radius: 1px;
+}
+.medium-p {
+  background-color: #ebaa02;
+}
+.low-p {
+  background-color: #28a745;
+}
+.high-p {
+  background-color: #dc3545;
+}
+.tags-container {
+  padding: 0px 5px;
+  background-color: #1d262d;
+  font-size: 10px;
+  color: white;
+  border-radius: 1px;
+  margin-right: 10px;
+}

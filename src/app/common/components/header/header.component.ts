@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-header',
@@ -8,8 +9,12 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   currentRoute: string;
-  constructor(private router: Router) {
+
+  searchText: string;
+
+  constructor(private router: Router, private sharedService: SharedService) {
     this.currentRoute = '';
+    this.searchText = '';
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.url;
@@ -17,7 +22,7 @@ export class HeaderComponent implements OnInit {
     });
   }
   ngOnInit(): void {}
-  projectBoard() {
-    this.router.navigate(['/heroes']);
+  search(event: any) {
+    this.sharedService.setData(event.target.value.trim());
   }
 }
