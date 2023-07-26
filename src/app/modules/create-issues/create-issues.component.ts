@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -18,6 +18,8 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./create-issues.component.scss']
 })
 export class CreateIssuesComponent implements OnInit {
+  @Input() data: any;
+
   issueTypes = ISSUETYPES;
 
   issuePriority = ISSUESPRIORITY;
@@ -36,7 +38,7 @@ export class CreateIssuesComponent implements OnInit {
 
   projectList: project[] = [];
 
-  summaryPattern: string = '^[a-zA-Z0-9!/.|-]{5,150}$';
+  summaryPattern: string = '^[a-zA-Z0-9!/. |-]{5,150}$';
 
   issueForm = new FormGroup({
     summary: new FormControl('', [
@@ -68,6 +70,7 @@ export class CreateIssuesComponent implements OnInit {
       this.userData.forEach((ele: any) => {
         this.userList.push(ele);
       });
+      console.log(this.userList);
     });
 
     this.service.getAllProject().subscribe((res) => {
@@ -76,6 +79,19 @@ export class CreateIssuesComponent implements OnInit {
         this.projectList.push(ele);
       });
     });
+    if (this.data !== undefined) {
+      this.issueForm.patchValue({
+        summary: this.data.summary,
+        type: this.data.type,
+        projectID: this.data.projectID,
+        description: this.data.description,
+        priority: this.data.priority,
+        assignee: this.data.assignee,
+        tags: this.data.tags,
+        sprint: this.data.sprint,
+        storyPoint: this.data.storyPoint
+      });
+    }
   }
   onSubmit() {
     if (this.issueForm.valid) {
@@ -108,6 +124,27 @@ export class CreateIssuesComponent implements OnInit {
     if (input.value.length > maxLength) {
       input.value = input.value.slice(0, maxLength);
       this.issueForm.get('description')!.setValue(input.value);
+    }
+  }
+  onUpdate() {
+    if (this.issueForm.valid) {
+      var updateData = this.issueForm.value;
+      delete updateData.projectID;
+
+      console.log(this.issueForm.value);
+      this.service.updateIssueWithIssueID(this.data.id, updateData).subscribe({
+        next: (res) => {
+          this.issueForm.reset();
+          this.snackBar.open('Updated issue successfully', 'Ok', {
+            duration: 3000
+          });
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.log(err);
+          this.issueForm.reset();
+        }
+      });
     }
   }
 }

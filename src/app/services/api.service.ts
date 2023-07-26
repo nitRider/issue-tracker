@@ -120,8 +120,8 @@ export class ApiService {
       headers: this.headers
     });
   }
-  updateIssueWithIssueID(issueBody: updateIssueRequest) {
-    return this.http.put(this.baseUrl + 'issue', issueBody, {
+  updateIssueWithIssueID(id: string, issueBody: updateIssueRequest) {
+    return this.http.put(this.baseUrl + `issue/${id}`, issueBody, {
       headers: this.headers
     });
   }

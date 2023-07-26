@@ -27,6 +27,8 @@ export class IssueDetailsComponent implements OnInit {
 
   commentList: any = [];
 
+  isEdit: boolean = false;
+
   constructor(
     private router: Router,
     private sharedService: SharedService,
@@ -36,6 +38,7 @@ export class IssueDetailsComponent implements OnInit {
     this.subscription = this.sharedService.data$.subscribe((data) => {
       this.data = data;
     });
+    this.isEdit = false;
   }
 
   commentForm = new FormGroup({
@@ -60,7 +63,9 @@ export class IssueDetailsComponent implements OnInit {
     this.router.navigate(['/']);
   }
   EditIssue() {
-    this.router.navigate(['/update-issue']);
+    console.log(this.data);
+    this.isEdit = true;
+    // this.router.navigate(['/update-issue']);
   }
   showComment() {
     this.isCommentFieldActive = true;

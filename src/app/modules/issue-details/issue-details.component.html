@@ -1,4 +1,4 @@
-<div class="url-container">
+<div class="url-container" *ngIf="!isEdit">
   <div class="url-container-body">
     <div class="i-board-url" (click)="back()">Project Board</div>
     <div>/</div>
@@ -227,3 +227,4 @@
     </div>
   </div>
 </div>
+<app-create-issues *ngIf="isEdit" [data]="data"></app-create-issues>
