@@ -165,6 +165,17 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+.i-post-disabled-btn {
+  background-color: #f7f8fa;
+  border: none;
+  width: 160px;
+  color: #1d262d;
+  height: 44px;
+  border-radius: 4px;
+  cursor: text;
+}
+
 .i-cancel-btn {
   border: 1px solid #1d262d;
   background-color: white;

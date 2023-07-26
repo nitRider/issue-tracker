@@ -108,16 +108,42 @@
             </div>
           </div>
           <!-- comment inputfield -->
-          <div *ngIf="isCommentFieldActive">
-            <textarea
-              placeholder="Write comment"
-              rows="5"
-              class="i-comment-inputfield"
-              required
-              id="txt-comment"
-            ></textarea>
+          <form
+            *ngIf="isCommentFieldActive"
+            [formGroup]="commentForm"
+            (ngSubmit)="postComment()"
+          >
+            <mat-form-field class="i-inputfield-width">
+              <textarea
+                placeholder="Write comment"
+                rows="5"
+                required
+                formControlName="comment"
+                id="txt-comment"
+                matInput
+              ></textarea>
+              <mat-error
+                *ngIf="
+                  commentForm.get('comment')?.invalid &&
+                  commentForm.get('comment')?.touched
+                "
+                id="err-txt-project-name"
+              >
+                Please enter valid comment
+              </mat-error>
+            </mat-form-field>
             <div class="i-btn-container">
-              <button class="i-post-btn" id="btn-post-comment">POST</button>
+              <button
+                class="i-post-btn"
+                id="btn-post-comment"
+                type="submit"
+                [ngClass]="
+                  commentForm.invalid ? 'i-post-disabled-btn' : 'i-post-btn'
+                "
+                [disabled]="commentForm.invalid"
+              >
+                POST
+              </button>
               <button
                 class="i-cancel-btn"
                 (click)="onCancel()"
@@ -126,16 +152,19 @@
                 CANCEL
               </button>
             </div>
-          </div>
+          </form>
           <!-- comment list -->
-          <div class="i-comment-list" id="wrapper-comment">
+          <div
+            class="i-comment-list"
+            id="wrapper-comment"
+            *ngFor="let comment of commentList"
+          >
             <div class="i-comment-list-description">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+              {{ comment.comment }}
             </div>
             <div class="i-comment-list-info">
-              <div>Posted on: 31-01-2022</div>
-              <div>Added by: Pushpa Raj</div>
+              <div>Posted on: {{ formatDate(comment.createdOn) }}</div>
+              <div>Added by: {{ comment.createdBy.name }}</div>
             </div>
           </div>
         </div>
@@ -189,7 +218,7 @@
           </div>
           <div class="i-last-updated">
             <div>Last Updated :</div>
-            <div>31-02-2023</div>
+            <div>{{ formatDate(data?.createdOn) }}</div>
           </div>
         </div>
       </div>

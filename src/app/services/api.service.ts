@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   issueRequest,
@@ -14,6 +14,10 @@ import {
 export class ApiService {
   baseUrl: string = 'https://hu-22-angular-mockapi-urtjok3rza-wl.a.run.app/';
 
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    userid: '1'
+  });
   constructor(private http: HttpClient) {}
   /**
    * auth
@@ -34,11 +38,15 @@ export class ApiService {
    */
 
   getAllProject() {
-    return this.http.get(this.baseUrl + 'project');
+    return this.http.get(this.baseUrl + 'project', {
+      headers: this.headers
+    });
   }
 
   createProject(projectBody: projectRequest) {
-    return this.http.post(this.baseUrl + 'project', projectBody);
+    return this.http.post(this.baseUrl + 'project', projectBody, {
+      headers: this.headers
+    });
   }
 
   /**
@@ -64,43 +72,57 @@ export class ApiService {
    */
   getAllComments(projectID: string, issueID: string) {
     return this.http.get(this.baseUrl + 'comment', {
-      params: { projectID: projectID, issueID: issueID }
+      params: { projectID: projectID, issueID: issueID },
+      headers: this.headers
     });
   }
-  createComment(projectID: string, issueID: string) {
-    let body = {
+  createComment(projectID: string, issueID: string, body: string) {
+    let params = {
       projectID: projectID,
       issueID: issueID
     };
-    return this.http.post(this.baseUrl + 'comment', body);
+    return this.http.post(this.baseUrl + 'comment', body, {
+      params: params,
+      headers: this.headers
+    });
   }
   updateCommentwithCommentID(commentID: string, commentObj: Object) {
-    return this.http.put(this.baseUrl + `comment/${commentID}`, commentObj);
+    return this.http.put(this.baseUrl + `comment/${commentID}`, commentObj, {
+      headers: this.headers
+    });
   }
 
   /**
    * issues
    */
   getAllIssues() {
-    return this.http.get(this.baseUrl + 'issue');
+    return this.http.get(this.baseUrl + 'issue', {
+      headers: this.headers
+    });
   }
 
   getIssuesForAGivenProject(projectID: string) {
     return this.http.get(this.baseUrl + 'issue', {
-      params: { projectID: projectID }
+      params: { projectID: projectID },
+      headers: this.headers
     });
   }
 
   getIssuesWithIssueID(issueID: string) {
     return this.http.get(this.baseUrl + 'issue', {
-      params: { issueID: issueID }
+      params: { issueID: issueID },
+      headers: this.headers
     });
   }
 
   createIssue(issueBody: issueRequest) {
-    return this.http.post(this.baseUrl + 'issue', issueBody);
+    return this.http.post(this.baseUrl + 'issue', issueBody, {
+      headers: this.headers
+    });
   }
   updateIssueWithIssueID(issueBody: updateIssueRequest) {
-    return this.http.put(this.baseUrl + 'issue', issueBody);
+    return this.http.put(this.baseUrl + 'issue', issueBody, {
+      headers: this.headers
+    });
   }
 }

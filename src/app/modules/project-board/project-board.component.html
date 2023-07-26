@@ -147,7 +147,7 @@
       >
         <h3>COMPLETED</h3>
         <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
-          <li *ngIf="issue.status === 4">
+          <li *ngIf="issue.status === 4" (click)="issueDetails()">
             <app-card [data]="issue" id="card-issue"></app-card>
           </li>
         </ul>
