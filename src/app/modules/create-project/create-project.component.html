@@ -7,6 +7,7 @@
         <mat-label class="input-label-gap">Project Name</mat-label>
         <input
           matInput
+          type="text"
           placeholder="Project Name"
           formControlName="projectName"
           id="txt-project-name"
@@ -44,7 +45,7 @@
             projectForm.get('projectOwner')?.invalid &&
             projectForm.get('projectOwner')?.touched
           "
-          id="err-txt-project-name"
+          id="err-txt-project-owner"
         >
           Please select an option.
         </mat-error>
@@ -73,7 +74,7 @@
             projectForm.get('projectStartDate')?.hasError &&
             projectForm.get('projectStartDate')?.touched
           "
-          >Date is required</mat-error
+          >Please enter a valid Date</mat-error
         >
       </mat-form-field>
     </div>
@@ -94,7 +95,7 @@
             projectForm.get('projectEndDate')?.hasError &&
             projectForm.get('projectEndDate')?.touched
           "
-          >Date is required</mat-error
+          >Please enter a valid Date</mat-error
         >
       </mat-form-field>
     </div>

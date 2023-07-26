@@ -38,6 +38,7 @@
           *ngIf="
             issueForm.get('type')?.invalid && issueForm.get('type')?.touched
           "
+          id="err-txt-issue-type"
         >
           Please select an option.
         </mat-error>
@@ -61,11 +62,11 @@
             issueForm.get('projectID')?.invalid &&
             issueForm.get('projectID')?.touched
           "
+          id="err-txt-project"
         >
           Please select an option.
         </mat-error>
       </mat-form-field>
-      <span hidden id="err-txt-project">Select project</span>
     </div>
   </div>
   <div>
@@ -78,8 +79,16 @@
         id="txa-description"
         formControlName="description"
       ></textarea>
+      <mat-error
+        *ngIf="
+          issueForm.get('description')?.invalid &&
+          issueForm.get('description')?.touched
+        "
+        id="err-txt-project"
+      >
+        Please enter a valid description.
+      </mat-error>
     </mat-form-field>
-    <span hidden id="err-txt-description">Enter Description</span>
   </div>
   <div class="form-body">
     <div class="field-container-width">
@@ -100,11 +109,11 @@
             issueForm.get('priority')?.invalid &&
             issueForm.get('priority')?.touched
           "
+          id="err-txt-priority"
         >
           Please select an option.
         </mat-error>
       </mat-form-field>
-      <span id="err-txt-priority" hidden>Select valid priority </span>
     </div>
     <div class="field-container-width">
       <div>Assignee</div>
@@ -124,11 +133,11 @@
             issueForm.get('assignee')?.invalid &&
             issueForm.get('assignee')?.touched
           "
+          id="err-txt-assignee"
         >
           Please select an option.
         </mat-error>
       </mat-form-field>
-      <span hidden id="err-txt-assignee">Select Assignee</span>
     </div>
   </div>
   <div class="form-body">
@@ -140,7 +149,7 @@
           <mat-option
             *ngFor="let tag of issueTags"
             [value]="tag.name"
-            id="opt-ddl- tags"
+            id="opt-ddl-tags"
           >
             {{ tag.name }}
           </mat-option>
@@ -156,14 +165,13 @@
     </div>
     <div class="field-container-width">
       <div>Sprint</div>
-
       <mat-form-field class="input-form-width">
         <mat-label>Select</mat-label>
         <mat-select id="ddl-sprint" formControlName="sprint">
           <mat-option
             *ngFor="let sprint of sprints"
             [value]="sprint"
-            id="opt-ddl- sprint"
+            id="opt-ddl-sprint"
           >
             {{ sprint }}
           </mat-option>
@@ -172,11 +180,11 @@
           *ngIf="
             issueForm.get('sprint')?.invalid && issueForm.get('sprint')?.touched
           "
+          id="err-txt-sprint"
         >
           Please select an option.
         </mat-error>
       </mat-form-field>
-      <span hidden id="err-txt-sprint">Select Sprint</span>
     </div>
   </div>
   <div class="form-body">
@@ -207,12 +215,15 @@
     </div>
   </div>
   <div class="btn-container">
-    <button class="reset-btn" (click)="reset()">RESET</button>
+    <button class="reset-btn" (click)="reset()" id="btn-reset-form">
+      RESET
+    </button>
     <button
       class="create-btn"
       type="submit"
       [ngClass]="issueForm.invalid ? 'disable-btn' : 'create-btn'"
       [disabled]="isSubmitting"
+      id="btn-create-issue"
     >
       CREATE
     </button>

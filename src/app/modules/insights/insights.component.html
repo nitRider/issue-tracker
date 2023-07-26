@@ -9,7 +9,7 @@
     <div class="i-chart-width">
       <mat-card class="i-chart-card-container">
         <div class="i-chart-card-title">HU 22.0 Angular Track</div>
-        <div class="i-chart-card-issue">
+        <div class="i-chart-card-issue" id="count-total">
           Total Number of Issues : {{ data?.status?.total }}
         </div>
         <hr />
@@ -21,16 +21,16 @@
             <td>COMPLETED</td>
           </tr>
           <tr>
-            <td class="i-todo">
+            <td class="i-todo" id="count-to-do">
               {{ data?.status?.todo?.length }}
             </td>
-            <td class="i-development">
+            <td class="i-development" id="count-development">
               {{ data?.status?.development?.length }}
             </td>
-            <td class="i-testing">
+            <td class="i-testing" id="count-testing">
               {{ data?.status?.testing?.length }}
             </td>
-            <td class="i-completed">
+            <td class="i-completed" id="count-completed">
               {{ data?.status?.completed?.length }}
             </td>
           </tr>
@@ -118,9 +118,13 @@
         <div class="i-m-card-total-member">
           {{ data?.member?.length + 1 }} Members
         </div>
-        <app-member-card [projectOwner]="data?.owner"></app-member-card><br />
+        <app-member-card
+          id="wrapper-project-owner"
+          [projectOwner]="data?.owner"
+        ></app-member-card
+        ><br />
         <hr />
-        <div *ngFor="let user of data?.member">
+        <div *ngFor="let user of data?.member" id="wrapper-team-members">
           <app-member-card [data]="user"></app-member-card>
         </div>
       </mat-card>

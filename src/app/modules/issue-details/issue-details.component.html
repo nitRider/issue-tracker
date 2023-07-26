@@ -1,125 +1,57 @@
-<div style="padding: 20px">
-  <div
-    style="
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1.5rem;
-      margin-bottom: 1.5rem;
-      font-size: 14px;
-      font-weight: 400;
-    "
-  >
-    <div style="color: #fe7912; cursor: pointer" (click)="back()">
-      Project Board
-    </div>
+<div class="url-container">
+  <div class="url-container-body">
+    <div class="i-board-url" (click)="back()">Project Board</div>
     <div>/</div>
     <div>Issue Details</div>
   </div>
 
-  <div
-    style="
-      border: 1px solid #f7f8fa;
-      height: 80px;
-      background-color: #f7f8fa;
-      border-radius: 8px;
-      margin-top: 2.5rem;
-      padding: 1rem;
-      margin-bottom: 2rem;
-    "
-  >
-    <div
-      style="
-        color: #fe7912;
-        font-size: 34px;
-        font-weight: 400;
-        margin-bottom: 1rem;
-      "
-    >
-      HU 22.0 Angular Track
-    </div>
-    <div style="font-size: 20px; color: #1d262d">
+  <div class="i-summary-container">
+    <div class="i-issue-title">HU 22.0 Angular Track</div>
+    <div class="i-summary-title">
       {{ data?.summary }}
     </div>
   </div>
-  <div style="display: flex; justify-content: space-between">
-    <div style="width: 63%; font-size: 16px; line-height: 24px">
-      <div style="color: #85929c; margin-bottom: 1rem">Discription :</div>
-      <div style="font-size: 16px; color: #1d262d; margin-bottom: 1rem">
+  <div class="i-body-container">
+    <div class="i-left-body-info">
+      <div class="i-description">Discription :</div>
+      <div class="i-description-name">
         {{ data?.description }}
       </div>
       <hr />
-      <!-- detail 1 -->
       <div>
-        <div
-          style="
-            font-size: 20px;
-            line-height: 32px;
-            font-weight: 400;
-            margin: 1rem 0rem;
-          "
-        >
-          Details
-        </div>
-        <div style="display: flex; gap: 10rem">
-          <div
-            style="width: 20%; display: flex; justify-content: space-between"
-          >
-            <div style="font-size: 16px; line-height: 24px; color: #85929c">
-              Type :
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.5rem">
+        <div class="i-detail">Details</div>
+        <div class="i-type-sprint-container">
+          <div class="i-detail-container">
+            <div class="i-static-title">Type :</div>
+            <div class="i-type-img">
               <img
                 src="../../../assets/images/error.svg"
                 style="width: 20px; height: 20px"
               />
-              <div style="font-size: 16px; line-height: 24px">Bug</div>
+              <div class="i-type-name">Bug</div>
             </div>
           </div>
-          <div
-            style="width: 20%; display: flex; justify-content: space-between"
-          >
-            <div style="font-size: 16px; line-height: 24px; color: #85929c">
-              Sprint :
-            </div>
+          <div class="i-detail-container">
+            <div class="i-static-title">Sprint :</div>
             <div style="font-size: 16px; line-height: 24px">
               {{ data?.sprint }}
             </div>
           </div>
         </div>
         <!-- detail 2 -->
-        <div style="display: flex; gap: 10rem; margin-top: 1rem">
-          <div
-            style="width: 20%; display: flex; justify-content: space-between"
-          >
-            <div
-              style="
-                font-size: 16px;
-                line-height: 24px;
-                color: #85929c;
-                width: 30%;
-              "
-            >
-              Tags :
-            </div>
-            <div style="width: 60%; display: flex">
-              <div style="white-space: nowrap" *ngFor="let tag of data?.tags">
+        <div class="i-tag-container">
+          <div class="i-detail-container">
+            <div class="i-tag-title">Tags :</div>
+            <div class="i-tag-body">
+              <div class="i-tag-gap" *ngFor="let tag of data?.tags">
                 <div class="tags-container">
                   {{ tag }}
                 </div>
               </div>
             </div>
           </div>
-          <div
-            style="
-              width: 20%;
-              display: flex;
-              justify-content: space-between;
-              height: 23px;
-            "
-          >
-            <div style="font-size: 16px; line-height: 24px; color: #85929c">
-              Priority :
-            </div>
+          <div class="i-priority">
+            <div class="i-static-title">Priority :</div>
             <div
               [ngClass]="
                 data?.priority === 1
@@ -140,36 +72,18 @@
           </div>
         </div>
         <!-- detail 3 -->
-        <div
-          style="
-            width: 20%;
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            align-items: center;
-          "
-        >
-          <div style="font-size: 16px; line-height: 24px; color: #85929c">
-            Story Points :
-          </div>
-          <div style="font-size: 16px">{{ data?.storyPoint }}</div>
+        <div class="i-storypoint">
+          <div class="i-static-title">Story Points :</div>
+          <div class="i-storypoint-name">{{ data?.storyPoint }}</div>
         </div>
         <!-- horizontal line -->
-        <div style="border-bottom: 1px solid #cfcfcf; margin-top: 1rem"></div>
+        <div class="i-horizontal-line"></div>
         <!-- comment -->
-        <div style="margin-top: 2rem">
-          <div style="display: flex; gap: 1rem">
-            <div style="font-size: 20px; font-weight: 400">Comments</div>
-            <div style="border: 1px solid #cfcfcf"></div>
-            <div
-              style="
-                display: flex;
-                gap: 0.5rem;
-                align-items: center;
-                cursor: pointer;
-              "
-              (click)="showComment()"
-            >
+        <div class="i-comment-container">
+          <div class="i-comment-body">
+            <div class="i-comment-title">Comments</div>
+            <div class="i-comment-vertical-line"></div>
+            <div class="i-comment" (click)="showComment()">
               <img
                 src="{{
                   'assets/images/' +
@@ -178,7 +92,7 @@
                       : 'comment_not_active') +
                     '.svg'
                 }}"
-                style="width: 12px; height: 12px"
+                class="i-comment-img"
               />
               <div
                 class="i-comment-name"
@@ -187,6 +101,7 @@
                     ? { color: '#fe7912' }
                     : { color: '#85929c' }
                 "
+                id="btn-add-comment"
               >
                 Add Comment
               </div>
@@ -197,51 +112,28 @@
             <textarea
               placeholder="Write comment"
               rows="5"
-              style="
-                width: 100%;
-                border: none;
-                border-bottom: 1px solid black;
-                font-family: Roboto;
-              "
+              class="i-comment-inputfield"
+              required
+              id="txt-comment"
             ></textarea>
-            <div style="display: flex; gap: 1rem; margin-top: 1rem">
+            <div class="i-btn-container">
+              <button class="i-post-btn" id="btn-post-comment">POST</button>
               <button
-                style="
-                  background-color: #1d262d;
-                  border: none;
-                  width: 160px;
-                  color: white;
-                  height: 44px;
-                  border-radius: 4px;
-                  cursor: pointer;
-                "
-              >
-                POST
-              </button>
-              <button
-                style="
-                  border: 1px solid #1d262d;
-                  background-color: white;
-                  width: 160px;
-                  height: 44px;
-                  border-radius: 4px;
-                  cursor: pointer;
-                "
+                class="i-cancel-btn"
                 (click)="onCancel()"
+                id="btn-cancel-form"
               >
                 CANCEL
               </button>
             </div>
           </div>
           <!-- comment list -->
-          <div style="margin-top: 1rem">
-            <div style="font: size 14px; font-weight: 400">
+          <div class="i-comment-list" id="wrapper-comment">
+            <div class="i-comment-list-description">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.
             </div>
-            <div
-              style="font-size: 14px; color: #85929c; display: flex; gap: 2rem"
-            >
+            <div class="i-comment-list-info">
               <div>Posted on: 31-01-2022</div>
               <div>Added by: Pushpa Raj</div>
             </div>
@@ -249,39 +141,20 @@
         </div>
       </div>
     </div>
-    <div style="width: 29%">
-      <button
-        style="
-          border: none;
-          width: 100%;
-          height: 44px;
-          background-color: #1d262d;
-          color: white;
-          border-radius: 4px;
-          cursor: pointer;
-        "
-        (click)="EditIssue()"
-      >
+    <div class="i-right-body-info">
+      <button class="i-edit-btn" (click)="EditIssue()" id="lnk-edit-issue">
         EDIT ISSUE
       </button>
-      <div
-        style="
-          border: 1px solid #f7f8fa;
-          height: 300px;
-          background-color: #f7f8fa;
-          border-radius: 8px;
-          margin-top: 2.5rem;
-          padding: 1rem;
-        "
-      >
+      <div class="i-card">
         <div>
-          <div style="font-size: 16px; font-weight: 400">Status</div>
+          <div class="i-status">Status</div>
           <div>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="i-inputfield-width">
               <mat-label>Choose an option</mat-label>
               <mat-select
                 [(value)]="issueStatus[data.status - 1].name"
                 [disabled]="disableSelect.value"
+                id="ddl-status"
               >
                 <mat-option value="option1">Option 1</mat-option>
                 <mat-option value="option2" disabled
@@ -292,36 +165,30 @@
             </mat-form-field>
           </div>
         </div>
-        <div style="font-size: 16px; font-weight: 400">Assignee</div>
+        <div class="i-assignee">Assignee</div>
         <div>
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="i-inputfield-width">
             <mat-label>{{ issueStatus[data?.status - 1]?.name }}</mat-label>
-            <mat-select [disabled]="disableSelect.value">
-              <mat-option value="option1">Option 1</mat-option>
-              <mat-option value="option2" disabled
+            <mat-select [disabled]="disableSelect.value" id="ddl-assignee">
+              <mat-option value="option1" id="opt-ddl-assignee"
+                >Option 1</mat-option
+              >
+              <mat-option value="option2" id="opt-ddl-assignee" disabled
                 >Option 2 (disabled)</mat-option
               >
-              <mat-option value="option3">Option 3</mat-option>
+              <mat-option value="option3" id="opt-ddl-assignee"
+                >Option 3</mat-option
+              >
             </mat-select>
           </mat-form-field>
         </div>
         <div>
-          <div
-            style="font-size: 16px; color: #85929c; display: flex; gap: 1rem"
-          >
+          <div class="i-created-on">
             <div>Created On :</div>
             <div>{{ formatDate(data?.createdOn) }}</div>
           </div>
-          <div
-            style="
-              font-size: 16px;
-              color: #85929c;
-              display: flex;
-              gap: 1rem;
-              margin-top: 1rem;
-            "
-          >
-            <div>Created On :</div>
+          <div class="i-last-updated">
+            <div>Last Updated :</div>
             <div>31-02-2023</div>
           </div>
         </div>

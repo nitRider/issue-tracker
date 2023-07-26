@@ -81,3 +81,22 @@ h3 {
   font-weight: 700;
   margin: 2rem 0rem;
 }
+.project-not-found {
+  position: relative;
+  top: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  vertical-align: middle;
+}
+.create-project-btn {
+  background-color: white;
+  border: none;
+  width: 160px;
+  color: #2650a2;
+  // border: 1px solid #1d262d;
+  height: 44px;
+  border-radius: 4px;
+  cursor: pointer;
+}

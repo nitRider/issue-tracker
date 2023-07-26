@@ -8,6 +8,9 @@
 .s-container {
   background-color: #1d262d;
   height: 100%;
+  position: fixed;
+  top: 0;
+  padding-right: 3rem;
 }
 .s-icon {
   display: flex;

@@ -1,10 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import {
   issueRequest,
   loginRequest,
-  project,
   projectRequest,
   signUpRequest,
   updateIssueRequest
@@ -35,8 +33,8 @@ export class ApiService {
    * @returns
    */
 
-  getAllProject(): Observable<project[]> {
-    return this.http.get<project[]>(this.baseUrl + 'project');
+  getAllProject() {
+    return this.http.get(this.baseUrl + 'project');
   }
 
   createProject(projectBody: projectRequest) {

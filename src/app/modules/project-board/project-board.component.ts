@@ -1,3 +1,4 @@
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -54,7 +55,7 @@ export class ProjectBoardComponent implements OnInit {
     this.subscription = this.sharedService.data$.subscribe((data) => {
       this.filterData = this.issueList;
       this.searchText = data;
-      if (this.searchText) {
+      if (typeof this.searchText === 'string') {
         var temp = [];
         temp = this.filterData.filter((item) => {
           return item.assignee.name
@@ -99,7 +100,7 @@ export class ProjectBoardComponent implements OnInit {
 
   getProjectFromApi(pro: project) {
     this.service
-      .getUsersByTeamName(pro.projectOwner?.teamName)
+      .getUsersByTeamName(pro?.projectOwner?.teamName)
       .subscribe((res: any) => {
         this.assignees = res;
       });
@@ -109,6 +110,7 @@ export class ProjectBoardComponent implements OnInit {
     this.service.getAllIssues().subscribe((res: any) => {
       this.issueList = res;
       this.filterData = this.issueList;
+      this.sortIssueData(this.issueList);
     });
   }
 
@@ -187,5 +189,31 @@ export class ProjectBoardComponent implements OnInit {
 
     this.filterPriority = priorityFilter;
     this.filterData = [...this.filterPriority];
+  }
+  sortIssueData(data: any) {
+    if (data?.length > 0) {
+      data.sort(
+        (a: any, b: any) =>
+          new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime()
+      );
+    }
+  }
+  onDrop(event: any, status: number) {
+    console.log(event.previousContainer);
+    console.log(event.container);
+    console.log(event);
+
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      const task: any = event.item.data;
+      task.status = event.container.id;
+      this.filterData.splice(event.currentIndex, 0, task);
+      event.previousContainer.data.splice(event.previousIndex, 1);
+    }
   }
 }

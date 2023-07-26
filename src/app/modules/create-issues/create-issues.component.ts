@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
   ISSUESPRIORITY,
@@ -37,7 +38,7 @@ export class CreateIssuesComponent implements OnInit {
 
   projectList: project[] = [];
 
-  summaryPattern: string = '^[a-zA-Z0-9!/. |-]{5,150}$';
+  summaryPattern: string = '^[a-zA-Z0-9!/.|-]{5,150}$';
 
   issueForm = new FormGroup({
     summary: new FormControl('', [
@@ -54,7 +55,11 @@ export class CreateIssuesComponent implements OnInit {
     sprint: new FormControl('', [Validators.required]),
     storyPoint: new FormControl('', [Validators.required])
   });
-  constructor(private service: ApiService, private router: Router) {}
+  constructor(
+    private service: ApiService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.service.getAllUser().subscribe((res) => {
@@ -73,10 +78,23 @@ export class CreateIssuesComponent implements OnInit {
   }
   onSubmit() {
     if (this.issueForm.valid && !this.isSubmitting) {
-      this.service.createIssue(this.issueForm.value).subscribe((res) => {
-        console.log(res);
-        this.issueForm.reset();
-        this.router.navigate(['/']);
+      this.service.createIssue(this.issueForm.value).subscribe({
+        next: (res) => {
+          this.issueForm.reset();
+          this.isSubmitting = false;
+          this.snackBar.open('Created new issue successfully', 'Ok', {
+            duration: 3000
+          });
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          if (err?.status === 400) {
+            this.snackBar.open('issue already exist', 'Ok', {
+              duration: 3000
+            });
+          }
+          this.issueForm.reset();
+        }
       });
     }
   }

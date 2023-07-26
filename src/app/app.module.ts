@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -17,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CardComponent } from './common/components/card/card.component';
 import { HeaderComponent } from './common/components/header/header.component';
+import { LoaderComponent } from './common/components/loader/loader.component';
 import { MemberCardComponent } from './common/components/member-card/member-card.component';
 import { SidebarComponent } from './common/components/sidebar/sidebar.component';
 import { CreateIssuesComponent } from './modules/create-issues/create-issues.component';
@@ -24,7 +26,7 @@ import { CreateProjectComponent } from './modules/create-project/create-project.
 import { InsightsComponent } from './modules/insights/insights.component';
 import { IssueDetailsComponent } from './modules/issue-details/issue-details.component';
 import { ProjectBoardComponent } from './modules/project-board/project-board.component';
-import { LoaderComponent } from './common/components/loader/loader.component';
+import { PageNotFoundComponent } from './common/components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { LoaderComponent } from './common/components/loader/loader.component';
     MemberCardComponent,
     CreateProjectComponent,
     IssueDetailsComponent,
-    LoaderComponent
+    LoaderComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import { LoaderComponent } from './common/components/loader/loader.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    DragDropModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

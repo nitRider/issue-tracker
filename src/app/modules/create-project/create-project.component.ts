@@ -17,7 +17,7 @@ export class CreateProjectComponent implements OnInit {
 
   userData: any = [];
 
-  usernamePattern: string = '^[a-zA-Z0-9!/. |-]{5,150}$';
+  usernamePattern: string = '^[a-zA-Z0-9!/.|-]{5,150}$';
 
   projectForm = new FormGroup({
     projectName: new FormControl('', [
@@ -26,8 +26,8 @@ export class CreateProjectComponent implements OnInit {
       Validators.maxLength(150)
     ]),
     projectOwner: new FormControl('', [Validators.required]),
-    projectStartDate: new FormControl('', [Validators.required]),
-    projectEndDate: new FormControl('', [Validators.required])
+    projectStartDate: new FormControl(''),
+    projectEndDate: new FormControl('')
   });
 
   constructor(
@@ -48,24 +48,37 @@ export class CreateProjectComponent implements OnInit {
     if (this.projectForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
       var data = this.projectForm.value;
-      data.projectEndDate = data.projectEndDate.toISOString();
-      data.projectStartDate = data.projectStartDate.toISOString();
-      // this.projectForm.reset();
-      this.service.createProject(data).subscribe(
-        (res: any) => {
-          this.snackBar.open('res.message', 'Ok', {
+      if (
+        typeof data.projectEndDate === 'object' &&
+        data.projectEndDate !== null &&
+        'toISOString' in data.projectEndDate
+      ) {
+        data.projectEndDate = data.projectEndDate.toISOString();
+      }
+      if (
+        typeof data.projectStartDate === 'object' &&
+        data.projectStartDate !== null &&
+        'toISOString' in data.projectStartDate
+      )
+        data.projectStartDate = data.projectStartDate.toISOString();
+      this.service.createProject(data).subscribe({
+        next: (res: any) => {
+          this.isSubmitting = false;
+          this.snackBar.open('Created new project successfully', 'Ok', {
             duration: 3000
           });
+          this.projectForm.reset();
           this.router.navigate(['/']);
         },
-        (err: any) => {
+        error: (err: any) => {
           if (err?.status === 400) {
-            this.snackBar.open('projectID already exist', 'Undo', {
+            this.snackBar.open('projectID already exist', 'Ok', {
               duration: 3000
             });
           }
+          this.projectForm.reset();
         }
-      );
+      });
     }
   }
   reset() {

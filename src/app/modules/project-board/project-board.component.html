@@ -1,125 +1,157 @@
 <app-loader *ngIf="isLoading"></app-loader>
-
-<div class="container" *ngIf="!isLoading">
-  <div class="container-body">
-    <div class="p-detail">Project Details</div>
-    <button
-      class="view-btn"
-      (click)="sendDataToViewInsights(issueListOfGivenProject)"
-      id="lnk-view-insight"
-    >
-      VIEW INSIGHTS
-    </button>
-  </div>
-
-  <div class="p-body-container">
-    <div class="p-width">
-      <div class="p-title">Project Name</div>
-      <mat-form-field class="p-input-width">
-        <mat-label>Select Project</mat-label>
-        <mat-select
-          [(value)]="projectLists[0].projectName"
-          id="ddl-project-name"
-          placeholder="{{ project.projectName }}"
+<div *ngIf="projectLists.length > 0">
+  <div *ngIf="!isLoading">
+    <div class="container">
+      <div class="container-body">
+        <div class="p-detail">Project Details</div>
+        <button
+          class="view-btn"
+          (click)="sendDataToViewInsights(issueListOfGivenProject)"
+          id="lnk-view-insight"
         >
-          <mat-option
-            *ngFor="let pro of projectLists"
-            [value]="pro.projectID"
-            (onSelectionChange)="getProject(pro)"
-            id="opt-ddl-project-name"
-          >
-            {{ pro.projectName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="p-width">
-      <div class="p-title">Project Owner</div>
-      <mat-form-field class="p-input-width">
-        <input
-          matInput
-          value="{{ project?.projectOwner?.name || '' }}"
-          disabled="true"
-          id="project-owner"
-        />
-      </mat-form-field>
-    </div>
-  </div>
+          VIEW INSIGHTS
+        </button>
+      </div>
 
-  <div class="date-container">
-    <div class="p-title" id="start-date">
-      Start Date : {{ formatDate(project.projectStartDate) }}
-    </div>
-    <div class="vertical-line"></div>
-    <div class="p-title" id="end-date">
-      End Date : {{ formatDate(project.projectEndDate) }}
-    </div>
-  </div>
+      <div class="p-body-container">
+        <div class="p-width">
+          <div class="p-title">Project Name</div>
+          <mat-form-field class="p-input-width">
+            <mat-label>Select Project</mat-label>
+            <mat-select
+              [(value)]="projectLists[0].projectName"
+              id="ddl-project-name"
+              placeholder="{{ project.projectName }}"
+            >
+              <mat-option
+                *ngFor="let pro of projectLists"
+                [value]="pro.projectID"
+                (onSelectionChange)="getProject(pro)"
+                id="opt-ddl-project-name"
+              >
+                {{ pro.projectName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="p-width">
+          <div class="p-title">Project Owner</div>
+          <mat-form-field class="p-input-width">
+            <input
+              matInput
+              value="{{ project?.projectOwner?.name || '' }}"
+              disabled="true"
+              id="project-owner"
+            />
+          </mat-form-field>
+        </div>
+      </div>
 
-  <div class="filter-container">
-    <div class="p-width">
-      <mat-form-field class="p-input-width">
-        <mat-select (selectionChange)="onAssigneeSelectionChange($event)">
-          <mat-option
-            *ngFor="let assignee of assignees"
-            [value]="assignee.name"
-          >
-            {{ assignee.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div class="filter">Filter Assignee</div>
+      <div class="date-container">
+        <div class="p-title" id="start-date">
+          Start Date : {{ formatDate(project.projectStartDate) }}
+        </div>
+        <div class="vertical-line"></div>
+        <div class="p-title" id="end-date">
+          End Date : {{ formatDate(project.projectEndDate) }}
+        </div>
+      </div>
+
+      <div class="filter-container">
+        <div class="p-width">
+          <mat-form-field class="p-input-width">
+            <mat-select
+              (selectionChange)="onAssigneeSelectionChange($event)"
+              id="ddl-filter-assignee"
+            >
+              <mat-option
+                *ngFor="let assignee of assignees"
+                [value]="assignee.name"
+                id="opt-ddl-filter-assignee"
+              >
+                {{ assignee.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="filter">Filter Assignee</div>
+        </div>
+        <div class="p-width">
+          <mat-form-field class="p-input-width">
+            <mat-select
+              multiple
+              id="ddl-filter-priority"
+              (selectionChange)="onPrioritySelectionChange($event)"
+            >
+              <mat-option
+                *ngFor="let priority of issuePriority"
+                [value]="priority.id"
+                >{{ priority.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          <div class="filter">Filter Priority</div>
+        </div>
+      </div>
     </div>
-    <div class="p-width">
-      <mat-form-field class="p-input-width">
-        <mat-select
-          multiple
-          id="ddl-filter-priority"
-          (selectionChange)="onPrioritySelectionChange($event)"
+
+    <div class="jira-board">
+      <div
+        class="column"
+        cdkDropList
+        (cdkDropListDropped)="onDrop($event, 1)"
+        [cdkDropListData]="filterData"
+        id="wrapper-to-do"
+      >
+        <h3>TO-DO</h3>
+        <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
+          <li *ngIf="issue.status === 1" (click)="issueDetails()">
+            <app-card [data]="issue" id="card-issue"></app-card>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="column"
+        cdkDropList
+        (cdkDropListDropped)="onDrop($event, 2)"
+        [cdkDropListData]="filterData"
+        id="wrapper-development"
+      >
+        <h3>DEVELOPMENT</h3>
+        <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
+          <li *ngIf="issue.status === 2" (click)="issueDetails()">
+            <app-card [data]="issue" id="card-issue"></app-card>
+          </li>
+        </ul>
+      </div>
+      <div class="column" id="wrapper-testing">
+        <h3>TESTING</h3>
+        <div
+          cdkDropList
+          (cdkDropListDropped)="onDrop($event, 3)"
+          [cdkDropListData]="filterData"
         >
-          <mat-option
-            *ngFor="let priority of issuePriority"
-            [value]="priority.id"
-            >{{ priority.name }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
-      <div class="filter">Filter Priority</div>
+          <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
+            <li *ngIf="issue.status === 3" (click)="issueDetails()">
+              <app-card [data]="issue" id="card-issue"></app-card>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="column"
+        cdkDropList
+        (cdkDropListDropped)="onDrop($event, 4)"
+        [cdkDropListData]="filterData"
+        id="wrapper-completed"
+      >
+        <h3>COMPLETED</h3>
+        <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
+          <li *ngIf="issue.status === 4">
+            <app-card [data]="issue" id="card-issue"></app-card>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
-
-<div class="jira-board">
-  <div class="column">
-    <h3>TO-DO</h3>
-    <ul *ngFor="let issue of filterData">
-      <li *ngIf="issue.status === 1" (click)="issueDetails()">
-        <app-card [data]="issue"></app-card>
-      </li>
-    </ul>
-  </div>
-  <div class="column">
-    <h3>DEVELOPMENT</h3>
-    <ul *ngFor="let issue of filterData">
-      <li *ngIf="issue.status === 2" (click)="issueDetails()">
-        <app-card [data]="issue"></app-card>
-      </li>
-    </ul>
-  </div>
-  <div class="column">
-    <h3>TESTING</h3>
-    <ul *ngFor="let issue of filterData">
-      <li *ngIf="issue.status === 3" (click)="issueDetails()">
-        <app-card [data]="issue"></app-card>
-      </li>
-    </ul>
-  </div>
-  <div class="column">
-    <h3>COMPLETED</h3>
-    <ul *ngFor="let issue of filterData">
-      <li *ngIf="issue.status === 4">
-        <app-card [data]="issue"></app-card>
-      </li>
-    </ul>
-  </div>
-</div>
+<app-page-not-found *ngIf="projectLists.length < 1"></app-page-not-found>
