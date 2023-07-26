@@ -39,7 +39,8 @@
           <mat-form-field class="p-input-width">
             <input
               matInput
-              value="{{ project?.projectOwner?.name || '' }}"
+              type="text"
+              value="{{ project.projectOwner?.name }}"
               disabled="true"
               id="project-owner"
             />

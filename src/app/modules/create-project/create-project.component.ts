@@ -11,8 +11,6 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./create-project.component.scss']
 })
 export class CreateProjectComponent implements OnInit {
-  isSubmitting = false;
-
   ownerList: userRequest[] = [];
 
   userData: any = [];
@@ -22,12 +20,11 @@ export class CreateProjectComponent implements OnInit {
   projectForm = new FormGroup({
     projectName: new FormControl('', [
       Validators.required,
-      Validators.pattern(this.usernamePattern),
-      Validators.maxLength(150)
+      Validators.pattern(this.usernamePattern)
     ]),
     projectOwner: new FormControl('', [Validators.required]),
-    projectStartDate: new FormControl(''),
-    projectEndDate: new FormControl('')
+    projectStartDate: new FormControl('', [Validators.required]),
+    projectEndDate: new FormControl('', [Validators.required])
   });
 
   constructor(
@@ -45,8 +42,7 @@ export class CreateProjectComponent implements OnInit {
     });
   }
   onSubmit() {
-    if (this.projectForm.valid && !this.isSubmitting) {
-      this.isSubmitting = true;
+    if (this.projectForm.valid) {
       var data = this.projectForm.value;
       if (
         typeof data.projectEndDate === 'object' &&
@@ -63,7 +59,6 @@ export class CreateProjectComponent implements OnInit {
         data.projectStartDate = data.projectStartDate.toISOString();
       this.service.createProject(data).subscribe({
         next: (res: any) => {
-          this.isSubmitting = false;
           this.snackBar.open('Created new project successfully', 'Ok', {
             duration: 3000
           });
