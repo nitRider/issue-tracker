@@ -185,7 +185,10 @@
   cursor: pointer;
 }
 .i-comment-list {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+
+  border-bottom: 1px solid #cfcfcf;
+  padding-bottom: 1rem;
 }
 .i-comment-list-description {
   font: size 14px;

@@ -4,9 +4,9 @@
   <div>
     <mat-form-field class="input-form-width">
       <input
+        type="text"
         matInput
         placeholder="Add Summary"
-        maxlength="150"
         formControlName="summary"
         id="txt-summary"
       />
@@ -74,17 +74,19 @@
     <mat-form-field class="input-form-width">
       <mat-label>Write description</mat-label>
       <textarea
+        type="text"
         matInput
         maxlength="500"
         id="txa-description"
         formControlName="description"
+        (input)="getPasteData($event)"
       ></textarea>
       <mat-error
         *ngIf="
           issueForm.get('description')?.invalid &&
           issueForm.get('description')?.touched
         "
-        id="err-txt-project"
+        id="err-txt-description"
       >
         Please enter a valid description.
       </mat-error>
@@ -99,7 +101,7 @@
           <mat-option
             *ngFor="let priority of issuePriority"
             [value]="priority.id"
-            id="opt-ddl- priority "
+            id="opt-ddl-priority "
           >
             {{ priority.name }}
           </mat-option>
@@ -222,7 +224,7 @@
       class="create-btn"
       type="submit"
       [ngClass]="issueForm.invalid ? 'disable-btn' : 'create-btn'"
-      [disabled]="isSubmitting"
+      [disabled]="issueForm.invalid"
       id="btn-create-issue"
     >
       CREATE

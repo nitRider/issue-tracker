@@ -18,8 +18,6 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./create-issues.component.scss']
 })
 export class CreateIssuesComponent implements OnInit {
-  isSubmitting = false;
-
   issueTypes = ISSUETYPES;
 
   issuePriority = ISSUESPRIORITY;
@@ -47,7 +45,10 @@ export class CreateIssuesComponent implements OnInit {
     ]),
     type: new FormControl('', [Validators.required]),
     projectID: new FormControl(''),
-    description: new FormControl('', [Validators.required]),
+    description: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(500)
+    ]),
     priority: new FormControl('', [Validators.required]),
     status: new FormControl(1),
     assignee: new FormControl('', [Validators.required]),
@@ -77,11 +78,10 @@ export class CreateIssuesComponent implements OnInit {
     });
   }
   onSubmit() {
-    if (this.issueForm.valid && !this.isSubmitting) {
+    if (this.issueForm.valid) {
       this.service.createIssue(this.issueForm.value).subscribe({
         next: (res) => {
           this.issueForm.reset();
-          this.isSubmitting = false;
           this.snackBar.open('Created new issue successfully', 'Ok', {
             duration: 3000
           });
@@ -100,5 +100,14 @@ export class CreateIssuesComponent implements OnInit {
   }
   reset() {
     this.issueForm.reset();
+  }
+  getPasteData(data: any) {
+    const input = data.target as HTMLInputElement;
+    console.log(input.value.length);
+    const maxLength = parseInt(input.getAttribute('maxlength') || '0', 501);
+    if (input.value.length > maxLength) {
+      input.value = input.value.slice(0, maxLength);
+      this.issueForm.get('description')!.setValue(input.value);
+    }
   }
 }

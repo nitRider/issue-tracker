@@ -47,7 +47,6 @@ export class IssueDetailsComponent implements OnInit {
     this.service.getAllComments(this.data.projectID, this.data.id).subscribe({
       next: (res) => {
         this.commentList = res;
-        console.log(res);
       },
       error: (err) => {
         console.log(err);
@@ -79,12 +78,10 @@ export class IssueDetailsComponent implements OnInit {
         .createComment(this.data.projectID, this.data.id, data)
         .subscribe({
           next: (res) => {
-            // console.log(res);
             this.commentForm.reset();
             this.ngOnInit();
           },
           error: (err) => {
-            // console.log(err);
             this.commentForm.reset();
           }
         });

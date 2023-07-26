@@ -11,6 +11,7 @@
           placeholder="Project Name"
           formControlName="projectName"
           id="txt-project-name"
+          (input)="getPasteData($event)"
         />
         <mat-error
           *ngIf="
