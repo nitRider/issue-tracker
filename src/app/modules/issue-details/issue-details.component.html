@@ -29,7 +29,17 @@
                 style="width: 20px; height: 20px"
                 alt="error-img"
               />
-              <div class="i-type-name">Bug</div>
+              <div class="i-type-name">
+                {{
+                  data?.type === 1
+                    ? 'Bug'
+                    : data?.type === 2
+                    ? 'Task'
+                    : data?.type === 3
+                    ? 'Story'
+                    : ''
+                }}
+              </div>
             </div>
           </div>
           <div class="i-detail-container">

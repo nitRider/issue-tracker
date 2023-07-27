@@ -44,6 +44,7 @@ export class IssueDetailsComponent implements OnInit {
   ) {
     this.subscription = this.sharedService.data$.subscribe((data) => {
       this.data = data;
+      console.log(this.data);
     });
     this.isEdit = false;
   }
