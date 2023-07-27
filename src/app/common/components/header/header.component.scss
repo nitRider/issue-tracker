@@ -1,11 +1,13 @@
 .container {
   display: flex;
   justify-content: space-between;
-  border: 2px solid #cfcfcf;
-  padding-left: 1.5rem;
   height: 75px;
   align-items: center;
   background-color: #f7f8fa;
+  z-index: 99999;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 .hidden {
   display: none;
@@ -17,7 +19,7 @@
   display: flex;
   width: 85%;
   align-items: center;
-  margin-top: 10px;
+  padding-left: 1rem;
 }
 .border-line {
   border: 1px solid #cfcfcf;
@@ -48,4 +50,12 @@
   border-radius: 50%;
   width: 45px;
   height: 45px;
+}
+.h-logo-icon {
+  display: flex;
+  background-color: #1d262d;
+  align-items: center;
+  justify-content: center;
+  width: 16.64%;
+  height: 100%;
 }

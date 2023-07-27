@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   issueRequest,
@@ -34,7 +35,8 @@ export class InsightsComponent implements OnInit {
   constructor(
     private router: Router,
     private service: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +55,10 @@ export class InsightsComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.log(err.error.message);
+        if (err.error.message != undefined)
+          this.snackBar.open(err.error.message, 'Ok', {
+            duration: 4000
+          });
       }
     });
   }
@@ -100,7 +105,10 @@ export class InsightsComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        console.log(err);
+        if (err.error.message != undefined)
+          this.snackBar.open(err.error.message, 'Ok', {
+            duration: 4000
+          });
         this.isLoading = false;
       }
     });
@@ -121,7 +129,10 @@ export class InsightsComponent implements OnInit {
             this.assignee = temp;
           },
           error: (err) => {
-            console.log(err.error.message);
+            if (err.error.message != undefined)
+              this.snackBar.open(err.error.message, 'Ok', {
+                duration: 4000
+              });
           }
         });
     }

@@ -72,8 +72,6 @@ export class ProjectBoardComponent implements OnInit {
       this.filterData = this.issueList;
       this.searchText = data;
       const regexPattern = new RegExp(this.searchText, 'i');
-      console.log(regexPattern);
-
       if (typeof this.searchText === 'string') {
         var temp = [];
         temp = this.filterData.filter((item) => {

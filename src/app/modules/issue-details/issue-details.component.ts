@@ -81,7 +81,6 @@ export class IssueDetailsComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        console.log(err);
         if (err.error.message != undefined)
           this.snackBar.open(err.error.message, 'Ok', {
             duration: 4000

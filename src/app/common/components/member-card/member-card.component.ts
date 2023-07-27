@@ -9,9 +9,7 @@ export class MemberCardComponent implements OnInit {
   @Input() data: any;
   @Input() projectOwner: any;
 
-  constructor() {
-    console.log(this.data);
-  }
+  constructor() {}
 
   ngOnInit(): void {}
 }

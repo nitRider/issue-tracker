@@ -1,8 +1,7 @@
-<div style="display: flex; width: 100%; height: 100vh">
-  <div style="width: 19.5%"><app-sidebar></app-sidebar></div>
-  <div style="width: 100%">
-    <router-outlet style="display: flex; flex-direction: column">
-      <app-header></app-header>
-    </router-outlet>
+<app-header></app-header>
+<div class="container">
+  <div class="sidebar-width"><app-sidebar></app-sidebar></div>
+  <div class="outlet-container">
+    <router-outlet class="outlet-body"> </router-outlet>
   </div>
 </div>

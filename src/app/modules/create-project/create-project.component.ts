@@ -89,7 +89,6 @@ export class CreateProjectComponent implements OnInit {
   }
   getPasteData(data: any) {
     const input = data.target as HTMLInputElement;
-    console.log(input.value.length);
     const maxLength = parseInt(input.getAttribute('maxlength') || '0', 150);
     if (input.value.length > maxLength) {
       input.value = input.value.slice(0, maxLength);

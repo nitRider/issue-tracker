@@ -1,41 +1,55 @@
 <div class="container">
-  <div
-    class="content"
-    [ngStyle]="
-      currentRoute === '/'
-        ? { visibility: 'visible' }
-        : { visibility: 'hidden' }
-    "
-  >
+  <div class="h-logo-icon">
     <img
-      src="../../../../../assets/images/search.svg"
-      width="20px"
-      height="20px"
-      alt="search-icon"
+      src="../../../../assets/images/Logo.svg"
+      height="30px"
+      alt="logo-img"
     />
-    <div class="s-input-container">
-      <input
-        type="text"
-        placeholder="Search"
-        class="s-input"
-        (change)="search($event)"
-        id="txt-search"
-      />
-    </div>
   </div>
-  <div
-    class="border-line"
-    [ngStyle]="currentRoute === '/' ? { display: 'flex' } : { display: 'none' }"
-  ></div>
 
-  <div class="h-profile-container">
-    <div class="h-profile-name">Nitesh</div>
-    <div>
+  <div
+    style="width: 85%; display: flex; border: 2px solid #cfcfcf; height: 100%"
+  >
+    <div
+      class="content"
+      [ngStyle]="
+        currentRoute === '/'
+          ? { visibility: 'visible' }
+          : { visibility: 'hidden' }
+      "
+    >
       <img
-        src="../../../../../assets/images/model3.jpg"
-        class="h-profile-img"
-        alt="profile-img"
+        src="../../../../../assets/images/search.svg"
+        width="20px"
+        height="20px"
+        alt="search-icon"
       />
+      <div class="s-input-container">
+        <input
+          type="text"
+          placeholder="Search"
+          class="s-input"
+          (change)="search($event)"
+          id="txt-search"
+        />
+      </div>
+    </div>
+    <div
+      class="border-line"
+      [ngStyle]="
+        currentRoute === '/' ? { display: 'flex' } : { display: 'none' }
+      "
+    ></div>
+
+    <div class="h-profile-container">
+      <div class="h-profile-name">Nitesh</div>
+      <div style="display: flex; align-items: center">
+        <img
+          src="../../../../../assets/images/model3.jpg"
+          class="h-profile-img"
+          alt="profile-img"
+        />
+      </div>
     </div>
   </div>
 </div>
