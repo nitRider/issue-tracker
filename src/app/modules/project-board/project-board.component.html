@@ -105,7 +105,7 @@
         <h3>TO-DO</h3>
         <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
           <li *ngIf="issue.status === 1" (click)="issueDetails(issue)">
-            <app-card [data]="issue" id="card-issue"></app-card>
+            <app-card [data]="issue"></app-card>
           </li>
         </ul>
       </div>
@@ -119,7 +119,7 @@
         <h3>DEVELOPMENT</h3>
         <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
           <li *ngIf="issue.status === 2" (click)="issueDetails(issue)">
-            <app-card [data]="issue" id="card-issue"></app-card>
+            <app-card [data]="issue"></app-card>
           </li>
         </ul>
       </div>
@@ -132,7 +132,7 @@
         >
           <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
             <li *ngIf="issue.status === 3" (click)="issueDetails(issue)">
-              <app-card [data]="issue" id="card-issue"></app-card>
+              <app-card [data]="issue"></app-card>
             </li>
           </ul>
         </div>
@@ -147,7 +147,7 @@
         <h3>COMPLETED</h3>
         <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
           <li *ngIf="issue.status === 4" (click)="issueDetails(issue)">
-            <app-card [data]="issue" id="card-issue"></app-card>
+            <app-card [data]="issue"></app-card>
           </li>
         </ul>
       </div>
