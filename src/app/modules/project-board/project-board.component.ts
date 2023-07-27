@@ -61,12 +61,16 @@ export class ProjectBoardComponent implements OnInit {
     this.subscription = this.sharedService.data$.subscribe((data) => {
       this.filterData = this.issueList;
       this.searchText = data;
+      const regexPattern = new RegExp(this.searchText, 'i');
+      console.log(regexPattern);
+
       if (typeof this.searchText === 'string') {
         var temp = [];
         temp = this.filterData.filter((item) => {
-          return item.assignee.name
-            .toLowerCase()
-            .includes(this.searchText.toLowerCase());
+          return (
+            regexPattern.test(item.summary) ||
+            regexPattern.test(item.description)
+          );
         });
         this.filterData = temp;
       }
@@ -209,10 +213,6 @@ export class ProjectBoardComponent implements OnInit {
     }
   }
   onDrop(event: any, status: number) {
-    console.log(event.previousContainer);
-    console.log(event.container);
-    console.log(event);
-
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
