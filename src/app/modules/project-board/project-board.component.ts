@@ -53,6 +53,10 @@ export class ProjectBoardComponent implements OnInit {
 
   issueData!: allIssueRequest;
 
+  selectedAssigness: string = '';
+
+  selectedPriority: number[] = [];
+
   projectForm = new FormGroup({
     projectName: new FormControl(''),
     projectOwner: new FormControl({ value: '', disabled: true })
@@ -110,7 +114,6 @@ export class ProjectBoardComponent implements OnInit {
         projectOwner: this.projectLists[0].projectOwner?.name
       });
 
-      this.getIssueOfGivenProject(this.projectLists[0]?.projectID);
       this.getProjectFromApi(this.projectLists[0]);
 
       this.isLoading = false;
@@ -120,7 +123,6 @@ export class ProjectBoardComponent implements OnInit {
 
   getProject(project: project) {
     this.project = project;
-    this.getIssueOfGivenProject(project.projectID);
   }
   formatDate(date: Date): string {
     return this.datePipe.transform(date, 'dd-MM-yyyy') || '';
@@ -142,83 +144,10 @@ export class ProjectBoardComponent implements OnInit {
     });
   }
 
-  sendDataToViewInsights(data: any) {
-    var temp = data;
-    var todo: any[] = [];
-    var development: any[] = [];
-    var testing: any[] = [];
-    var completed: any[] = [];
-    var status1: any;
-    temp = temp.filter((item: any) => {
-      if (item?.status === 1) {
-        todo.push(1);
-      } else if (item?.status === 2) {
-        development.push(1);
-      } else if (item?.status === 3) {
-        testing.push(1);
-      } else if (item?.status === 4) {
-        completed.push(1);
-      }
-    });
-    status1 = {
-      todo: todo,
-      development: development,
-      testing: testing,
-      completed: completed,
-      total: data?.length
-    };
-
-    data = { member: this.assignees, owner: this.project, status: status1 };
-    this.sharedService.setInsightData(data);
-    this.router.navigate(['/view-insights'], {
-      queryParams: { projectID: this.project.projectID }
-    });
-  }
-  getIssueOfGivenProject(projectID: any) {
-    this.service.getIssuesForAGivenProject(projectID).subscribe((res: any) => {
-      this.issueListOfGivenProject = res;
-    });
-  }
   getAsyncProjectData(): Observable<any> {
     return this.service.getAllProject();
   }
-  onAssigneeSelectionChange(event: any) {
-    var filterList: any[] = [];
-    if (this.filterPriority.length) {
-      filterList = this.filterPriority.filter((user) => {
-        return user.assignee.name === event.value;
-      });
-    } else {
-      filterList = this.issueList.filter((user) => {
-        return user.assignee.name === event.value;
-      });
-    }
-    this.filterAssignee = filterList;
-    this.filterData = [...this.filterAssignee];
-  }
-  onPrioritySelectionChange(event: any) {
-    var priorityFilter: any[] = [];
-    if (this.filterAssignee.length) {
-      var d: any[] = [];
-      event.value.forEach((ele: any) => {
-        var temp = this.filterAssignee.filter((user) => {
-          return user.priority === ele;
-        });
-        d = [...temp, ...d];
-      });
-      priorityFilter = d;
-    } else {
-      event.value.forEach((ele: any) => {
-        var temp = this.issueList.filter((user) => {
-          return user.priority === ele;
-        });
-        priorityFilter = [...temp, ...priorityFilter];
-      });
-    }
 
-    this.filterPriority = priorityFilter;
-    this.filterData = [...this.filterPriority];
-  }
   sortIssueData(data: any) {
     if (data?.length > 0) {
       data.sort(
@@ -240,5 +169,17 @@ export class ProjectBoardComponent implements OnInit {
       this.filterData.splice(event.currentIndex, 0, task);
       event.previousContainer.data.splice(event.previousIndex, 1);
     }
+  }
+  onFilter() {
+    var temp = [];
+    temp = this.issueList.filter((task) => {
+      return (
+        (this.selectedAssigness.includes(task.assignee.name) ||
+          this.selectedAssigness === '') &&
+        (this.selectedPriority.length === 0 ||
+          this.selectedPriority.includes(task.priority))
+      );
+    });
+    this.filterData = temp;
   }
 }

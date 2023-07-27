@@ -3,11 +3,7 @@
     <div class="container">
       <div class="container-body">
         <div class="p-detail">Project Details</div>
-        <button
-          class="view-btn"
-          (click)="sendDataToViewInsights(issueListOfGivenProject)"
-          id="lnk-view-insight"
-        >
+        <button class="view-btn" (click)="viewInsights()" id="lnk-view-insight">
           VIEW INSIGHTS
         </button>
       </div>
@@ -62,7 +58,8 @@
         <div class="p-width">
           <mat-form-field class="p-input-width">
             <mat-select
-              (selectionChange)="onAssigneeSelectionChange($event)"
+              (selectionChange)="onFilter()"
+              [(ngModel)]="selectedAssigness"
               id="ddl-filter-assignee"
             >
               <mat-option
@@ -81,7 +78,8 @@
             <mat-select
               multiple
               id="ddl-filter-priority"
-              (selectionChange)="onPrioritySelectionChange($event)"
+              [(ngModel)]="selectedPriority"
+              (selectionChange)="onFilter()"
             >
               <mat-option
                 *ngFor="let priority of issuePriority"
