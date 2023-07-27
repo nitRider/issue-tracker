@@ -42,7 +42,7 @@
               type="text"
               formControlName="projectOwner"
               [attr.disabled]="
-                projectForm.get('projectOwner')?.disabled ? true : null
+                projectForm.get('projectOwner')?.disabled ? true : true
               "
               id="project-owner"
             />
@@ -87,6 +87,7 @@
             >
               <mat-option
                 *ngFor="let priority of issuePriority"
+                id="opt-ddl-filter-priority"
                 [value]="priority.id"
                 >{{ priority.name }}</mat-option
               >
