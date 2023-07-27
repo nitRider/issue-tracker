@@ -27,6 +27,8 @@ export const ISSUESSTATUS: Status[] = [
 ];
 
 export const SPRINTS: string[] = [
+  'Sprint 1',
+  'Sprint 2',
   'Sprint 21',
   'Sprint 22',
   'Sprint 23',

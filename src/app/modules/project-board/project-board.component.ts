@@ -1,6 +1,7 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { ISSUESPRIORITY } from 'src/app/common/utils/common.constant';
@@ -46,6 +47,11 @@ export class ProjectBoardComponent implements OnInit {
 
   searchText: string = '';
 
+  projectForm = new FormGroup({
+    projectName: new FormControl(''),
+    projectOwner: new FormControl({ value: '', disabled: true })
+  });
+
   constructor(
     private router: Router,
     private service: ApiService,
@@ -82,6 +88,11 @@ export class ProjectBoardComponent implements OnInit {
         this.projectLists.push(ele);
       });
       this.project = this.projectLists[0];
+      this.projectForm.patchValue({
+        projectName: this.projectLists[0].projectID,
+        projectOwner: this.projectLists[0].projectOwner?.name
+      });
+
       this.getIssueOfGivenProject(this.projectLists[0]?.projectID);
       this.getProjectFromApi(this.projectLists[0]);
 
@@ -170,7 +181,6 @@ export class ProjectBoardComponent implements OnInit {
     var priorityFilter: any[] = [];
     if (this.filterAssignee.length) {
       var d: any[] = [];
-      console.log(event.value);
       event.value.forEach((ele: any) => {
         var temp = this.filterAssignee.filter((user) => {
           return user.priority === ele;

@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ISSUESSTATUS } from 'src/app/common/utils/common.constant';
+import { updateIssueRequest, userRequest } from 'src/app/models/project.model';
 import { ApiService } from 'src/app/services/api.service';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -17,7 +19,7 @@ export class IssueDetailsComponent implements OnInit {
 
   isCommentFieldActive: boolean = false;
 
-  data: any;
+  data!: any;
 
   updateOn?: Date;
 
@@ -29,11 +31,16 @@ export class IssueDetailsComponent implements OnInit {
 
   isEdit: boolean = false;
 
+  userList: userRequest[] = [];
+
+  userData: any = [];
+
   constructor(
     private router: Router,
     private sharedService: SharedService,
     private datePipe: DatePipe,
-    private service: ApiService
+    private service: ApiService,
+    private snackBar: MatSnackBar
   ) {
     this.subscription = this.sharedService.data$.subscribe((data) => {
       this.data = data;
@@ -45,6 +52,11 @@ export class IssueDetailsComponent implements OnInit {
     comment: new FormControl('', [Validators.required])
   });
 
+  updateForm = new FormGroup({
+    assignee: new FormControl(''),
+    status: new FormControl('')
+  });
+
   ngOnInit(): void {
     this.isCommentFieldActive = false;
     this.service.getAllComments(this.data.projectID, this.data.id).subscribe({
@@ -52,7 +64,24 @@ export class IssueDetailsComponent implements OnInit {
         this.commentList = res;
       },
       error: (err) => {
-        console.log(err);
+        this.snackBar.open(err.error.message, 'Ok', {
+          duration: 3000
+        });
+      }
+    });
+
+    this.service.getAllUser().subscribe({
+      next: (res) => {
+        this.userData = res;
+        this.userData.forEach((ele: any) => {
+          this.userList.push(ele);
+        });
+        if (this.data !== undefined) {
+          this.updateForm.patchValue({
+            assignee: this.data.assignee.id,
+            status: this.data.status
+          });
+        }
       }
     });
   }
@@ -63,9 +92,7 @@ export class IssueDetailsComponent implements OnInit {
     this.router.navigate(['/']);
   }
   EditIssue() {
-    console.log(this.data);
     this.isEdit = true;
-    // this.router.navigate(['/update-issue']);
   }
   showComment() {
     this.isCommentFieldActive = true;
@@ -90,6 +117,28 @@ export class IssueDetailsComponent implements OnInit {
             this.commentForm.reset();
           }
         });
+    }
+  }
+
+  updateIssue(assignee: any, status: any) {
+    if (assignee != '' || status != '') {
+      var obj: updateIssueRequest = {};
+      if (assignee != '') obj.assignee = assignee;
+      if (status != '') obj.status = status;
+      if (obj) {
+        this.service.updateIssueWithIssueID(this.data.id, obj).subscribe({
+          next: (res: any) => {
+            this.snackBar.open(res.message, 'Ok', {
+              duration: 3000
+            });
+          },
+          error: (err) => {
+            this.snackBar.open(err.error.message, 'Ok', {
+              duration: 3000
+            });
+          }
+        });
+      }
     }
   }
 }

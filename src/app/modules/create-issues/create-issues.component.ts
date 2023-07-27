@@ -70,7 +70,6 @@ export class CreateIssuesComponent implements OnInit {
       this.userData.forEach((ele: any) => {
         this.userList.push(ele);
       });
-      console.log(this.userList);
     });
 
     this.service.getAllProject().subscribe((res) => {
@@ -86,7 +85,7 @@ export class CreateIssuesComponent implements OnInit {
         projectID: this.data.projectID,
         description: this.data.description,
         priority: this.data.priority,
-        assignee: this.data.assignee,
+        assignee: this.data.assignee.id,
         tags: this.data.tags,
         sprint: this.data.sprint,
         storyPoint: this.data.storyPoint

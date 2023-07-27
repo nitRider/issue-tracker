@@ -17,6 +17,7 @@ export interface issueRequest {
   storyPoint: number;
 }
 export interface allIssueRequest {
+  id?: string;
   summary: string;
   type: number;
   projectID?: string;

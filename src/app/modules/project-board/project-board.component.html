@@ -13,13 +13,13 @@
         </button>
       </div>
 
-      <div class="p-body-container">
+      <div class="p-body-container" [formGroup]="projectForm">
         <div class="p-width">
           <div class="p-title">Project Name</div>
           <mat-form-field class="p-input-width">
             <mat-label>Select Project</mat-label>
             <mat-select
-              [(value)]="projectLists[0].projectName"
+              formControlName="projectName"
               id="ddl-project-name"
               placeholder="{{ project.projectName }}"
             >
@@ -40,8 +40,10 @@
             <input
               matInput
               type="text"
-              value="{{ project.projectOwner?.name }}"
-              disabled="true"
+              formControlName="projectOwner"
+              [attr.disabled]="
+                projectForm.get('projectOwner')?.disabled ? true : null
+              "
               id="project-owner"
             />
           </mat-form-field>
