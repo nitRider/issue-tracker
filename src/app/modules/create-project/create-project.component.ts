@@ -17,6 +17,8 @@ export class CreateProjectComponent implements OnInit {
 
   usernamePattern: string = '^[a-zA-Z0-9!/.|-]{5,150}$';
 
+  isLoading: boolean = false;
+
   projectForm = new FormGroup({
     projectName: new FormControl('', [
       Validators.required,
@@ -65,12 +67,14 @@ export class CreateProjectComponent implements OnInit {
         'toISOString' in data.projectStartDate
       )
         data.projectStartDate = data.projectStartDate.toISOString();
+      this.isLoading = true;
+
       this.service.createProject(data).subscribe({
         next: (res: any) => {
           this.snackBar.open('Created new project successfully', 'Ok', {
             duration: 3000
           });
-          this.projectForm.reset();
+          this.isLoading = false;
           this.router.navigate(['/']);
         },
         error: (err: any) => {
@@ -79,7 +83,7 @@ export class CreateProjectComponent implements OnInit {
               duration: 3000
             });
           }
-          this.projectForm.reset();
+          this.isLoading = false;
         }
       });
     }
