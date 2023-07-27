@@ -2,8 +2,8 @@ import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ISSUESPRIORITY } from 'src/app/common/utils/common.constant';
 import {
   allIssueRequest,
@@ -43,7 +43,7 @@ export class ProjectBoardComponent implements OnInit {
 
   filterData: any[] = [];
 
-  private subscription: Subscription;
+  // private subscription: Subscription;
 
   searchText: string = '';
 
@@ -57,6 +57,8 @@ export class ProjectBoardComponent implements OnInit {
 
   selectedPriority: number[] = [];
 
+  currentRoute: string;
+
   projectForm = new FormGroup({
     projectName: new FormControl(''),
     projectOwner: new FormControl({ value: '', disabled: true })
@@ -68,19 +70,16 @@ export class ProjectBoardComponent implements OnInit {
     private datePipe: DatePipe,
     private sharedService: SharedService
   ) {
-    this.subscription = this.sharedService.data$.subscribe((data) => {
-      this.filterData = this.issueList;
-      this.searchText = data;
-      const regexPattern = new RegExp(this.searchText, 'i');
-      if (typeof this.searchText === 'string') {
-        var temp = [];
-        temp = this.filterData.filter((item) => {
-          return (
-            regexPattern.test(item.summary) ||
-            regexPattern.test(item.description)
-          );
-        });
-        this.filterData = temp;
+    // this.subscription = this.sharedService.data$.subscribe((data) => {
+    //   this.searchText = data;
+
+    // });
+
+    this.currentRoute = '';
+    this.searchText = '';
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.url;
       }
     });
   }
@@ -179,5 +178,19 @@ export class ProjectBoardComponent implements OnInit {
       );
     });
     this.filterData = temp;
+  }
+  search(event: any) {
+    this.filterData = this.issueList;
+    this.searchText = event.target.value.trim();
+    const regexPattern = new RegExp(this.searchText, 'i');
+    if (typeof this.searchText === 'string') {
+      var temp = [];
+      temp = this.filterData.filter((item) => {
+        return (
+          regexPattern.test(item.summary) || regexPattern.test(item.description)
+        );
+      });
+      this.filterData = temp;
+    }
   }
 }

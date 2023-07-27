@@ -114,7 +114,7 @@ export class CreateIssuesComponent implements OnInit {
     this.route.queryParamMap.subscribe((params) => {
       this.issueID = params.get('id') as string;
     });
-    if (this.issueID.trim() != '' || typeof this.issueID.trim() != 'number') {
+    if (this.issueID != '' || this.issueID != null) {
       this.service.getIssuesWithIssueID(this.issueID).subscribe({
         next: (res: any) => {
           this.issueData = res;

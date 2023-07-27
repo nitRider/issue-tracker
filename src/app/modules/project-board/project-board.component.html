@@ -1,3 +1,25 @@
+<div
+  class="content"
+  [ngStyle]="
+    currentRoute === '/' ? { visibility: 'visible' } : { visibility: 'hidden' }
+  "
+>
+  <img
+    src="../../../../../assets/images/search.svg"
+    width="20px"
+    height="20px"
+    alt="search-icon"
+  />
+  <div class="s-input-container">
+    <input
+      type="text"
+      placeholder="Search"
+      class="s-input"
+      (change)="search($event)"
+      id="txt-search"
+    />
+  </div>
+</div>
 <div *ngIf="projectLists.length > 0">
   <div *ngIf="!isLoading">
     <div class="container">
