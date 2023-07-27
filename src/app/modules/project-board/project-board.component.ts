@@ -47,6 +47,12 @@ export class ProjectBoardComponent implements OnInit {
 
   searchText: string = '';
 
+  activeIssueDetail: boolean = false;
+
+  activeViewInsights: boolean = false;
+
+  issueData!: allIssueRequest;
+
   projectForm = new FormGroup({
     projectName: new FormControl(''),
     projectOwner: new FormControl({ value: '', disabled: true })
@@ -78,10 +84,16 @@ export class ProjectBoardComponent implements OnInit {
   }
 
   viewInsights() {
-    this.router.navigate(['/view-insights']);
+    this.router.navigate(['/view-insights'], {
+      queryParams: { projectID: this.project.projectID }
+    });
   }
-  issueDetails() {
-    this.router.navigate(['/issue-details']);
+  issueDetails(issueData: allIssueRequest) {
+    this.activeIssueDetail = true;
+    this.issueData = issueData;
+    this.router.navigate(['/issue-details'], {
+      queryParams: { projectID: issueData.projectID, id: issueData.id }
+    });
   }
 
   ngOnInit(): void {
@@ -92,6 +104,7 @@ export class ProjectBoardComponent implements OnInit {
         this.projectLists.push(ele);
       });
       this.project = this.projectLists[0];
+
       this.projectForm.patchValue({
         projectName: this.projectLists[0].projectID,
         projectOwner: this.projectLists[0].projectOwner?.name
@@ -157,7 +170,9 @@ export class ProjectBoardComponent implements OnInit {
 
     data = { member: this.assignees, owner: this.project, status: status1 };
     this.sharedService.setInsightData(data);
-    this.router.navigate(['/view-insights']);
+    this.router.navigate(['/view-insights'], {
+      queryParams: { projectID: this.project.projectID }
+    });
   }
   getIssueOfGivenProject(projectID: any) {
     this.service.getIssuesForAGivenProject(projectID).subscribe((res: any) => {

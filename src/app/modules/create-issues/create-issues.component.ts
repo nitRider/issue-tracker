@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ISSUESPRIORITY,
   ISSUESSTATUS,
@@ -9,7 +9,11 @@ import {
   ISSUETYPES,
   SPRINTS
 } from 'src/app/common/utils/common.constant';
-import { project, userRequest } from 'src/app/models/project.model';
+import {
+  allIssueRequest,
+  project,
+  userRequest
+} from 'src/app/models/project.model';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -18,7 +22,7 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./create-issues.component.scss']
 })
 export class CreateIssuesComponent implements OnInit {
-  @Input() data: any;
+  // @Input() data: any;
 
   issueTypes = ISSUETYPES;
 
@@ -39,6 +43,12 @@ export class CreateIssuesComponent implements OnInit {
   projectList: project[] = [];
 
   summaryPattern: string = '^[a-zA-Z0-9!/. |-]{5,150}$';
+
+  issueID: string = '';
+
+  issueData!: allIssueRequest;
+
+  isLoading: boolean = true;
 
   issueForm = new FormGroup({
     summary: new FormControl('', [
@@ -61,54 +71,101 @@ export class CreateIssuesComponent implements OnInit {
   constructor(
     private service: ApiService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.service.getAllUser().subscribe((res) => {
-      this.userData = res;
-      this.userData.forEach((ele: any) => {
-        this.userList.push(ele);
-      });
+    this.service.getAllUser().subscribe({
+      next: (res) => {
+        this.userData = res;
+        this.userData.forEach((ele: any) => {
+          this.userList.push(ele);
+        });
+        this.isLoading = false;
+      },
+      error: (err) => {
+        if (err.error.message != undefined) {
+          this.snackBar.open(err.error.message, 'Ok', {
+            duration: 3000
+          });
+        }
+        this.isLoading = false;
+      }
     });
 
-    this.service.getAllProject().subscribe((res) => {
-      this.projectData = res;
-      this.projectData.forEach((ele: any) => {
-        this.projectList.push(ele);
-      });
+    this.service.getAllProject().subscribe({
+      next: (res) => {
+        this.projectData = res;
+        this.projectData.forEach((ele: any) => {
+          this.projectList.push(ele);
+        });
+        this.isLoading = false;
+      },
+      error: (err) => {
+        if (err.error.message != undefined) {
+          this.snackBar.open(err.error.message, 'Ok', {
+            duration: 3000
+          });
+        }
+        this.isLoading = false;
+      }
     });
-    if (this.data !== undefined) {
-      this.issueForm.patchValue({
-        summary: this.data.summary,
-        type: this.data.type,
-        projectID: this.data.projectID,
-        description: this.data.description,
-        priority: this.data.priority,
-        assignee: this.data.assignee.id,
-        tags: this.data.tags,
-        sprint: this.data.sprint,
-        storyPoint: this.data.storyPoint
+    this.route.queryParamMap.subscribe((params) => {
+      this.issueID = params.get('id') as string;
+    });
+    if (this.issueID.trim() != '' || typeof this.issueID.trim() != 'number') {
+      this.service.getIssuesWithIssueID(this.issueID).subscribe({
+        next: (res: any) => {
+          this.issueData = res;
+          if (this.issueData != undefined) {
+            this.issueForm.patchValue({
+              summary: this.issueData.summary,
+              type: this.issueData.type,
+              projectID: this.issueData.projectID,
+              description: this.issueData.description,
+              priority: this.issueData.priority,
+              assignee: this.issueData.assignee.id,
+              tags: this.issueData.tags,
+              sprint: this.issueData.sprint,
+              storyPoint: this.issueData.storyPoint
+            });
+          }
+          this.isLoading = false;
+        },
+        error: (err) => {
+          if (err.error.message != undefined) {
+            this.snackBar.open(err.error.message, 'Ok', {
+              duration: 3000
+            });
+          }
+          this.isLoading = false;
+        }
       });
     }
   }
   onSubmit() {
     if (this.issueForm.valid) {
+      this.isLoading = true;
+
       this.service.createIssue(this.issueForm.value).subscribe({
         next: (res) => {
           this.issueForm.reset();
+          this.isLoading = false;
+
           this.snackBar.open('Created new issue successfully', 'Ok', {
             duration: 3000
           });
           this.router.navigate(['/']);
         },
         error: (err) => {
-          if (err?.status === 400) {
-            this.snackBar.open('issue already exist', 'Ok', {
+          if (err.error.message != undefined) {
+            this.snackBar.open(err.error.message, 'Ok', {
               duration: 3000
             });
           }
           this.issueForm.reset();
+          this.isLoading = false;
         }
       });
     }
@@ -118,8 +175,7 @@ export class CreateIssuesComponent implements OnInit {
   }
   getPasteData(data: any) {
     const input = data.target as HTMLInputElement;
-    console.log(input.value.length);
-    const maxLength = parseInt(input.getAttribute('maxlength') || '0', 501);
+    const maxLength = parseInt(input.getAttribute('maxlength') || '0', 500);
     if (input.value.length > maxLength) {
       input.value = input.value.slice(0, maxLength);
       this.issueForm.get('description')!.setValue(input.value);
@@ -127,12 +183,13 @@ export class CreateIssuesComponent implements OnInit {
   }
   onUpdate() {
     if (this.issueForm.valid) {
+      this.isLoading = true;
       var updateData = this.issueForm.value;
       delete updateData.projectID;
-
-      console.log(this.issueForm.value);
-      this.service.updateIssueWithIssueID(this.data.id, updateData).subscribe({
+      this.service.updateIssueWithIssueID(this.issueID, updateData).subscribe({
         next: (res) => {
+          this.isLoading = false;
+
           this.issueForm.reset();
           this.snackBar.open('Updated issue successfully', 'Ok', {
             duration: 3000
@@ -140,8 +197,12 @@ export class CreateIssuesComponent implements OnInit {
           this.router.navigate(['/']);
         },
         error: (err) => {
-          console.log(err);
+          if (err.error.message != undefined)
+            this.snackBar.open(err.error.message, 'Ok', {
+              duration: 3000
+            });
           this.issueForm.reset();
+          this.isLoading = false;
         }
       });
     }

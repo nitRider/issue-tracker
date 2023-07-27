@@ -1,4 +1,4 @@
-<div class="url-container">
+<div class="url-container" *ngIf="!isLoading">
   <div class="url-container-body">
     <div class="i-board-url" (click)="back()">Project Board</div>
     <div>/</div>
@@ -10,7 +10,7 @@
       <mat-card class="i-chart-card-container">
         <div class="i-chart-card-title">HU 22.0 Angular Track</div>
         <div class="i-chart-card-issue" id="count-total">
-          Total Number of Issues : {{ data?.status?.total }}
+          Total Number of Issues : {{ totalIssue }}
         </div>
         <hr />
         <table class="i-table">
@@ -23,16 +23,16 @@
           </tr>
           <tr>
             <td class="i-todo" id="count-to-do">
-              {{ data?.status?.todo?.length }}
+              {{ statusList.todo?.length }}
             </td>
             <td class="i-development" id="count-development">
-              {{ data?.status?.development?.length }}
+              {{ statusList.development?.length }}
             </td>
             <td class="i-testing" id="count-testing">
-              {{ data?.status?.testing?.length }}
+              {{ statusList.testing?.length }}
             </td>
             <td class="i-completed" id="count-completed">
-              {{ data?.status?.completed?.length }}
+              {{ statusList.completed?.length }}
             </td>
           </tr>
         </table>
@@ -45,10 +45,10 @@
           <div
             id="i-todo-bg"
             [style.width]="
-              (data?.status?.todo?.length / data?.status?.total) * 100 + '%'
+              (statusList.todo?.length / statusList.total) * 100 + '%'
             "
             [ngClass]="
-              (data?.status?.todo?.length / data?.status?.total) * 100 < 100
+              (statusList.todo?.length / statusList.total) * 100 < 100
                 ? 'i-border-left'
                 : 'i-border-left i-border-right'
             "
@@ -56,12 +56,10 @@
           <div
             id="i-development-bg"
             [style.width]="
-              (data?.status?.development?.length / data?.status?.total) * 100 +
-              '%'
+              (statusList.development?.length / statusList.total) * 100 + '%'
             "
             [ngClass]="
-              (data?.status?.development?.length / data?.status?.total) * 100 <
-              100
+              (statusList.development?.length / statusList.total) * 100 < 100
                 ? ''
                 : 'i-border-left i-border-right'
             "
@@ -69,10 +67,10 @@
           <div
             id="i-testing-bg"
             [style.width]="
-              (data?.status?.testing?.length / data?.status?.total) * 100 + '%'
+              (statusList.testing?.length / statusList.total) * 100 + '%'
             "
             [ngClass]="
-              (data?.status?.testing?.length / data?.status?.total) * 100 < 100
+              (statusList.testing?.length / statusList.total) * 100 < 100
                 ? ''
                 : 'i-border-left i-border-right'
             "
@@ -80,12 +78,10 @@
           <div
             id="i-completed-bg"
             [style.width]="
-              (data?.status?.completed?.length / data?.status?.total) * 100 +
-              '%'
+              (statusList.completed?.length / statusList.total) * 100 + '%'
             "
             [ngClass]="
-              (data?.status?.completed?.length / data?.status?.total) * 100 <
-              100
+              (statusList.completed?.length / statusList.total) * 100 < 100
                 ? 'i-border-right'
                 : 'i-border-right i-border-left'
             "
@@ -116,19 +112,18 @@
     <div class="i-m-container">
       <mat-card class="i-m-card">
         <div class="i-m-card-title">Team Members</div>
-        <div class="i-m-card-total-member">
-          {{ data?.member?.length + 1 }} Members
-        </div>
+        <div class="i-m-card-total-member">{{ totalMember }} Members</div>
         <app-member-card
           id="wrapper-project-owner"
-          [projectOwner]="data?.owner"
+          [projectOwner]="project[0]"
         ></app-member-card
         ><br />
         <hr />
-        <div *ngFor="let user of data?.member" id="wrapper-team-members">
+        <div *ngFor="let user of assignee" id="wrapper-team-members">
           <app-member-card [data]="user"></app-member-card>
         </div>
       </mat-card>
     </div>
   </div>
 </div>
+<app-loader *ngIf="isLoading"></app-loader>

@@ -34,11 +34,19 @@ export class CreateProjectComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.getAllUser().subscribe((res) => {
-      this.userData = res;
-      this.userData.forEach((ele: any) => {
-        this.ownerList.push(ele);
-      });
+    this.service.getAllUser().subscribe({
+      next: (res) => {
+        this.userData = res;
+        this.userData.forEach((ele: any) => {
+          this.ownerList.push(ele);
+        });
+      },
+      error: (err) => {
+        if (err.error.message != undefined)
+          this.snackBar.open(err.error.message, 'Ok', {
+            duration: 3000
+          });
+      }
     });
   }
   onSubmit() {
@@ -66,8 +74,8 @@ export class CreateProjectComponent implements OnInit {
           this.router.navigate(['/']);
         },
         error: (err: any) => {
-          if (err?.status === 400) {
-            this.snackBar.open('projectID already exist', 'Ok', {
+          if (err.error.message != undefined) {
+            this.snackBar.open(err.error.message, 'Ok', {
               duration: 3000
             });
           }

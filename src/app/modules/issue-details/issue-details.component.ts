@@ -2,12 +2,14 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ISSUESSTATUS } from 'src/app/common/utils/common.constant';
-import { updateIssueRequest, userRequest } from 'src/app/models/project.model';
+import {
+  allIssueRequest,
+  updateIssueRequest,
+  userRequest
+} from 'src/app/models/project.model';
 import { ApiService } from 'src/app/services/api.service';
-import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-issue-details',
@@ -19,13 +21,13 @@ export class IssueDetailsComponent implements OnInit {
 
   isCommentFieldActive: boolean = false;
 
-  data!: any;
+  data: any;
+
+  issueData!: allIssueRequest;
 
   updateOn?: Date;
 
   issueStatus = ISSUESSTATUS;
-
-  private subscription: Subscription;
 
   commentList: any = [];
 
@@ -35,17 +37,19 @@ export class IssueDetailsComponent implements OnInit {
 
   userData: any = [];
 
+  projectID: string = '';
+
+  id: string = '';
+
+  isLoading: boolean = true;
+
   constructor(
     private router: Router,
-    private sharedService: SharedService,
     private datePipe: DatePipe,
     private service: ApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {
-    this.subscription = this.sharedService.data$.subscribe((data) => {
-      this.data = data;
-      console.log(this.data);
-    });
     this.isEdit = false;
   }
 
@@ -60,14 +64,43 @@ export class IssueDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isCommentFieldActive = false;
-    this.service.getAllComments(this.data.projectID, this.data.id).subscribe({
-      next: (res) => {
-        this.commentList = res;
+    this.route.queryParamMap.subscribe((params) => {
+      this.projectID = params.get('projectID') as string;
+      this.id = params.get('id') as string;
+    });
+
+    this.service.getIssuesWithIssueID(this.id).subscribe({
+      next: (res: any) => {
+        this.issueData = res;
+        if (this.issueData !== undefined) {
+          this.updateForm.patchValue({
+            assignee: this.issueData.assignee.id,
+            status: this.issueData.status
+          });
+        }
+        this.isLoading = false;
       },
       error: (err) => {
-        this.snackBar.open(err.error.message, 'Ok', {
-          duration: 3000
-        });
+        console.log(err);
+        if (err.error.message != undefined)
+          this.snackBar.open(err.error.message, 'Ok', {
+            duration: 4000
+          });
+        this.isLoading = false;
+      }
+    });
+
+    this.service.getAllComments(this.projectID, this.id).subscribe({
+      next: (res) => {
+        this.commentList = res;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        if (err.error.message != undefined)
+          this.snackBar.open(err.error.message, 'Ok', {
+            duration: 2000
+          });
+        this.isLoading = false;
       }
     });
 
@@ -77,23 +110,18 @@ export class IssueDetailsComponent implements OnInit {
         this.userData.forEach((ele: any) => {
           this.userList.push(ele);
         });
-        if (this.data !== undefined) {
-          this.updateForm.patchValue({
-            assignee: this.data.assignee.id,
-            status: this.data.status
-          });
-        }
       }
     });
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+
   back() {
     this.router.navigate(['/']);
   }
   EditIssue() {
     this.isEdit = true;
+    this.router.navigate(['/update-issue'], {
+      queryParams: { id: this.id }
+    });
   }
   showComment() {
     this.isCommentFieldActive = true;
@@ -107,17 +135,20 @@ export class IssueDetailsComponent implements OnInit {
   postComment() {
     if (this.commentForm.valid) {
       var data = this.commentForm.value;
-      this.service
-        .createComment(this.data.projectID, this.data.id, data)
-        .subscribe({
-          next: (res) => {
-            this.commentForm.reset();
-            this.ngOnInit();
-          },
-          error: (err) => {
-            this.commentForm.reset();
+      this.service.createComment(this.projectID, this.id, data).subscribe({
+        next: (res) => {
+          this.commentForm.reset();
+          this.ngOnInit();
+        },
+        error: (err) => {
+          if (err.error.message !== undefined) {
+            this.snackBar.open(err.error.message, 'Ok', {
+              duration: 3000
+            });
           }
-        });
+          this.commentForm.reset();
+        }
+      });
     }
   }
 
@@ -127,7 +158,7 @@ export class IssueDetailsComponent implements OnInit {
       if (assignee != '') obj.assignee = assignee;
       if (status != '') obj.status = status;
       if (obj) {
-        this.service.updateIssueWithIssueID(this.data.id, obj).subscribe({
+        this.service.updateIssueWithIssueID(this.id, obj).subscribe({
           next: (res: any) => {
             this.snackBar.open(res.message, 'Ok', {
               duration: 3000
@@ -135,7 +166,7 @@ export class IssueDetailsComponent implements OnInit {
           },
           error: (err) => {
             this.snackBar.open(err.error.message, 'Ok', {
-              duration: 3000
+              duration: 4000
             });
           }
         });

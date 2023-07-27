@@ -3,6 +3,7 @@ export interface projectRequest {
   projectOwner: number;
   projectStartDate: Date;
   projectEndDate: Date;
+  projectID?: string;
 }
 export interface issueRequest {
   summary: string;
@@ -30,8 +31,8 @@ export interface allIssueRequest {
   storyPoint: number;
   createdBy: projectOwnerObj;
   createdOn?: Date;
-  updatedBy?: null;
-  updatedOn?: null;
+  updatedBy?: projectOwnerObj;
+  updatedOn?: Date;
 }
 
 export interface updateIssueRequest {

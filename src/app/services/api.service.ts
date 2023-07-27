@@ -109,8 +109,7 @@ export class ApiService {
   }
 
   getIssuesWithIssueID(issueID: string) {
-    return this.http.get(this.baseUrl + 'issue', {
-      params: { issueID: issueID },
+    return this.http.get(this.baseUrl + `issue/${issueID}`, {
       headers: this.headers
     });
   }

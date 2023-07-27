@@ -1,4 +1,4 @@
-<div class="url-container" *ngIf="!isEdit">
+<div class="url-container" *ngIf="!isEdit && !isLoading">
   <div class="url-container-body">
     <div class="i-board-url" (click)="back()">Project Board</div>
     <div>/</div>
@@ -8,14 +8,14 @@
   <div class="i-summary-container">
     <div class="i-issue-title">HU 22.0 Angular Track</div>
     <div class="i-summary-title">
-      {{ data?.summary }}
+      {{ issueData?.summary }}
     </div>
   </div>
   <div class="i-body-container">
     <div class="i-left-body-info">
       <div class="i-description">Discription :</div>
       <div class="i-description-name">
-        {{ data?.description }}
+        {{ issueData?.description }}
       </div>
       <hr />
       <div>
@@ -23,7 +23,7 @@
         <div class="i-type-sprint-container">
           <div class="i-detail-container">
             <div class="i-static-title">Type :</div>
-            <div class="i-type-img">
+            <div class="i-type-img" *ngIf="issueData?.type != undefined">
               <img
                 src="../../../assets/images/error.svg"
                 style="width: 20px; height: 20px"
@@ -31,7 +31,7 @@
               />
               <div class="i-type-name">
                 {{
-                  data?.type === 1
+                  issueData?.type === 1
                     ? 'Bug'
                     : data?.type === 2
                     ? 'Task'
@@ -45,7 +45,7 @@
           <div class="i-detail-container">
             <div class="i-static-title">Sprint :</div>
             <div style="font-size: 16px; line-height: 24px">
-              {{ data?.sprint }}
+              {{ issueData?.sprint }}
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
           <div class="i-detail-container">
             <div class="i-tag-title">Tags :</div>
             <div class="i-tag-body">
-              <div class="i-tag-gap" *ngFor="let tag of data?.tags">
+              <div class="i-tag-gap" *ngFor="let tag of issueData?.tags">
                 <div class="tags-container">
                   {{ tag }}
                 </div>
@@ -64,18 +64,19 @@
           <div class="i-priority">
             <div class="i-static-title">Priority :</div>
             <div
+              *ngIf="issueData?.priority != undefined"
               [ngClass]="
-                data?.priority === 1
+                issueData?.priority === 1
                   ? 'priority low-p'
-                  : data?.priority === 2
+                  : issueData?.priority === 2
                   ? 'priority medium-p'
                   : 'priority high-p'
               "
             >
               {{
-                data?.priority === 1
+                issueData?.priority === 1
                   ? 'LOW'
-                  : data?.priority === 2
+                  : issueData?.priority === 2
                   ? 'MEDIUM'
                   : 'HIGH'
               }}
@@ -85,7 +86,7 @@
         <!-- detail 3 -->
         <div class="i-storypoint">
           <div class="i-static-title">Story Points :</div>
-          <div class="i-storypoint-name">{{ data?.storyPoint }}</div>
+          <div class="i-storypoint-name">{{ issueData?.storyPoint }}</div>
         </div>
         <!-- horizontal line -->
         <div class="i-horizontal-line"></div>
@@ -227,15 +228,25 @@
         <div>
           <div class="i-created-on">
             <div>Created On :</div>
-            <div>{{ formatDate(data?.createdOn) }}</div>
+            <div>{{ formatDate(issueData?.createdOn) }}</div>
           </div>
           <div class="i-last-updated">
             <div>Last Updated :</div>
-            <div>{{ formatDate(data?.createdOn) }}</div>
+            <div>
+              {{
+                formatDate(
+                  issueData?.updatedOn === null ||
+                    issueData?.updatedOn === undefined
+                    ? ''
+                    : issueData?.updatedOn
+                )
+              }}
+            </div>
           </div>
         </div>
       </form>
     </div>
   </div>
 </div>
-<app-create-issues *ngIf="isEdit" [data]="data"></app-create-issues>
+<app-create-issues *ngIf="isEdit"></app-create-issues>
+<app-loader *ngIf="isLoading"></app-loader>
