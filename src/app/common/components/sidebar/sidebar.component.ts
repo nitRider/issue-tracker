@@ -14,7 +14,7 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/']);
   }
   createIssues() {
-    this.router.navigate(['/create-issue']);
+    this.router.navigate(['/create-issues']);
   }
   createProject() {
     this.router.navigate(['/create-project']);

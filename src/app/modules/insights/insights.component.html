@@ -24,16 +24,16 @@
           </tr>
           <tr>
             <td class="i-todo" id="count-to-do">
-              {{ statusList.todo?.length }}
+              {{ statusList.todo.length || 0 }}
             </td>
             <td class="i-development" id="count-development">
-              {{ statusList.development?.length }}
+              {{ statusList.development.length || 0 }}
             </td>
             <td class="i-testing" id="count-testing">
-              {{ statusList.testing?.length }}
+              {{ statusList.testing.length || 0 }}
             </td>
             <td class="i-completed" id="count-completed">
-              {{ statusList.completed?.length }}
+              {{ statusList.completed.length || 0 }}
             </td>
           </tr>
         </table>

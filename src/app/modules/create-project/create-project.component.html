@@ -4,14 +4,17 @@
     <div class="field-container-width">
       <div>Project Name*</div>
       <mat-form-field class="input-form-width">
-        <mat-label class="input-label-gap">Project Name</mat-label>
+        <mat-label for="txt-project-name" class="input-label-gap"
+          >Project Name</mat-label
+        >
         <input
           matInput
           type="text"
           placeholder="Project Name"
           formControlName="projectName"
           id="txt-project-name"
-          maxlength="150"
+          name="project_name"
+          [attr.maxlength]="150"
         />
         <mat-error
           *ngIf="
@@ -20,11 +23,7 @@
           "
           id="err-txt-project-name"
         >
-          {{
-            projectForm.get('projectName')?.hasError('maxlength')
-              ? 'length should not exceeed to 150'
-              : 'Please enter valid project name.'
-          }}
+          Please enter valid project name
         </mat-error>
       </mat-form-field>
     </div>

@@ -7,14 +7,14 @@
 
   <div class="i-summary-container">
     <div class="i-issue-title">HU 22.0 Angular Track</div>
-    <div class="i-summary-title">
+    <div class="i-summary-title" id="txt-summary">
       {{ issueData?.summary }}
     </div>
   </div>
   <div class="i-body-container">
     <div class="i-left-body-info">
       <div class="i-description">Discription :</div>
-      <div class="i-description-name">
+      <div class="i-description-name" id="txa-description">
         {{ issueData?.description }}
       </div>
       <hr />
@@ -29,7 +29,7 @@
                 style="width: 20px; height: 20px"
                 alt="error-img"
               />
-              <div class="i-type-name">
+              <div class="i-type-name" id="ddl-issue-type">
                 {{
                   issueData?.type === 1
                     ? 'Bug'
@@ -44,7 +44,7 @@
           </div>
           <div class="i-detail-container">
             <div class="i-static-title">Sprint :</div>
-            <div style="font-size: 16px; line-height: 24px">
+            <div style="font-size: 16px; line-height: 24px" id="ddl-sprint">
               {{ issueData?.sprint }}
             </div>
           </div>
@@ -54,7 +54,11 @@
           <div class="i-detail-container">
             <div class="i-tag-title">Tags :</div>
             <div class="i-tag-body">
-              <div class="i-tag-gap" *ngFor="let tag of issueData?.tags">
+              <div
+                class="i-tag-gap"
+                *ngFor="let tag of issueData?.tags"
+                id="ddl-tags"
+              >
                 <div class="tags-container">
                   {{ tag }}
                 </div>
@@ -72,6 +76,7 @@
                   ? 'priority medium-p'
                   : 'priority high-p'
               "
+              id="ddl-priority"
             >
               {{
                 issueData?.priority === 1
@@ -86,7 +91,9 @@
         <!-- detail 3 -->
         <div class="i-storypoint">
           <div class="i-static-title">Story Points :</div>
-          <div class="i-storypoint-name">{{ issueData?.storyPoint }}</div>
+          <div class="i-storypoint-name" id="txt-story-point">
+            {{ issueData?.storyPoint }}
+          </div>
         </div>
         <!-- horizontal line -->
         <div class="i-horizontal-line"></div>
@@ -175,7 +182,7 @@
             id="wrapper-comment"
             *ngFor="let comment of commentList"
           >
-            <div class="i-comment-list-description">
+            <div class="i-comment-list-description" id="txt-comment">
               {{ comment.comment }}
             </div>
             <div class="i-comment-list-info">

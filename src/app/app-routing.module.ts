@@ -9,7 +9,7 @@ import { ProjectBoardComponent } from './modules/project-board/project-board.com
 
 const routes: Routes = [
   { path: '', component: ProjectBoardComponent },
-  { path: 'create-issue', component: CreateIssuesComponent },
+  { path: 'create-issues', component: CreateIssuesComponent },
   { path: 'view-insights', component: InsightsComponent },
   { path: 'create-project', component: CreateProjectComponent },
   { path: 'issue-details', component: IssueDetailsComponent },
