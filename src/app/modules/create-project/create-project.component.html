@@ -110,8 +110,8 @@
         projectForm.invalid || isLoading ? 'disable-btn' : 'create-btn'
       "
       type="submit"
-      [disabled]="projectForm.invalid || isLoading ? 'true' : 'false'"
-      id="btn-create-project"
+      [attr.disabled]="projectForm.invalid || isLoading ? true : null"
+      id="btn-create-issue"
     >
       CREATE
     </button>
