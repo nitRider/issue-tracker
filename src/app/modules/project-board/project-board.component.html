@@ -31,17 +31,15 @@
         </div>
         <div class="p-width" id="project-owner">
           <div class="p-title">Project Owner</div>
-          <mat-form-field class="p-input-width" id="project-owner">
+          <div class="p-input-width" id="project-owner">
             <input
-              matInput
               id="project-owner"
               type="text"
               formControlName="projectOwner"
-              [attr.disabled]="
-                projectForm.get('projectOwner')?.disabled ? true : true
-              "
+              [disabled]="true"
+              class="project-owner-cls"
             />
-          </mat-form-field>
+          </div>
         </div>
       </div>
 
