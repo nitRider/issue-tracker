@@ -33,10 +33,11 @@
           <div class="p-title">Project Owner</div>
           <div class="p-input-width" id="project-owner">
             <input
-              id="project-owner"
               type="text"
               formControlName="projectOwner"
-              [disabled]="true"
+              [attr.disabled]="
+                projectForm.get('projectOwner')?.disabled ? true : true
+              "
               class="project-owner-cls"
             />
           </div>
