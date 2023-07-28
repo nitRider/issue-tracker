@@ -84,6 +84,11 @@ export class CreateProjectComponent implements OnInit {
               duration: 3000
             });
           }
+          if (err.error.detail != undefined) {
+            this.snackBar.open(err.error.detail, 'Ok', {
+              duration: 3000
+            });
+          }
           this.isLoading = false;
         }
       });
@@ -91,13 +96,5 @@ export class CreateProjectComponent implements OnInit {
   }
   reset() {
     this.projectForm.reset();
-  }
-  getPasteData(data: any) {
-    const input = data.target as HTMLInputElement;
-    const maxLength = parseInt(input.getAttribute('maxlength') || '0', 150);
-    if (input.value.length > maxLength) {
-      input.value = input.value.slice(0, maxLength);
-      this.projectForm.get('projectName')!.setValue(input.value);
-    }
   }
 }

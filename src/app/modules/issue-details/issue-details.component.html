@@ -131,6 +131,7 @@
                 placeholder="Write comment"
                 rows="5"
                 required
+                type="text"
                 formControlName="comment"
                 id="txt-comment"
                 matInput
@@ -151,9 +152,11 @@
                 id="btn-post-comment"
                 type="submit"
                 [ngClass]="
-                  commentForm.invalid ? 'i-post-disabled-btn' : 'i-post-btn'
+                  commentForm.invalid || isDisabledComment
+                    ? 'i-post-disabled-btn'
+                    : 'i-post-btn'
                 "
-                [disabled]="commentForm.invalid"
+                [disabled]="commentForm.invalid || isDisabledComment"
               >
                 POST
               </button>

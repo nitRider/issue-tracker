@@ -43,6 +43,8 @@ export class IssueDetailsComponent implements OnInit {
 
   isLoading: boolean = true;
 
+  isDisabledComment: boolean = false;
+
   constructor(
     private router: Router,
     private datePipe: DatePipe,
@@ -132,19 +134,23 @@ export class IssueDetailsComponent implements OnInit {
     return this.datePipe.transform(date, 'dd-MM-yyyy') || '';
   }
   postComment() {
+    this.isDisabledComment = true;
     if (this.commentForm.valid) {
       var data = this.commentForm.value;
       this.service.createComment(this.projectID, this.id, data).subscribe({
         next: (res) => {
           this.commentForm.reset();
+          this.isDisabledComment = false;
           this.ngOnInit();
         },
         error: (err) => {
+          this.isDisabledComment = false;
           if (err.error.message !== undefined) {
             this.snackBar.open(err.error.message, 'Ok', {
               duration: 3000
             });
           }
+
           this.commentForm.reset();
         }
       });

@@ -228,7 +228,7 @@
       class="create-btn"
       type="submit"
       [ngClass]="issueForm.invalid || isLoading ? 'disable-btn' : 'create-btn'"
-      [disabled]="issueForm.invalid"
+      [disabled]="issueForm.invalid || isLoading"
       id="btn-create-issue"
     >
       {{ issueData === undefined ? 'CREATE' : 'UPDATE' }}

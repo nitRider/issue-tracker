@@ -62,7 +62,7 @@ export class CreateIssuesComponent implements OnInit {
       Validators.maxLength(500)
     ]),
     priority: new FormControl('', [Validators.required]),
-    status: new FormControl(1),
+    status: new FormControl(1, [Validators.required]),
     assignee: new FormControl('', [Validators.required]),
     tags: new FormControl([], [Validators.required]),
     sprint: new FormControl('', [Validators.required]),
