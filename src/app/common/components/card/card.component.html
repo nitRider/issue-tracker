@@ -1,8 +1,4 @@
-<div
-  class="card-container"
-  *ngIf="data !== undefined"
-  (click)="sendDataToCardDetail(data)"
->
+<div class="card-container" *ngIf="data !== undefined" id="card-issue">
   <mat-card id="card-issue">
     <div class="card-body">
       <div class="c-ID">ID : {{ data?.projectID }}</div>

@@ -29,11 +29,12 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="p-width">
+        <div class="p-width" id="project-owner">
           <div class="p-title">Project Owner</div>
           <mat-form-field class="p-input-width" id="project-owner">
             <input
               matInput
+              id="project-owner"
               type="text"
               formControlName="projectOwner"
               [attr.disabled]="
@@ -55,7 +56,7 @@
       </div>
 
       <div class="filter-container">
-        <div class="p-width">
+        <div class="p-width" id="ddl-filter-assignee">
           <mat-form-field class="p-input-width">
             <mat-select
               (selectionChange)="onFilter()"
@@ -65,7 +66,6 @@
               <mat-option
                 *ngFor="let assignee of assignees"
                 [value]="assignee.name"
-                id="opt-ddl-filter-assignee"
               >
                 {{ assignee.name }}
               </mat-option>
@@ -103,8 +103,17 @@
         id="wrapper-to-do"
       >
         <h3>TO-DO</h3>
-        <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
-          <li *ngIf="issue.status === 1" (click)="issueDetails(issue)">
+        <ul
+          *ngFor="let issue of filterData"
+          cdkDrag
+          [cdkDragData]="issue"
+          id="wrapper-to-do"
+        >
+          <li
+            *ngIf="issue.status === 1"
+            (click)="issueDetails(issue)"
+            id="wrapper-to-do"
+          >
             <app-card [data]="issue"></app-card>
           </li>
         </ul>
@@ -117,8 +126,17 @@
         id="wrapper-development"
       >
         <h3>DEVELOPMENT</h3>
-        <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
-          <li *ngIf="issue.status === 2" (click)="issueDetails(issue)">
+        <ul
+          *ngFor="let issue of filterData"
+          cdkDrag
+          [cdkDragData]="issue"
+          id="wrapper-development"
+        >
+          <li
+            *ngIf="issue.status === 2"
+            (click)="issueDetails(issue)"
+            id="wrapper-development"
+          >
             <app-card [data]="issue"></app-card>
           </li>
         </ul>
@@ -130,8 +148,17 @@
           (cdkDropListDropped)="onDrop($event, 3)"
           [cdkDropListData]="filterData"
         >
-          <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
-            <li *ngIf="issue.status === 3" (click)="issueDetails(issue)">
+          <ul
+            *ngFor="let issue of filterData"
+            cdkDrag
+            [cdkDragData]="issue"
+            id="wrapper-testing"
+          >
+            <li
+              *ngIf="issue.status === 3"
+              (click)="issueDetails(issue)"
+              id="wrapper-testing"
+            >
               <app-card [data]="issue"></app-card>
             </li>
           </ul>
@@ -145,8 +172,17 @@
         id="wrapper-completed"
       >
         <h3>COMPLETED</h3>
-        <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
-          <li *ngIf="issue.status === 4" (click)="issueDetails(issue)">
+        <ul
+          *ngFor="let issue of filterData"
+          cdkDrag
+          [cdkDragData]="issue"
+          id="wrapper-completed"
+        >
+          <li
+            *ngIf="issue.status === 4"
+            (click)="issueDetails(issue)"
+            id="wrapper-completed"
+          >
             <app-card [data]="issue"></app-card>
           </li>
         </ul>

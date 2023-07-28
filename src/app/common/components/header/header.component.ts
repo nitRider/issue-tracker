@@ -23,6 +23,6 @@ export class HeaderComponent implements OnInit {
   }
   ngOnInit(): void {}
   search(event: any) {
-    this.sharedService.setData(event.target.value.trim());
+    this.sharedService.setSearchData(event.target.value.trim());
   }
 }

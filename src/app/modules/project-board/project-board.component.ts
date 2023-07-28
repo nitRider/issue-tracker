@@ -68,7 +68,7 @@ export class ProjectBoardComponent implements OnInit {
     private datePipe: DatePipe,
     private sharedService: SharedService
   ) {
-    this.subscription = this.sharedService.data$.subscribe((data) => {
+    this.subscription = this.sharedService.searchData$.subscribe((data) => {
       this.filterData = this.issueList;
       this.searchText = data;
       const regexPattern = new RegExp(this.searchText, 'i');
