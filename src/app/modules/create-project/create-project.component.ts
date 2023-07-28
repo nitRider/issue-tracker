@@ -52,6 +52,8 @@ export class CreateProjectComponent implements OnInit {
     });
   }
   onSubmit() {
+    this.isLoading = true;
+
     if (this.projectForm.valid) {
       var data = this.projectForm.value;
       if (
@@ -67,7 +69,6 @@ export class CreateProjectComponent implements OnInit {
         'toISOString' in data.projectStartDate
       )
         data.projectStartDate = data.projectStartDate.toISOString();
-      this.isLoading = true;
 
       this.service.createProject(data).subscribe({
         next: (res: any) => {

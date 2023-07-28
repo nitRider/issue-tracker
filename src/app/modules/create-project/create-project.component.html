@@ -1,9 +1,4 @@
-<form
-  class="form-container"
-  *ngIf="!isLoading"
-  [formGroup]="projectForm"
-  (ngSubmit)="onSubmit()"
->
+<form class="form-container" [formGroup]="projectForm" (ngSubmit)="onSubmit()">
   <div class="form-title">Create Project</div>
   <div class="form-body">
     <div class="field-container-width">
@@ -111,7 +106,9 @@
       RESET
     </button>
     <button
-      [ngClass]="projectForm.invalid ? 'disable-btn' : 'create-btn'"
+      [ngClass]="
+        projectForm.invalid || isLoading ? 'disable-btn' : 'create-btn'
+      "
       type="submit"
       [disabled]="projectForm.invalid || isLoading"
       id="btn-create-issue"
@@ -120,4 +117,4 @@
     </button>
   </div>
 </form>
-<app-loader *ngIf="isLoading"></app-loader>
+<!-- <app-loader *ngIf="isLoading"></app-loader> -->

@@ -42,13 +42,13 @@ export class CreateIssuesComponent implements OnInit {
 
   projectList: project[] = [];
 
-  summaryPattern: string = '^[a-zA-Z0-9!/. |-]{5,150}$';
+  summaryPattern: string = '^[a-zA-Z0-9!/.|-]{5,150}$';
 
   issueID: string = '';
 
   issueData!: allIssueRequest;
 
-  isLoading: boolean = true;
+  isLoading: boolean = false;
 
   issueForm = new FormGroup({
     summary: new FormControl('', [
@@ -56,7 +56,7 @@ export class CreateIssuesComponent implements OnInit {
       Validators.pattern(this.summaryPattern)
     ]),
     type: new FormControl('', [Validators.required]),
-    projectID: new FormControl(''),
+    projectID: new FormControl('', [Validators.required]),
     description: new FormControl('', [
       Validators.required,
       Validators.maxLength(500)
@@ -64,7 +64,7 @@ export class CreateIssuesComponent implements OnInit {
     priority: new FormControl('', [Validators.required]),
     status: new FormControl(1),
     assignee: new FormControl('', [Validators.required]),
-    tags: new FormControl([]),
+    tags: new FormControl([], [Validators.required]),
     sprint: new FormControl('', [Validators.required]),
     storyPoint: new FormControl('', [Validators.required])
   });
@@ -82,7 +82,6 @@ export class CreateIssuesComponent implements OnInit {
         this.userData.forEach((ele: any) => {
           this.userList.push(ele);
         });
-        this.isLoading = false;
       },
       error: (err) => {
         if (err.error.message != undefined) {
@@ -90,7 +89,6 @@ export class CreateIssuesComponent implements OnInit {
             duration: 3000
           });
         }
-        this.isLoading = false;
       }
     });
 
@@ -100,7 +98,6 @@ export class CreateIssuesComponent implements OnInit {
         this.projectData.forEach((ele: any) => {
           this.projectList.push(ele);
         });
-        this.isLoading = false;
       },
       error: (err) => {
         if (err.error.message != undefined) {
@@ -108,7 +105,6 @@ export class CreateIssuesComponent implements OnInit {
             duration: 3000
           });
         }
-        this.isLoading = false;
       }
     });
     this.route.queryParamMap.subscribe((params) => {
@@ -131,7 +127,6 @@ export class CreateIssuesComponent implements OnInit {
               storyPoint: this.issueData.storyPoint
             });
           }
-          this.isLoading = false;
         },
         error: (err) => {
           if (err.error.message != undefined) {
@@ -139,23 +134,20 @@ export class CreateIssuesComponent implements OnInit {
               duration: 3000
             });
           }
-          this.isLoading = false;
         }
       });
     }
   }
   onSubmit() {
+    this.isLoading = true;
     if (this.issueForm.valid) {
-      this.isLoading = true;
-
       this.service.createIssue(this.issueForm.value).subscribe({
         next: (res) => {
-          this.issueForm.reset();
-          this.isLoading = false;
-
           this.snackBar.open('Created new issue successfully', 'Ok', {
             duration: 3000
           });
+          this.isLoading = false;
+          this.issueForm.reset();
           this.router.navigate(['/']);
         },
         error: (err) => {
@@ -164,8 +156,8 @@ export class CreateIssuesComponent implements OnInit {
               duration: 3000
             });
           }
-          this.issueForm.reset();
           this.isLoading = false;
+          this.issueForm.reset();
         }
       });
     }
@@ -188,12 +180,10 @@ export class CreateIssuesComponent implements OnInit {
       delete updateData.projectID;
       this.service.updateIssueWithIssueID(this.issueID, updateData).subscribe({
         next: (res) => {
-          this.isLoading = false;
-
-          this.issueForm.reset();
           this.snackBar.open('Updated issue successfully', 'Ok', {
             duration: 3000
           });
+          this.isLoading = false;
           this.router.navigate(['/']);
         },
         error: (err) => {
@@ -201,7 +191,6 @@ export class CreateIssuesComponent implements OnInit {
             this.snackBar.open(err.error.message, 'Ok', {
               duration: 3000
             });
-          this.issueForm.reset();
           this.isLoading = false;
         }
       });

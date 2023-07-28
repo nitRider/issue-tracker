@@ -2,7 +2,6 @@
   class="form-container"
   [formGroup]="issueForm"
   (ngSubmit)="issueData === undefined ? onSubmit() : onUpdate()"
-  *ngIf="!isLoading"
 >
   <div class="form-title">Create User Stories/ Tasks/ Bugs</div>
   <div class="summary-field-title">Summary</div>
@@ -228,12 +227,12 @@
     <button
       class="create-btn"
       type="submit"
-      [ngClass]="issueForm.invalid ? 'disable-btn' : 'create-btn'"
-      [disabled]="issueForm.invalid || isLoading"
+      [ngClass]="issueForm.invalid || isLoading ? 'disable-btn' : 'create-btn'"
+      [disabled]="issueForm.invalid"
       id="btn-create-issue"
     >
       {{ issueData === undefined ? 'CREATE' : 'UPDATE' }}
     </button>
   </div>
 </form>
-<app-loader *ngIf="isLoading"></app-loader>
+<!-- <app-loader *ngIf="isLoading"></app-loader> -->
