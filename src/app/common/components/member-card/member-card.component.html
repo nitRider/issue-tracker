@@ -1,4 +1,12 @@
-<div class="mc-container">
+<div
+  class="mc-container"
+  class="mc-profile-name"
+  [attr.id]="
+    projectOwner !== undefined
+      ? 'wrapper-project-owner'
+      : 'wrapper-team-members'
+  "
+>
   <div class="mc-profile-container">
     <img
       src="../../../assets/images/model3.jpg"
@@ -6,14 +14,7 @@
       class="mc-profile-img"
     />
     <div>
-      <div
-        class="mc-profile-name"
-        [attr.id]="
-          projectOwner !== undefined
-            ? 'wrapper-project-owner'
-            : 'wrapper-team-members'
-        "
-      >
+      <div>
         {{
           projectOwner === undefined
             ? data?.name

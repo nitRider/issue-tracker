@@ -1,5 +1,5 @@
-<div class="card-container" *ngIf="data !== undefined" id="card-issue">
-  <mat-card id="card-issue">
+<div class="card-container" *ngIf="data !== undefined">
+  <mat-card>
     <div class="card-body">
       <div class="c-ID">ID : {{ data?.projectID }}</div>
       <div class="c-Date">{{ formatDate(data?.createdOn) }}</div>

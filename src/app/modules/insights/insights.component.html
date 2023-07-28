@@ -23,17 +23,23 @@
             <th scope="col">COMPLETED</th>
           </tr>
           <tr>
-            <td class="i-todo" id="count-to-do">
-              {{ statusList.todo.length || 0 }}
+            <td class="i-todo">
+              <span id="count-to-do">{{ statusList.todo.length || 0 }}</span>
             </td>
-            <td class="i-development" id="count-development">
-              {{ statusList.development.length || 0 }}
+            <td class="i-development">
+              <span id="count-development">{{
+                statusList.development.length || 0
+              }}</span>
             </td>
-            <td class="i-testing" id="count-testing">
-              {{ statusList.testing.length || 0 }}
+            <td class="i-testing">
+              <span id="count-testing">{{
+                statusList.testing.length || 0
+              }}</span>
             </td>
-            <td class="i-completed" id="count-completed">
-              {{ statusList.completed.length || 0 }}
+            <td class="i-completed">
+              <span id="count-completed">{{
+                statusList.completed.length || 0
+              }}</span>
             </td>
           </tr>
         </table>
@@ -91,19 +97,19 @@
 
         <div class="i-chart-info-container">
           <div class="i-info">
-            <div class="i-info-dimension" id="i-todo-bg"></div>
+            <div class="i-info-dimension i-todo-bg"></div>
             <div>TO DO</div>
           </div>
           <div class="i-info">
-            <div class="i-info-dimension" id="i-development-bg"></div>
+            <div class="i-info-dimension i-development-bg"></div>
             <div>DEVELOPMENT</div>
           </div>
           <div class="i-info">
-            <div class="i-info-dimension" id="i-testing-bg"></div>
+            <div class="i-info-dimension i-testing-bg"></div>
             <div>TESTING</div>
           </div>
           <div class="i-info">
-            <div class="i-info-dimension" id="i-completed-bg"></div>
+            <div class="i-info-dimension i-completed-bg"></div>
             <div>COMPLETED</div>
           </div>
         </div>

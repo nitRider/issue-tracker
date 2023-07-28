@@ -103,16 +103,11 @@
         id="wrapper-to-do"
       >
         <h3>TO-DO</h3>
-        <ul
-          *ngFor="let issue of filterData"
-          cdkDrag
-          [cdkDragData]="issue"
-          id="wrapper-to-do"
-        >
+        <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
           <li
             *ngIf="issue.status === 1"
             (click)="issueDetails(issue)"
-            id="wrapper-to-do"
+            id="card-issue"
           >
             <app-card [data]="issue"></app-card>
           </li>
@@ -126,16 +121,11 @@
         id="wrapper-development"
       >
         <h3>DEVELOPMENT</h3>
-        <ul
-          *ngFor="let issue of filterData"
-          cdkDrag
-          [cdkDragData]="issue"
-          id="wrapper-development"
-        >
+        <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
           <li
             *ngIf="issue.status === 2"
             (click)="issueDetails(issue)"
-            id="wrapper-development"
+            id="card-issue"
           >
             <app-card [data]="issue"></app-card>
           </li>
@@ -148,16 +138,11 @@
           (cdkDropListDropped)="onDrop($event, 3)"
           [cdkDropListData]="filterData"
         >
-          <ul
-            *ngFor="let issue of filterData"
-            cdkDrag
-            [cdkDragData]="issue"
-            id="wrapper-testing"
-          >
+          <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
             <li
               *ngIf="issue.status === 3"
               (click)="issueDetails(issue)"
-              id="wrapper-testing"
+              id="card-issue"
             >
               <app-card [data]="issue"></app-card>
             </li>
@@ -172,16 +157,11 @@
         id="wrapper-completed"
       >
         <h3>COMPLETED</h3>
-        <ul
-          *ngFor="let issue of filterData"
-          cdkDrag
-          [cdkDragData]="issue"
-          id="wrapper-completed"
-        >
+        <ul *ngFor="let issue of filterData" cdkDrag [cdkDragData]="issue">
           <li
             *ngIf="issue.status === 4"
             (click)="issueDetails(issue)"
-            id="wrapper-completed"
+            id="card-issue"
           >
             <app-card [data]="issue"></app-card>
           </li>
