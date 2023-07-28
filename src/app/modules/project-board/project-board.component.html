@@ -36,8 +36,9 @@
               type="text"
               formControlName="projectOwner"
               [attr.disabled]="
-                projectForm.get('projectOwner')?.disabled ? true : true
+                projectForm.get('projectOwner')?.disabled ? 'true' : 'true'
               "
+              [disabled]="true"
               id="project-owner"
               class="project-owner-cls"
             />
