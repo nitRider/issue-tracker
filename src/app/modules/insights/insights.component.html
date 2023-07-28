@@ -9,8 +9,9 @@
     <div class="i-chart-width">
       <mat-card class="i-chart-card-container">
         <div class="i-chart-card-title">HU 22.0 Angular Track</div>
-        <div class="i-chart-card-issue" id="count-total">
-          Total Number of Issues : {{ totalIssue }}
+        <div class="i-chart-card-issue">
+          Total Number of Issues :
+          <span id="count-total">{{ totalIssue }}</span>
         </div>
         <hr />
         <table class="i-table">
@@ -113,13 +114,9 @@
       <mat-card class="i-m-card">
         <div class="i-m-card-title">Team Members</div>
         <div class="i-m-card-total-member">{{ totalMember }} Members</div>
-        <app-member-card
-          id="wrapper-project-owner"
-          [projectOwner]="project[0]"
-        ></app-member-card
-        ><br />
+        <app-member-card [projectOwner]="project[0]"></app-member-card><br />
         <hr />
-        <div *ngFor="let user of assignee" id="wrapper-team-members">
+        <div *ngFor="let user of assignee">
           <app-member-card [data]="user"></app-member-card>
         </div>
       </mat-card>

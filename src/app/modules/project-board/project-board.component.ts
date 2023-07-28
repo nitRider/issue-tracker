@@ -59,7 +59,7 @@ export class ProjectBoardComponent implements OnInit {
 
   projectForm = new FormGroup({
     projectName: new FormControl(''),
-    projectOwner: new FormControl({ value: '', disabled: true })
+    projectOwner: new FormControl('')
   });
 
   constructor(

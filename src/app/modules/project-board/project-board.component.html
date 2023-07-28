@@ -35,12 +35,10 @@
             <input
               type="text"
               formControlName="projectOwner"
-              [attr.disabled]="
-                projectForm.get('projectOwner')?.disabled ? 'true' : 'true'
-              "
-              [disabled]="true"
-              id="project-owner"
+              [attr.disabled]="true"
+              name="board_owner"
               class="project-owner-cls"
+              id="project-owner"
             />
           </div>
         </div>
@@ -57,7 +55,7 @@
       </div>
 
       <div class="filter-container">
-        <div class="p-width" id="ddl-filter-assignee">
+        <div class="p-width">
           <mat-form-field class="p-input-width">
             <mat-select
               (selectionChange)="onFilter()"
@@ -67,6 +65,7 @@
               <mat-option
                 *ngFor="let assignee of assignees"
                 [value]="assignee.name"
+                id="opt-ddl-filter-assignee"
               >
                 {{ assignee.name }}
               </mat-option>
@@ -84,7 +83,7 @@
             >
               <mat-option
                 *ngFor="let priority of issuePriority"
-                id="opt-ddl-filter-priority"
+                id="ddl-filter-priority-panel"
                 [value]="priority.id"
                 >{{ priority.name }}</mat-option
               >
