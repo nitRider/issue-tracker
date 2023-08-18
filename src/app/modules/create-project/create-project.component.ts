@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { userRequest } from 'src/app/models/project.model';
 import { ApiService } from 'src/app/services/api.service';
+import { loadUser } from 'src/app/store/action/user.action';
+import { selectUserData } from 'src/app/store/selectors/user.selectors';
 
 @Component({
   selector: 'app-create-project',
@@ -19,6 +22,8 @@ export class CreateProjectComponent implements OnInit {
 
   isLoading: boolean = false;
 
+  user$ = this.store.select(selectUserData);
+
   projectForm = new FormGroup({
     projectName: new FormControl('', [
       Validators.required,
@@ -32,30 +37,33 @@ export class CreateProjectComponent implements OnInit {
   constructor(
     private service: ApiService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.service.getAllUser().subscribe({
-      next: (res) => {
-        this.userData = res;
-        this.userData.forEach((ele: any) => {
-          this.ownerList.push(ele);
-        });
-      },
-      error: (err) => {
-        if (err.error.message != undefined)
-          this.snackBar.open(err.error.message, 'Ok', {
-            duration: 3000
-          });
-      }
-    });
+    this.store.dispatch(loadUser());
+
+    // this.service.getAllUser().subscribe({
+    //   next: (res) => {
+    //     this.userData = res;
+    //     this.userData.forEach((ele: any) => {
+    //       this.ownerList.push(ele);
+    //     });
+    //   },
+    //   error: (err) => {
+    //     if (err.error.message != undefined)
+    //       this.snackBar.open(err.error.message, 'Ok', {
+    //         duration: 3000
+    //       });
+    //   }
+    // });
   }
   onSubmit() {
     this.isLoading = true;
 
     if (this.projectForm.valid) {
-      var data = this.projectForm.value;
+      var data: any = this.projectForm.value;
       if (
         typeof data.projectEndDate === 'object' &&
         data.projectEndDate !== null &&
@@ -70,7 +78,7 @@ export class CreateProjectComponent implements OnInit {
       )
         data.projectStartDate = data.projectStartDate.toISOString();
 
-      this.service.createProject(data).subscribe({
+      this.service.createProject(data as any).subscribe({
         next: (res: any) => {
           this.snackBar.open('Created new project successfully', 'Ok', {
             duration: 3000

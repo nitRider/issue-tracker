@@ -1,12 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import {
   issueRequest,
   loginRequest,
+  project,
   projectRequest,
   signUpRequest,
-  updateIssueRequest
+  updateIssueRequest,
+  userRequest
 } from '../models/project.model';
+import { DataState } from '../store/state/data.state';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +23,10 @@ export class ApiService {
     'Content-Type': 'application/json',
     userid: '1'
   });
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store<{ data: DataState }>
+  ) {}
   /**
    * auth
    * @returns
@@ -43,6 +51,13 @@ export class ApiService {
     });
   }
 
+  // ngrx effect
+  getProjectList(): Observable<project[]> {
+    return this.http.get<project[]>(this.baseUrl + 'project', {
+      headers: this.headers
+    });
+  }
+
   createProject(projectBody: projectRequest) {
     return this.http.post(this.baseUrl + 'project', projectBody, {
       headers: this.headers
@@ -56,6 +71,12 @@ export class ApiService {
   getAllUser() {
     return this.http.get(this.baseUrl + 'user');
   }
+
+  //ngrx
+  getUserList(): Observable<userRequest[]> {
+    return this.http.get<userRequest[]>(this.baseUrl + 'user');
+  }
+
   getUserByUserId(id: number) {
     return this.http.get(this.baseUrl + 'user', {
       params: { userID: id }
@@ -70,6 +91,14 @@ export class ApiService {
   /**
    * comments
    */
+
+  getCommentList(projectID: string, issueID: string): Observable<Comment[]> {
+    return this.http.get<Comment[]>(this.baseUrl + 'comment', {
+      params: { projectID: projectID, issueID: issueID },
+      headers: this.headers
+    });
+  }
+
   getAllComments(projectID: string, issueID: string) {
     return this.http.get(this.baseUrl + 'comment', {
       params: { projectID: projectID, issueID: issueID },

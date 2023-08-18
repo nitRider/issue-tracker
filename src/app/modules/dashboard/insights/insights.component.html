@@ -24,21 +24,21 @@
           </tr>
           <tr>
             <td class="i-todo">
-              <span id="count-to-do">{{ statusList.todo.length || 0 }}</span>
+              <span id="count-to-do">{{ statusList.todo?.length || 0 }}</span>
             </td>
             <td class="i-development">
               <span id="count-development">{{
-                statusList.development.length || 0
+                statusList.development?.length || 0
               }}</span>
             </td>
             <td class="i-testing">
               <span id="count-testing">{{
-                statusList.testing.length || 0
+                statusList.testing?.length || 0
               }}</span>
             </td>
             <td class="i-completed">
               <span id="count-completed">{{
-                statusList.completed.length || 0
+                statusList.completed?.length || 0
               }}</span>
             </td>
           </tr>
@@ -56,8 +56,8 @@
             "
             [ngClass]="
               (statusList.todo?.length / statusList.total) * 100 < 100
-                ? 'i-border-left'
-                : 'i-border-left i-border-right'
+                ? 'i-border-left i-todo-bg'
+                : 'i-border-left i-border-right i-todo-bg'
             "
           ></div>
           <div
@@ -67,8 +67,8 @@
             "
             [ngClass]="
               (statusList.development?.length / statusList.total) * 100 < 100
-                ? ''
-                : 'i-border-left i-border-right'
+                ? 'i-development-bg'
+                : 'i-border-left i-border-right i-development-bg'
             "
           ></div>
           <div
@@ -78,8 +78,8 @@
             "
             [ngClass]="
               (statusList.testing?.length / statusList.total) * 100 < 100
-                ? ''
-                : 'i-border-left i-border-right'
+                ? 'i-testing-bg'
+                : 'i-border-left i-border-right i-testing-bg'
             "
           ></div>
           <div
@@ -89,8 +89,8 @@
             "
             [ngClass]="
               (statusList.completed?.length / statusList.total) * 100 < 100
-                ? 'i-border-right'
-                : 'i-border-right i-border-left'
+                ? 'i-border-right i-completed-bg'
+                : 'i-border-right i-border-left i-completed-bg'
             "
           ></div>
         </div>
@@ -120,7 +120,7 @@
       <mat-card class="i-m-card">
         <div class="i-m-card-title">Team Members</div>
         <div class="i-m-card-total-member">{{ totalMember }} Members</div>
-        <app-member-card [projectOwner]="project[0]"></app-member-card><br />
+        <app-member-card [projectOwner]="project"></app-member-card><br />
         <hr />
         <div *ngFor="let user of assignee">
           <app-member-card [data]="user"></app-member-card>

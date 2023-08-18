@@ -33,7 +33,7 @@
         <mat-label class="input-label-gap">Select</mat-label>
         <mat-select formControlName="projectOwner" id="ddl-project-owner">
           <mat-option
-            *ngFor="let owner of ownerList"
+            *ngFor="let owner of user$ | async"
             [value]="owner.id"
             id="opt-ddl-project-owner"
           >

@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import {
   issueRequest,
   project,
   userRequest
 } from 'src/app/models/project.model';
 import { ApiService } from 'src/app/services/api.service';
+import { loadProjects } from 'src/app/store/action/project.action';
+import { DataState } from 'src/app/store/state/data.state';
 
 @Component({
   selector: 'app-insights',
@@ -14,15 +17,13 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./insights.component.scss']
 })
 export class InsightsComponent implements OnInit {
-  data: any;
-
   projectID: string = '';
 
   issueData!: issueRequest[];
 
   statusList: any = [];
 
-  project!: project[];
+  project!: project;
 
   assignee!: userRequest[];
 
@@ -32,17 +33,21 @@ export class InsightsComponent implements OnInit {
 
   totalMember: number = 0;
 
+  project$: project[] = [];
+
   constructor(
     private router: Router,
     private service: ApiService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private store: Store<{ project: DataState }>
   ) {}
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
       this.projectID = params.get('projectID') as string;
     });
+    this.store.dispatch(loadProjects());
     this.getProject();
 
     this.service.getIssuesForAGivenProject(this.projectID).subscribe({
@@ -50,9 +55,6 @@ export class InsightsComponent implements OnInit {
         this.issueData = res;
         this.totalIssue = this.issueData.length;
         this.getStatusList(this.issueData);
-        if (res.length < 1) {
-          this.router.navigate(['/']);
-        }
       },
       error: (err) => {
         if (err.error.message != undefined)
@@ -94,24 +96,46 @@ export class InsightsComponent implements OnInit {
     this.statusList = status1;
   }
   getProject() {
-    this.service.getAllProject().subscribe({
-      next: (res: any) => {
-        var temp = res;
-        this.project = res;
-        this.project = temp.filter((pro: any) => {
-          return pro.projectID === this.projectID;
-        });
-        this.getMemberList(this.project);
-        this.isLoading = false;
-      },
-      error: (err) => {
-        if (err.error.message != undefined)
-          this.snackBar.open(err.error.message, 'Ok', {
-            duration: 4000
+    this.store
+      .select((state) => state.project)
+      .subscribe({
+        next: (res) => {
+          var temp = res.data;
+          this.project$ = res.data;
+          var temp = temp.filter((pro: any) => {
+            return pro.projectID === this.projectID;
           });
-        this.isLoading = false;
-      }
-    });
+          this.project = temp[0];
+          this.getMemberList(temp);
+          this.isLoading = false;
+        },
+        error: (err) => {
+          if (err.error.message != undefined)
+            this.snackBar.open(err.error.message, 'Ok', {
+              duration: 4000
+            });
+          this.isLoading = false;
+        }
+      });
+    // this.project$.subscribe({
+    //   next: (res: any) => {
+    //     var temp = res;
+    //     this.project = res;
+    //     var temp = temp.filter((pro: any) => {
+    //       return pro.projectID === this.projectID;
+    //     });
+    //     this.project = temp[0];
+    //     this.getMemberList(temp);
+    //     this.isLoading = false;
+    //   },
+    //   error: (err) => {
+    //     if (err.error.message != undefined)
+    //       this.snackBar.open(err.error.message, 'Ok', {
+    //         duration: 4000
+    //       });
+    //     this.isLoading = false;
+    //   }
+    // });
   }
 
   getMemberList(data: project[]) {

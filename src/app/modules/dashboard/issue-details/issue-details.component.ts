@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { ISSUESSTATUS } from 'src/app/common/utils/common.constant';
 import {
   allIssueRequest,
@@ -10,6 +11,10 @@ import {
   userRequest
 } from 'src/app/models/project.model';
 import { ApiService } from 'src/app/services/api.service';
+import { loadComment } from 'src/app/store/action/comment.action';
+import { loadUser } from 'src/app/store/action/user.action';
+import { selectCommentData } from 'src/app/store/selectors/comment.selectors';
+import { selectUserData } from 'src/app/store/selectors/user.selectors';
 
 @Component({
   selector: 'app-issue-details',
@@ -29,7 +34,7 @@ export class IssueDetailsComponent implements OnInit {
 
   issueStatus = ISSUESSTATUS;
 
-  commentList: any = [];
+  commentList: any;
 
   isEdit: boolean = false;
 
@@ -45,12 +50,17 @@ export class IssueDetailsComponent implements OnInit {
 
   isDisabledComment: boolean = false;
 
+  user$ = this.store.select(selectUserData);
+
+  comment$ = this.store.select(selectCommentData);
+
   constructor(
     private router: Router,
     private datePipe: DatePipe,
     private service: ApiService,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store
   ) {
     this.isEdit = false;
   }
@@ -60,17 +70,21 @@ export class IssueDetailsComponent implements OnInit {
   });
 
   updateForm = new FormGroup({
-    assignee: new FormControl(''),
-    status: new FormControl('')
+    assignee: new FormControl(0),
+    status: new FormControl(0)
   });
 
   ngOnInit(): void {
+    this.store.dispatch(loadUser());
+
     this.isCommentFieldActive = false;
     this.route.queryParamMap.subscribe((params) => {
       this.projectID = params.get('projectID') as string;
       this.id = params.get('id') as string;
     });
-
+    this.store.dispatch(
+      loadComment({ projectID: this.projectID, issueID: this.id })
+    );
     this.service.getIssuesWithIssueID(this.id).subscribe({
       next: (res: any) => {
         this.issueData = res;
@@ -91,8 +105,8 @@ export class IssueDetailsComponent implements OnInit {
       }
     });
 
-    this.service.getAllComments(this.projectID, this.id).subscribe({
-      next: (res) => {
+    this.service.getCommentList(this.projectID, this.id).subscribe({
+      next: (res: any) => {
         this.commentList = res;
         this.isLoading = false;
       },
@@ -105,14 +119,14 @@ export class IssueDetailsComponent implements OnInit {
       }
     });
 
-    this.service.getAllUser().subscribe({
-      next: (res) => {
-        this.userData = res;
-        this.userData.forEach((ele: any) => {
-          this.userList.push(ele);
-        });
-      }
-    });
+    // this.service.getAllUser().subscribe({
+    //   next: (res) => {
+    //     this.userData = res;
+    //     this.userData.forEach((ele: any) => {
+    //       this.userList.push(ele);
+    //     });
+    //   }
+    // });
   }
 
   back() {
@@ -137,23 +151,25 @@ export class IssueDetailsComponent implements OnInit {
     this.isDisabledComment = true;
     if (this.commentForm.valid) {
       var data = this.commentForm.value;
-      this.service.createComment(this.projectID, this.id, data).subscribe({
-        next: (res) => {
-          this.commentForm.reset();
-          this.isDisabledComment = false;
-          this.ngOnInit();
-        },
-        error: (err) => {
-          this.isDisabledComment = false;
-          if (err.error.message !== undefined) {
-            this.snackBar.open(err.error.message, 'Ok', {
-              duration: 3000
-            });
-          }
+      this.service
+        .createComment(this.projectID, this.id, data as string)
+        .subscribe({
+          next: (res) => {
+            this.commentForm.reset();
+            this.isDisabledComment = false;
+            this.ngOnInit();
+          },
+          error: (err) => {
+            this.isDisabledComment = false;
+            if (err.error.message !== undefined) {
+              this.snackBar.open(err.error.message, 'Ok', {
+                duration: 3000
+              });
+            }
 
-          this.commentForm.reset();
-        }
-      });
+            this.commentForm.reset();
+          }
+        });
     }
   }
 
@@ -179,3 +195,4 @@ export class IssueDetailsComponent implements OnInit {
     }
   }
 }
+// ng generate module dashboard --route existing --module app.module

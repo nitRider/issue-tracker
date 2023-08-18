@@ -176,20 +176,20 @@
               </button>
             </div>
           </form>
-          <!-- comment list -->
           <div
             class="i-comment-list"
             id="wrapper-comment"
-            *ngFor="let comment of commentList"
+            *ngFor="let cmt of comment$ | async"
           >
             <div class="i-comment-list-description" id="txt-comment">
-              {{ comment.comment }}
+              {{ cmt.comment }}
             </div>
             <div class="i-comment-list-info">
-              <div>Posted on: {{ formatDate(comment.createdOn) }}</div>
-              <div>Added by: {{ comment.createdBy.name }}</div>
+              <div>Posted on: {{ formatDate(cmt.createdOn) }}</div>
+              <div>Added by: {{ cmt.createdBy.name }}</div>
             </div>
           </div>
+          <!-- </div> -->
         </div>
       </div>
     </div>
@@ -202,7 +202,6 @@
           <div class="i-status">Status</div>
           <div>
             <mat-form-field class="i-inputfield-width">
-              <mat-label>Choose an option</mat-label>
               <mat-select
                 id="ddl-status"
                 formControlName="status"
@@ -220,7 +219,6 @@
         <div class="i-assignee">Assignee</div>
         <div>
           <mat-form-field class="i-inputfield-width">
-            <mat-label>Choose an option</mat-label>
             <mat-select
               id="ddl-assignee"
               formControlName="assignee"
@@ -229,7 +227,7 @@
               <mat-option
                 [value]="assignee.id"
                 id="opt-ddl-assignee"
-                *ngFor="let assignee of userList"
+                *ngFor="let assignee of user$ | async"
                 >{{ assignee.name }}</mat-option
               >
             </mat-select>
@@ -258,5 +256,5 @@
     </div>
   </div>
 </div>
-<app-create-issues *ngIf="isEdit"></app-create-issues>
+<!-- <app-create-issues *ngIf="isEdit"></app-create-issues> -->
 <app-loader *ngIf="isLoading"></app-loader>

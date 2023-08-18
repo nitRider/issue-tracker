@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import {
   ISSUESPRIORITY,
   ISSUESSTATUS,
@@ -11,10 +12,16 @@ import {
 } from 'src/app/common/utils/common.constant';
 import {
   allIssueRequest,
+  issueRequest,
   project,
+  updateIssueRequest,
   userRequest
 } from 'src/app/models/project.model';
 import { ApiService } from 'src/app/services/api.service';
+import { loadProjects } from 'src/app/store/action/project.action';
+import { loadUser } from 'src/app/store/action/user.action';
+import { selectProjectData } from 'src/app/store/selectors/project.selectors';
+import { selectUserData } from 'src/app/store/selectors/user.selectors';
 
 @Component({
   selector: 'app-create-issues',
@@ -50,63 +57,73 @@ export class CreateIssuesComponent implements OnInit {
 
   isLoading: boolean = false;
 
+  project$ = this.store.select(selectProjectData);
+
+  user$ = this.store.select(selectUserData);
+
   issueForm = new FormGroup({
     summary: new FormControl('', [
       Validators.required,
       Validators.pattern(this.summaryPattern)
     ]),
-    type: new FormControl('', [Validators.required]),
+    type: new FormControl(0, [Validators.required]),
     projectID: new FormControl('', [Validators.required]),
     description: new FormControl('', [
       Validators.required,
       Validators.maxLength(500)
     ]),
-    priority: new FormControl('', [Validators.required]),
+    priority: new FormControl(0, [Validators.required]),
     status: new FormControl(1, [Validators.required]),
-    assignee: new FormControl('', [Validators.required]),
-    tags: new FormControl([], [Validators.required]),
+    assignee: new FormControl(0, [Validators.required]),
+    tags: new FormControl([''], [Validators.required]),
     sprint: new FormControl('', [Validators.required]),
-    storyPoint: new FormControl('', [Validators.required])
+    storyPoint: new FormControl(0, [Validators.required])
   });
   constructor(
     private service: ApiService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.service.getAllUser().subscribe({
-      next: (res) => {
-        this.userData = res;
-        this.userData.forEach((ele: any) => {
-          this.userList.push(ele);
-        });
-      },
-      error: (err) => {
-        if (err.error.message != undefined) {
-          this.snackBar.open(err.error.message, 'Ok', {
-            duration: 3000
-          });
-        }
-      }
-    });
+    this.store.dispatch(loadProjects());
 
-    this.service.getAllProject().subscribe({
-      next: (res) => {
-        this.projectData = res;
-        this.projectData.forEach((ele: any) => {
-          this.projectList.push(ele);
-        });
-      },
-      error: (err) => {
-        if (err.error.message != undefined) {
-          this.snackBar.open(err.error.message, 'Ok', {
-            duration: 3000
-          });
-        }
-      }
-    });
+    this.store.dispatch(loadUser());
+
+    // this.service.getUserList().subscribe({
+    //   next: (res) => {
+    //     this.userData = res;
+    //     this.userData.forEach((ele: any) => {
+    //       this.userList.push(ele);
+    //     });
+    //   },
+    //   error: (err) => {
+    //     if (err.error.message != undefined) {
+    //       this.snackBar.open(err.error.message, 'Ok', {
+    //         duration: 3000
+    //       });
+    //     }
+    //   }
+    // });
+
+    // this.project$.subscribe({
+    //   next: (res) => {
+    //     this.projectData = res;
+    //     this.projectData.forEach((ele: any) => {
+    //       this.projectList.push(ele);
+    //     });
+    //   },
+    //   error: (err) => {
+    //     if (err.error.message != undefined) {
+    //       this.snackBar.open(err.error.message, 'Ok', {
+    //         duration: 3000
+    //       });
+    //     }
+    //   }
+    // });
+
     this.route.queryParamMap.subscribe((params) => {
       this.issueID = params.get('id') as string;
     });
@@ -141,7 +158,7 @@ export class CreateIssuesComponent implements OnInit {
   onSubmit() {
     this.isLoading = true;
     if (this.issueForm.valid) {
-      this.service.createIssue(this.issueForm.value).subscribe({
+      this.service.createIssue(this.issueForm.value as issueRequest).subscribe({
         next: (res) => {
           this.snackBar.open('Created new issue successfully', 'Ok', {
             duration: 3000
@@ -178,22 +195,24 @@ export class CreateIssuesComponent implements OnInit {
       this.isLoading = true;
       var updateData = this.issueForm.value;
       delete updateData.projectID;
-      this.service.updateIssueWithIssueID(this.issueID, updateData).subscribe({
-        next: (res) => {
-          this.snackBar.open('Updated issue successfully', 'Ok', {
-            duration: 3000
-          });
-          this.isLoading = false;
-          this.router.navigate(['/']);
-        },
-        error: (err) => {
-          if (err.error.message != undefined)
-            this.snackBar.open(err.error.message, 'Ok', {
+      this.service
+        .updateIssueWithIssueID(this.issueID, updateData as updateIssueRequest)
+        .subscribe({
+          next: (res) => {
+            this.snackBar.open('Updated issue successfully', 'Ok', {
               duration: 3000
             });
-          this.isLoading = false;
-        }
-      });
+            this.isLoading = false;
+            this.router.navigate(['/']);
+          },
+          error: (err) => {
+            if (err.error.message != undefined)
+              this.snackBar.open(err.error.message, 'Ok', {
+                duration: 3000
+              });
+            this.isLoading = false;
+          }
+        });
     }
   }
 }

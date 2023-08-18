@@ -55,7 +55,7 @@
         <mat-label>Select</mat-label>
         <mat-select id="ddl-project" formControlName="projectID">
           <mat-option
-            *ngFor="let project of projectList"
+            *ngFor="let project of project$ | async"
             [value]="project.projectID"
             id="opt-ddl-project"
           >
@@ -128,7 +128,7 @@
         <mat-label>Select</mat-label>
         <mat-select formControlName="assignee" id="ddl-assignee">
           <mat-option
-            *ngFor="let assignee of userList"
+            *ngFor="let assignee of user$ | async"
             [value]="assignee.id"
             id="opt-ddl-assignee"
           >

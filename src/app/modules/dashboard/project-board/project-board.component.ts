@@ -3,6 +3,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { ISSUESPRIORITY } from 'src/app/common/utils/common.constant';
 import {
@@ -12,6 +13,7 @@ import {
 } from 'src/app/models/project.model';
 import { ApiService } from 'src/app/services/api.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { SearchState } from 'src/app/store/state/data.state';
 
 @Component({
   selector: 'app-project-board',
@@ -66,7 +68,8 @@ export class ProjectBoardComponent implements OnInit {
     private router: Router,
     private service: ApiService,
     private datePipe: DatePipe,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private store: Store<SearchState>
   ) {
     this.subscription = this.sharedService.searchData$.subscribe((data) => {
       this.filterData = this.issueList;
